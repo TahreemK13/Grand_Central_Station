@@ -1,0 +1,29 @@
+:root{--bg:#0b0b10;--fg:#f2f2f2;--muted:#b8b8c4;--accent:#c79bff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.6 "Helvetica Neue",Arial,sans-serif}
+a{color:var(--accent)}
+nav{display:flex;flex-wrap:wrap;gap:1.2rem;justify-content:flex-end;padding:1rem 1.5rem}
+nav a{color:#fff;text-decoration:none;font-weight:500}
+.hero{position:relative;margin:0}
+.hero figure{margin:0}
+.hero img{width:100%;height:auto;display:block}
+.hero h1{position:absolute;left:5%;top:30%;margin:0;font-size:clamp(2.5rem,8vw,6rem);line-height:1;text-shadow:0 2px 12px #000}
+figcaption,.cap{font-size:.85rem;color:var(--muted);padding:.4rem 1rem}
+main,footer{max-width:900px;margin:0 auto;padding:2rem 1.5rem}
+main h1{font-size:clamp(2.2rem,6vw,4rem);line-height:1.1}
+.card img{width:100%;border-radius:6px}
+.center{text-align:center}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.6rem;margin:1rem 0}
+.gallery img{width:100%;border-radius:6px}
+.buttons a{display:inline-block;margin:.2rem .6rem .2rem 0;padding:.4rem .9rem;border:1px solid var(--accent);border-radius:4px;text-decoration:none}
+.files{padding-left:1.2rem}
+footer{text-align:center;border-top:1px solid #333}
+footer .links a{margin:0 .5rem;display:inline-block}
+/* Home hero swap: octopus on wide screens, agaves on narrow */
+.hero-small{display:none}
+@media (max-width:768px){
+  .hero-large{display:none}
+  .hero-small{display:block}
+  .hero h1{top:auto;bottom:20%}
+  nav{justify-content:center}
+}

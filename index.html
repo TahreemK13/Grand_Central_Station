@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<title>Math, Murder, and Making a Difference</title>
+<meta name="description" content="Congo, Palestine, Sudan, and the environment — sourced figures with ways to help right now. Every number links to its reference. No ads. Upd. August 2026.">
+<link rel="canonical" href="https://risingtigers.tahreemkarim.xyz/activism">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Rising Tigers Initiative">
+<meta property="og:title" content="Math, Murder, and Making a Difference">
+<meta property="og:description" content="News and mortality rates tied to Congo, Palestine, Sudan, and the environment. Ways to help right now.">
+<meta property="og:url" content="https://risingtigers.tahreemkarim.xyz/activism">
+<meta property="og:image" content="https://risingtigers.tahreemkarim.xyz/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Math, Murder, and Making a Difference — an artifact by the Rising Tigers Initiative">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Math, Murder, and Making a Difference">
+<meta name="twitter:description" content="News and mortality rates tied to Congo, Palestine, Sudan, and the environment. Ways to help right now.">
+<meta name="twitter:image" content="https://risingtigers.tahreemkarim.xyz/assets/og-card.png">
+<meta name="theme-color" content="#17111F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"Math, Murder, and Making a Difference","description":"Sourced figures on Congo, Palestine, Sudan, tigers, forests and air. Every number links to its source.","author":{"@type":"Person","name":"Tahreem Karim","url":"https://portfolio.tahreemkarim.xyz"},"dateModified":"2026-08-20","isAccessibleForFree":true,"inLanguage":"en"}
+</script>
+
+<style>
+/* ════════════════════════════════════════════════════════════════
+   CONTENTS
+   1 Tokens & base      6 Vault wall        11 Link lists
+   2 Surfaces & ghosts  7 Cards             12 Donate cards & chips
+   3 Typography         8 Stories           13 ZIP check
+   4 Site header        9 Chart             14 Footer
+   5 Masthead & tabs    10 Action rows      15 Reduced motion
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── 1 · Tokens & base ─────────────────────────────────────────── */
+:root{
+  --night:#17111F; --night2:#211829; --bone:#EFE8DC; --bone2:#E4DACA; --ink:#241B2B;
+  --marigold:#F5851F; --rosa:#E8117F; --turquesa:#12A9A6; --morado:#7B4FCF;
+  --verde:#3F9E48; --verde-pastel:#c8f0a0; --candle:#F2FF00;
+  --rosa-day:#C1116A; --morado-day:#6B41B8;
+  --disp:'Instrument Serif',ui-serif,Georgia,serif;
+  --body:'Public Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'DM Mono',ui-monospace,Menlo,monospace;
+  --pad:clamp(1.15rem,5vw,3.5rem);
+  --hair:rgba(239,232,220,.18);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--night);color:var(--bone);font-family:var(--body);
+  font-size:clamp(.98rem,.95rem + .2vw,1.04rem);line-height:1.55;overflow-x:hidden;
+}
+a{color:inherit}
+strong,b{font-weight:600}
+[hidden]{display:none!important}
+:focus-visible{outline:2.5px solid var(--candle);outline-offset:3px;border-radius:2px}
+
+.wrap{max-width:72rem;margin:0 auto;padding:0 var(--pad);position:relative;z-index:2}
+.band{padding:clamp(2.2rem,5.5vw,4rem) 0;position:relative}
+
+/* ── 2 · Surfaces & drifting ghosts ────────────────────────────── */
+.night{background:var(--night);color:var(--bone);overflow:hidden}
+.night2{background:var(--night2)}
+.day{
+  --hair:rgba(36,27,43,.16);
+  background-color:var(--bone);color:var(--ink);
+  background-image:radial-gradient(rgba(36,27,43,.045) .6px,transparent .6px);background-size:9px 9px;
+}
+.day2{background-color:var(--bone2)}
+
+/* Radial gradients are already soft, so no blur() or blend mode is needed.
+   Only transform animates, which the compositor handles without repainting. */
+.ghosts{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.gh{position:absolute;border-radius:50%;opacity:.24;will-change:transform}
+.gh1{
+  width:44vw;height:44vw;top:-10%;left:-14%;
+  background:radial-gradient(circle,var(--morado),transparent 66%);
+  animation:drift-a 52s ease-in-out infinite alternate;
+}
+.gh2{
+  width:32vw;height:32vw;bottom:-14%;right:-10%;
+  background:radial-gradient(circle,var(--turquesa),transparent 66%);
+  animation:drift-b 67s ease-in-out infinite alternate;
+}
+footer .gh2{animation-duration:72s}
+@keyframes drift-a{to{transform:translate(20vw,13vh) scale(1.2)}}
+@keyframes drift-b{to{transform:translate(-17vw,-10vh) scale(1.14)}}
+@media(max-width:48rem){.gh{display:none}}
+
+/* ── 3 · Typography ────────────────────────────────────────────── */
+h1,h2,h3{font-family:var(--disp);font-weight:400;letter-spacing:-.005em;line-height:1.06;margin:0}
+h1{font-size:clamp(1.75rem,4.6vw,2.8rem)}
+h2{font-size:clamp(1.4rem,3.2vw,1.9rem);margin-bottom:.45em}
+h3{font-size:clamp(1.05rem,2vw,1.2rem)}
+p{margin:0 0 .85em;max-width:58ch}
+
+.lede,.subtitle{font-size:clamp(1rem,.98rem + .15vw,1.08rem);line-height:1.5;max-width:46ch;opacity:.88}
+.subtitle{max-width:58ch}
+.small{font-size:.85rem;line-height:1.55;opacity:.68;max-width:52ch}
+.small.wide{max-width:none}
+.small a{text-decoration:underline;text-underline-offset:.15em}
+.mono{font-family:var(--mono);font-size:.68rem;letter-spacing:.02em;opacity:.62}
+.eyebrow{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;
+  opacity:.55;margin:0 0 .9rem;max-width:none;
+}
+.eyebrow.gap{margin:1.6rem 0 0}
+.eyebrow.sep{margin-top:2.2rem}
+.epitaph{
+  font-family:var(--disp);font-style:italic;font-size:clamp(1.05rem,2vw,1.2rem);line-height:1.35;
+  max-width:38ch;margin:1.7rem 0 0;padding-left:.95rem;border-left:2px solid var(--marigold);opacity:.9;
+}
+.day .epitaph{border-left-color:var(--rosa-day)}
+
+/* ── 4 · Site header ───────────────────────────────────────────── */
+/* Near-opaque background instead of backdrop-filter: a live blur behind a
+   sticky bar is re-rendered on every scroll frame. */
+.st-top{
+  position:sticky;top:0;z-index:20;
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.2rem 1rem;
+  padding:calc(.55rem + env(safe-area-inset-top,0px)) var(--pad) .55rem;
+  background:rgba(23,17,31,.96);border-bottom:1px solid var(--hair);color:var(--bone);
+}
+.st-brand{display:inline-flex;align-items:center;min-height:44px;font:400 1.55rem/1 var(--disp);text-decoration:none}
+.st-nav{display:flex;flex-wrap:wrap;gap:0 1.3rem}
+.st-nav a{display:inline-flex;align-items:center;min-height:44px;font-weight:600;font-size:.95rem;text-decoration:none}
+.st-brand:hover,.st-nav a:hover{text-decoration:underline}
+.st-menu{display:none}
+/* .st-js is added by script, so without JS the nav simply stays visible */
+.st-js .st-menu{
+  display:inline-flex;align-items:center;min-height:44px;padding:0 .9rem;
+  border:1.5px solid var(--hair);border-radius:2px;background:none;color:var(--bone);
+  font:600 .95rem var(--body);cursor:pointer;
+}
+.st-js .st-nav{display:none;flex-basis:100%;flex-direction:column;padding:.2rem 0 .6rem}
+.st-js .st-nav.open{display:flex}
+
+/* ── 5 · Masthead & tabs ───────────────────────────────────────── */
+.mast{padding:clamp(1.4rem,3.5vw,2.2rem) 0 0}
+.brand{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--marigold);margin:0 0 1.1rem;max-width:none;
+}
+.spine{
+  display:flex;flex-wrap:nowrap;gap:.4rem;margin:0 0 clamp(1.5rem,4vw,2.4rem);padding:0 0 2px;
+  overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+}
+.spine::-webkit-scrollbar{display:none}
+.tab{
+  flex:1 1 0;min-height:44px;padding:.85rem 1.6rem;white-space:nowrap;text-align:center;cursor:pointer;
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;
+  background:none;color:var(--bone);
+  border:1px solid var(--hair);border-top:3px solid currentColor;
+  opacity:.55;transition:opacity .18s,background-color .18s;
+}
+.tab:hover{opacity:.85}
+.tab[aria-selected=true]{opacity:1;background:rgba(255,255,255,.055)}
+.tab .lbl{color:var(--bone);opacity:.92}
+.tab .n{opacity:.5;margin-left:.5rem;font-size:.68rem}
+.t-war{color:var(--rosa)} .t-cons{color:var(--verde-pastel)} .t-humanity{color:var(--turquesa)}
+
+/* first section after the masthead shouldn't re-pay for the spine's margin */
+.mast + main > [role=tabpanel] > .band:first-child{padding-top:clamp(.8rem,2vw,1.4rem)}
+
+/* Phones: three tabs must fit one row without wrapping or scrolling */
+@media(max-width:26rem){
+  .tab{font-size:.64rem;letter-spacing:.03em;padding:.8rem .7rem}
+  .tab .n{margin-left:.3rem;font-size:.6rem}
+}
+/* Smallest phones (~320px) */
+@media(max-width:21rem){
+  .spine{gap:.28rem}
+  .tab{font-size:.6rem;letter-spacing:.01em;padding:.78rem .55rem}
+}
+
+/* ── 6 · Vault wall (signature) ────────────────────────────────── */
+.field{display:grid;gap:1.4rem;margin-top:clamp(1.4rem,3.5vw,2.1rem)}
+.fgroup{display:block;text-decoration:none;color:inherit}
+.fhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:.3rem .8rem;margin-bottom:.5rem}
+.fplace{font-family:var(--disp);font-size:1.05rem}
+.fval{font-family:var(--mono);font-size:.68rem;opacity:.55}
+.fgroup:hover .fval,.fgroup:focus-visible .fval{opacity:.9}
+.fnote{margin-top:1.1rem;padding-top:.8rem;border-top:1px solid var(--hair)}
+
+.vaults{display:flex;flex-wrap:wrap;gap:2px;max-width:56rem}
+/* JS sets --i (position) on each box; the wall starts paused and runs once it
+   scrolls into view. One class toggle on the row replaces per-box writes. */
+.vault{
+  flex:none;width:14px;height:9px;background:currentColor;border-radius:1px 1px 0 0;
+  box-shadow:inset 0 -1px 0 rgba(0,0,0,.3);
+  opacity:0;animation:seal .4s ease forwards;animation-delay:calc(var(--i) * 8ms);animation-play-state:paused;
+}
+.vaults.on .vault{animation-play-state:running}
+@keyframes seal{from{opacity:0;transform:translateY(-3px)}to{opacity:.8;transform:none}}
+.v-congo{color:var(--turquesa)} .v-pal{color:var(--rosa)} .v-sudan{color:var(--verde-pastel)}
+
+/* ── 7 · Cards ─────────────────────────────────────────────────── */
+.cards{display:grid;gap:clamp(.9rem,2.2vw,1.3rem);grid-template-columns:1fr;margin-top:clamp(1.2rem,3vw,1.8rem)}
+@media(min-width:44rem){.cards{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:70rem){.cards{grid-template-columns:repeat(3,1fr)}}
+
+.card{
+  position:relative;display:flex;flex-direction:column;gap:.35rem;
+  padding:1rem 1rem 1.15rem;border:1px solid var(--hair);background:rgba(0,0,0,.18);
+}
+.day .card{background:rgba(255,255,255,.42)}
+.card::before{content:"";position:absolute;inset:auto 0 100% 0;height:4px;background:currentColor}
+.night .card>*{color:var(--bone)}
+.day .card>*{color:var(--ink)}
+.k-marigold{color:var(--marigold)} .k-turquesa{color:var(--turquesa)} .k-rosa{color:var(--rosa)}
+.k-morado{color:var(--morado)} .k-verde{color:var(--verde)}
+.day .k-morado{color:var(--morado-day)}
+
+.place{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;
+  color:currentColor!important;opacity:.9;margin:0;
+}
+.stat{
+  font-family:var(--disp);font-size:clamp(1.5rem,3.6vw,1.9rem);line-height:1;
+  color:currentColor!important;word-break:break-word;margin:.15rem 0 0;
+}
+.unit{font-size:.85rem;line-height:1.4;opacity:.68;margin:.15rem 0 .2rem;max-width:34ch}
+.card dl{margin:0}
+.card dd{margin:0;font-size:.9rem;line-height:1.5}
+.card dt{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  opacity:.5;margin:.5rem 0 .12rem;
+}
+
+.src{margin-top:auto;padding-top:.8rem;display:flex;flex-wrap:wrap;gap:.3rem}
+.chip{
+  font-family:var(--mono);font-size:.62rem;text-decoration:none;white-space:nowrap;
+  padding:.3rem .48rem;border:1px solid var(--hair);opacity:.72;
+  transition:opacity .15s,border-color .15s;
+}
+.chip:hover,.chip:focus-visible{opacity:1;border-color:currentColor;color:currentColor}
+
+/* Clickable card: the headline link stretches an invisible layer over the card,
+   and source chips sit above it so they stay clickable. */
+.card--link{transition:background-color .15s}
+.card--link:hover{background:rgba(255,255,255,.06)}
+.cardlink{color:inherit;text-decoration:none}
+.cardlink::after{content:"";position:absolute;inset:0}
+.cardlink:focus-visible{outline:none}
+.cardlink:focus-visible::after{outline:2.5px solid var(--candle);outline-offset:3px}
+.card .chip{position:relative;z-index:1}
+
+/* ── 8 · Stories ───────────────────────────────────────────────── */
+.picado{display:block;width:100%;height:auto;margin:0 0 clamp(1.2rem,3vw,1.8rem)}
+.stories{display:grid;gap:1.3rem;grid-template-columns:1fr;margin-top:clamp(1.1rem,3vw,1.7rem)}
+@media(min-width:52rem){.stories{grid-template-columns:repeat(3,1fr);gap:1.7rem}}
+.story{display:flex;flex-direction:column;gap:.35rem;border-top:3px solid currentColor;padding-top:.8rem}
+.story>*{color:var(--ink)}
+.story .who{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;
+  color:currentColor!important;opacity:.95;
+}
+.story p{font-size:.93rem;max-width:38ch;opacity:.82;margin:0}
+.story .chip{align-self:flex-start;margin-top:.4rem}
+.s-turquesa{color:var(--turquesa)} .s-rosa{color:var(--rosa-day)} .s-marigold{color:var(--marigold)}
+
+.helper-fig{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap;margin:.2rem 0 .6rem}
+.helper-fig b{
+  font-family:var(--disp);font-weight:400;line-height:.9;letter-spacing:-.01em;
+  font-size:clamp(2rem,7vw,2.9rem);color:currentColor!important;
+}
+.helper-fig span{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  opacity:.62;max-width:22ch;line-height:1.35;color:var(--ink);
+}
+
+/* ── 9 · Chart ─────────────────────────────────────────────────── */
+.proof{display:grid;gap:clamp(1.2rem,3.5vw,2.2rem)}
+@media(min-width:56rem){.proof{grid-template-columns:.9fr 1.1fr;align-items:center}}
+.chart{width:100%;height:auto;display:block;overflow:visible}
+.chart .gl{stroke:rgba(36,27,43,.14);stroke-width:1}
+.chart .line{
+  fill:none;stroke:var(--marigold);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:620;stroke-dashoffset:620;
+}
+.chart.drawn .line{transition:stroke-dashoffset 1.6s cubic-bezier(.3,.7,.3,1);stroke-dashoffset:0}
+.chart .pt{fill:var(--bone);stroke:var(--marigold);stroke-width:2.6;opacity:0}
+.chart.drawn .pt{transition:opacity .45s ease 1.15s;opacity:1}
+.chart text{font-family:var(--mono);font-size:11px;fill:#5F5268}
+.chart .cap{font-family:var(--disp);font-size:17px;fill:var(--ink)}
+.chart-note{margin-top:.5rem}
+
+/* ── 10 · Action rows ──────────────────────────────────────────── */
+.acts{display:grid;margin-top:clamp(1.1rem,3vw,1.7rem);border-top:1px solid var(--hair)}
+.act{
+  display:grid;grid-template-columns:4.5rem 1fr;gap:.35rem .9rem;align-items:start;
+  padding:.95rem 0;border-bottom:1px solid var(--hair);text-decoration:none;
+}
+.act .go{grid-column:1/-1}
+@media(min-width:46rem){
+  .act{grid-template-columns:6rem 1fr auto;align-items:baseline;gap:1.4rem}
+  .act .go{grid-column:auto}
+}
+.cost{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--morado-day)}
+.act h3{margin-bottom:.12rem}
+.act p{margin:0;font-size:.88rem;opacity:.74;max-width:48ch}
+.go{font-family:var(--mono);font-size:.68rem;opacity:.55;white-space:nowrap}
+a.act:hover .go,a.act:focus-visible .go{opacity:1;text-decoration:underline;text-underline-offset:.2em}
+a.act:hover h3,a.act:focus-visible h3{text-decoration:underline;text-underline-offset:.18em}
+
+/* ── 11 · Link lists ───────────────────────────────────────────── */
+.paths{display:grid;gap:.95rem;grid-template-columns:1fr;margin-top:1.2rem}
+@media(min-width:46rem){.paths{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:72rem){.paths{grid-template-columns:repeat(3,1fr)}}
+.path{border-left:3px solid var(--turquesa);padding:.1rem 0 .1rem .9rem}
+.path:nth-child(3n+2){border-left-color:var(--rosa-day)}
+.path:nth-child(3n+3){border-left-color:var(--verde)}
+footer .path:nth-child(3n+3){border-left-color:var(--verde-pastel)}
+.path h3{margin-bottom:.16rem}
+.path p{font-size:.87rem;margin:0 0 .26rem;opacity:.76;max-width:44ch}
+.path .mono{display:block}
+.path a{text-decoration:underline;text-underline-offset:.18em}
+
+/* ── 12 · Donate cards & chips ─────────────────────────────────── */
+.donate-row{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.6rem}
+.donate-card{
+  flex:1 1 220px;min-width:0;display:flex;flex-direction:column;gap:.4rem;
+  padding:.9rem 1rem;border:1px solid currentColor;text-decoration:none;
+  opacity:.92;transition:opacity .15s;
+}
+.donate-card:hover,.donate-card:focus-visible{opacity:1}
+.donate-title{font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;text-transform:uppercase;color:var(--bone)}
+.donate-line{font-family:var(--body);font-size:.8rem;line-height:1.4;opacity:.82;color:var(--bone)}
+.donate-line b{
+  display:block;margin-bottom:.1rem;font-weight:600;opacity:.75;
+  text-transform:uppercase;font-size:.66rem;letter-spacing:.06em;
+}
+.donate-chip{
+  flex:1 1 160px;min-width:0;text-align:center;padding:.6rem .7rem;
+  font-family:var(--mono);font-size:.74rem;line-height:1.35;text-decoration:none;color:var(--bone);
+  border:1px solid currentColor;opacity:.85;transition:opacity .15s;
+}
+.donate-chip:hover,.donate-chip:focus-visible{opacity:1}
+.chip-live{color:var(--marigold)}
+
+.donate-more{margin-top:.9rem}
+.donate-more summary{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  opacity:.55;cursor:pointer;list-style:none;transition:opacity .15s;
+}
+.donate-more summary:hover{opacity:.85}
+.donate-more summary::-webkit-details-marker{display:none}
+.donate-more summary::before{content:'+ ';opacity:.8}
+.donate-more[open] summary::before{content:'– '}
+.donate-more[open] summary{margin-bottom:.2rem}
+
+/* ── 13 · ZIP check ────────────────────────────────────────────── */
+.zipcheck{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;margin:.7rem 0 .3rem}
+.zipcheck label{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  color:currentColor;opacity:.85;
+}
+.zipcheck input{
+  width:6.5em;min-height:44px;padding:.5rem .55rem;
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;
+  background:transparent;color:inherit;border:1px solid var(--hair);border-radius:2px;
+}
+.zipcheck input:focus-visible{outline-offset:2px}
+.zipcheck button{
+  min-height:44px;padding:.5rem .95rem;cursor:pointer;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  background:currentColor;border:1px solid currentColor;border-radius:2px;transition:filter .15s;
+}
+.day .zipcheck button{color:var(--morado-day)}
+.zipcheck button span{color:var(--bone)}
+.zipcheck button:hover{filter:brightness(1.12)}
+
+.zipout{font-size:.85rem;line-height:1.5;margin:.45rem 0 0;min-height:1.3em;max-width:34ch}
+.zipout a{text-decoration:underline;text-underline-offset:.15em}
+.zipout .aqi-n{
+  display:inline-block;margin-right:.15em;vertical-align:-.12em;
+  font-family:var(--disp);font-size:1.6rem;font-weight:400;line-height:1;
+}
+.zipout .aqi-note{
+  display:block;margin-top:.3rem;opacity:.6;
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.04em;line-height:1.45;
+}
+
+/* ── 14 · Footer ───────────────────────────────────────────────── */
+.flower-icon{width:18px;height:18px;flex:none}
+.src-head{display:flex;align-items:center;gap:.5rem;margin-top:2rem}
+.src-head + *{margin-top:clamp(1.3rem,3.2vw,2rem)}
+.wind-down p{max-width:70ch}
+.wind-down .epitaph{max-width:72ch}
+.epitaph--candle{border-left-color:var(--candle)!important}
+
+.srclist{columns:2 15rem;column-gap:2rem;margin-top:1rem;padding:0;list-style:none}
+.srclist li{break-inside:avoid;margin-bottom:.5rem;font-family:var(--mono);font-size:.68rem;line-height:1.5}
+.srclist a{text-decoration:none;opacity:.68}
+.srclist a:hover{opacity:1;text-decoration:underline;text-underline-offset:.15em}
+
+.sign{display:flex;flex-wrap:wrap;gap:.5rem 1.3rem;align-items:baseline;margin-top:1.4rem}
+.sign a{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
+  text-decoration:none;opacity:.68;
+}
+.sign a:hover,.sign a:focus-visible{opacity:1;text-decoration:underline;text-underline-offset:.2em}
+.checked{margin:.55rem 0 0;padding-left:.95rem}
+
+/* ── 15 · Reduced motion (keep last so it wins) ────────────────── */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.001ms!important}
+  .vault{animation:none;opacity:.8}
+  .chart .line{stroke-dashoffset:0}
+  .chart .pt{opacity:1}
+  .gh{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Shared flower icon: defined once, reused in the footer -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs><path id="petal" d="M50 39C44 27 44 19 50 9c6 10 6 18 0 30"/></defs>
+  <symbol id="flower" viewBox="0 0 100 100">
+    <g fill="none" stroke="var(--candle)" stroke-width="2.6" stroke-linecap="round">
+      <use href="#petal"/>
+      <use href="#petal" transform="rotate(45 50 50)"/><use href="#petal" transform="rotate(90 50 50)"/>
+      <use href="#petal" transform="rotate(135 50 50)"/><use href="#petal" transform="rotate(180 50 50)"/>
+      <use href="#petal" transform="rotate(225 50 50)"/><use href="#petal" transform="rotate(270 50 50)"/>
+      <use href="#petal" transform="rotate(315 50 50)"/>
+    </g>
+    <circle cx="50" cy="50" r="8.5" fill="var(--marigold)"/>
+  </symbol>
+</svg>
+
+<header class="st-top">
+  <a class="st-brand" href="/" aria-label="Rising Tigers Initiative, home">The Rising Tigers Initiative</a>
+  <button class="st-menu" type="button" aria-expanded="false" aria-controls="st-nav">Menu</button>
+  <nav class="st-nav" id="st-nav" aria-label="Site sections">
+    <a href="/#help">Help</a><a href="/#articles">Articles</a><a href="/#fund">Fund</a><a href="/#guide">Guide</a><a href="/#about">About</a>
+  </nav>
+</header>
+
+<!-- ══════════ MASTHEAD + TABS ══════════ -->
+<div class="band night mast">
+  <div class="ghosts" aria-hidden="true"><span class="gh gh1"></span><span class="gh gh2"></span></div>
+  <div class="wrap">
+    <h1>Math, Murder, and Making a Difference</h1>
+    <p class="subtitle">News and mortality rates tied to my chosen causes. Ways to help right now.</p>
+    <p class="brand">By <a href="https://www.linkedin.com/in/tahreem-karim">Tahreem Karim</a></p>
+
+    <div class="spine" role="tablist" aria-label="Sections" hidden>
+      <button class="tab t-war" role="tab" id="tab-war" aria-controls="p-war" aria-selected="true"><span class="lbl">War</span><span class="n">3</span></button>
+      <button class="tab t-cons" role="tab" id="tab-cons" aria-controls="p-cons" aria-selected="false"><span class="lbl">Conservation</span><span class="n">3</span></button>
+      <button class="tab t-humanity" role="tab" id="tab-humanity" aria-controls="p-humanity" aria-selected="false"><span class="lbl">Humanity</span><span class="n">∞</span></button>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- ══════════ PANEL 1 · WAR ══════════ -->
+<div id="p-war" role="tabpanel" aria-labelledby="tab-war">
+
+  <section class="band night">
+    <div class="ghosts" aria-hidden="true"><span class="gh gh2"></span></div>
+    <div class="wrap">
+      <p class="eyebrow">Congo · Palestine · Sudan</p>
+      <p class="lede">Each box = 100,000 people forced out of their homes.</p>
+
+      <div class="field">
+        <a class="fgroup" href="/artifacts/congo/">
+          <div class="fhead"><span class="fplace">Congo</span><span class="fval">7,000,000+ displaced over mining rights</span></div>
+          <div class="vaults v-congo" data-n="70" aria-hidden="true"></div>
+        </a>
+        <a class="fgroup" href="/artifacts/palestine/">
+          <div class="fhead"><span class="fplace">Palestine</span><span class="fval">~1,900,000 · 9 in 10 people in Gaza</span></div>
+          <div class="vaults v-pal" data-n="19" aria-hidden="true"></div>
+        </a>
+        <a class="fgroup" href="/artifacts/sudan/">
+          <div class="fhead"><span class="fplace">Sudan</span><span class="fval">13,600,000 · largest displacement crisis on earth</span></div>
+          <div class="vaults v-sudan" data-n="136" aria-hidden="true"></div>
+        </a>
+      </div>
+      <p class="mono fnote">Different agencies, 2024–2026.</p>
+
+      <p class="eyebrow gap">Help right now</p>
+      <div class="donate-row">
+        <a class="donate-card v-congo" href="https://panzifoundation.org/donate/">
+          <span class="donate-title">Congo — Panzi Foundation ↗</span>
+          <span class="donate-line"><b>Need</b>Displacement past 7M, sexual violence rising, aid shrinking.</span>
+          <span class="donate-line"><b>For</b>Trauma surgery, mental health care, legal aid, job training.</span>
+          <span class="donate-line"><b>Trust</b>Congolese-run; founded by 2018 Nobel Peace laureate Dr. Mukwege.</span>
+        </a>
+        <a class="donate-card v-pal" href="https://donate.unrwa.org/int/en/gaza">
+          <span class="donate-title">Palestine — UNRWA Gaza Appeal ↗</span>
+          <span class="donate-line"><b>Need</b>US funding still withheld; largest healthcare provider in Gaza.</span>
+          <span class="donate-line"><b>For</b>Cash aid, food, shelter, healthcare, education for refugees.</span>
+          <span class="donate-line"><b>Trust</b>UN agency, mandated since 1949; ~11% overhead, rest direct aid.</span>
+        </a>
+        <a class="donate-card v-sudan" href="https://www.mutualaidsudan.org/donate">
+          <span class="donate-title">Sudan — Mutual Aid Sudan ↗</span>
+          <span class="donate-line"><b>Need</b>Emergency Response Rooms get under 1% of global aid funding.</span>
+          <span class="donate-line"><b>For</b>Communal kitchens, medical care, evacuations, water repairs.</span>
+          <span class="donate-line"><b>Trust</b>$0.95 of every $1 reaches responders within two weeks.</span>
+        </a>
+      </div>
+
+      <details class="donate-more">
+        <summary>More organizations</summary>
+        <div class="donate-row">
+          <a class="donate-chip" href="https://www.doctorswithoutborders.org/">Doctors Without Borders (MSF) ↗</a>
+          <a class="donate-chip" href="https://www.rescue.org/">International Rescue Committee ↗</a>
+          <a class="donate-chip" href="https://www.nrc.no/">Norwegian Refugee Council ↗</a>
+          <a class="donate-chip" href="https://www.unhcr.org/donate-unhcr.html">UNHCR ↗</a>
+          <a class="donate-chip" href="https://wck.org/donate/">World Central Kitchen ↗</a>
+        </div>
+      </details>
+
+      <p class="eyebrow gap">Stay up to date</p>
+      <div class="donate-row">
+        <a class="donate-chip chip-live" href="https://www.acaps.org/en/countries/drc">Congo — ACAPS tracker ↗</a>
+        <a class="donate-chip chip-live" href="https://gisha.org/en/gaza-now-facts-and-figures/">Palestine — Gisha live figures ↗</a>
+        <a class="donate-chip chip-live" href="https://www.mutualaidsudan.org/">Sudan — Mutual Aid Sudan updates ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band night night2">
+    <div class="wrap">
+      <p class="eyebrow">Some context</p>
+      <div class="cards">
+
+        <article class="card card--link k-turquesa">
+          <p class="place">DR Congo · 1990s - </p>
+          <p class="stat"><a class="cardlink" href="/artifacts/congo/">7M+ Displaced</a></p>
+          <p class="unit">120+ armed groups in the east</p>
+          <dl>
+            <dt>Situation</dt>
+            <dd>M23 (the 'March 23 Movement'), backed by Rwanda, took Goma and Bukavu in 2025. Since early 2026 both sides have used armed drones and heavy artillery in neighborhoods. <br> Ebola outbreak in May.</dd>
+            <dt>Why?</dt>
+            <dd>The Rubaya mining area supplies ~<strong>15–30% of the world's coltan</strong>. Coltan - metallic ore refined into the element <strong>tantalum</strong>. <br>Tantalum can hold a high electrical charge in a small space, which is why it is used in virtually every modern phone and computer.</dd>
+            <dt>Why it's silent</dt>
+            <dd>It's been going on for thirty years and nearly impossible to boycott. The computer this page was built on (and likely any used to view it) requires coltan.</dd>
+          </dl>
+          <div class="src">
+            <a class="chip" href="https://www.hrw.org/world-report/2026/country-chapters/democratic-republic-of-congo">HRW</a>
+            <a class="chip" href="https://africacenter.org/spotlight/drc-congo-conflict-drivers-beyond-m23/">Africa Center</a>
+            <a class="chip" href="https://www.acaps.org/en/countries/drc">ACAPS</a>
+          </div>
+        </article>
+
+        <article class="card card--link k-rosa">
+          <p class="place">Gaza, Palestine · Oct 2023 – </p>
+          <p class="stat"><a class="cardlink" href="/artifacts/palestine/">73,231 killed</a></p>
+          <p class="unit">173,686 injured — recorded by the Gaza Ministry of Health, reported through UN Health Cluster</p>
+          <dl>
+            <dt>The situation</dt>
+            <dd>Ceasefire: 10 October 2025. Between then and 11 August 2026, 1,259 people were killed. <br> 90%+ of schools damaged/destroyed.</dd>
+            <dt>Who's saying what</dt>
+            <dd>Israel rejects the UN commission's September 2025 finding of genocide in Gaza. South Africa's case under the Genocide Convention is still open at the ICJ.</dd>
+            <dt>Why it's different</dt>
+            <dd>It's on the news &amp; social media.</dd>
+          </dl>
+          <div class="src">
+            <a class="chip" href="https://www.unrwa.org/resources/reports/unrwa-situation-report-230-humanitarian-crisis-gaza-strip-and-occupied-west-bank">UNRWA</a>
+            <a class="chip" href="https://www.ohchr.org/en/press-releases/2025/09/israel-has-committed-genocide-gaza-strip-un-commission-finds">UN COI</a>
+            <a class="chip" href="https://gisha.org/en/gaza-now-facts-and-figures/">Gisha</a>
+          </div>
+        </article>
+
+        <article class="card card--link k-marigold">
+          <p class="place">Sudan · April 2023 - </p>
+          <p class="stat"><a class="cardlink" href="/artifacts/sudan/">13.6M Displaced</a></p>
+          <p class="unit">The largest crisis of its kind.</p>
+          <dl>
+            <dt>Situation</dt>
+            <dd>A paramilitary force called the RSF (Rapid Support Forces) is fighting the national army. <br> Famine confirmed in Darfur. 33.7 million people (two in three Sudanese) need aid to get through the year.</dd>
+            <dt>Officially</dt>
+            <dd>In January 2025 the <strong>US State Department</strong> determined the RSF committed genocide. Not an "activist finding." </dd>
+            <dt>Why it's quiet</dt>
+            <dd>No Western troops, no oil angle, &amp; reporters can't get in. <br> 2026 aid appeal ~20% funded in April.</dd>
+          </dl>
+          <div class="src">
+            <a class="chip" href="https://news.un.org/en/story/2026/01/1166738">UN</a>
+            <a class="chip" href="https://www.hrw.org/breaking-news/2025/01/08/us-state-department-determines-genocide-sudan">State Dept</a>
+            <a class="chip" href="https://www.fao.org/newsroom/detail/risk-of-famine-persists-as-nearly-19.5-million-people-face-acute-food-insecurity-in-sudan/en">FAO · famine</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="band day">
+    <div class="wrap">
+      <svg class="picado" viewBox="0 0 720 62" aria-hidden="true">
+        <defs><g id="flag">
+          <path d="M2 2H58V44L30 56 2 44Z" fill="currentColor"/>
+          <circle cx="30" cy="16" r="6" fill="#EFE8DC"/><circle cx="15" cy="29" r="3.3" fill="#EFE8DC"/>
+          <circle cx="45" cy="29" r="3.3" fill="#EFE8DC"/><circle cx="30" cy="31" r="3.3" fill="#EFE8DC"/>
+          <rect x="23" y="39" width="14" height="2.6" fill="#EFE8DC"/>
+        </g></defs>
+        <line x1="0" y1="3" x2="720" y2="3" stroke="#241B2B" stroke-opacity=".3" stroke-width="1.5"/>
+        <use href="#flag" x="0" color="var(--rosa-day)"/><use href="#flag" x="60" color="var(--turquesa)"/>
+        <use href="#flag" x="120" color="var(--verde-pastel)"/><use href="#flag" x="180" color="var(--morado-day)"/>
+        <use href="#flag" x="240" color="var(--rosa-day)"/><use href="#flag" x="300" color="var(--marigold)"/>
+        <use href="#flag" x="360" color="var(--candle)"/><use href="#flag" x="420" color="var(--verde-pastel)"/>
+        <use href="#flag" x="480" color="var(--turquesa)"/><use href="#flag" x="540" color="var(--marigold)"/>
+        <use href="#flag" x="600" color="var(--rosa-day)"/><use href="#flag" x="660" color="var(--morado-day)"/>
+      </svg>
+
+      <p class="eyebrow">Beyond the news</p>
+      <h2>Neighbors &amp; teachers are already there helping.</h2>
+
+      <div class="stories">
+        <div class="story s-turquesa">
+          <span class="who">Congo</span>
+          <p class="helper-fig"><b>1999</b><span>Panzi has treated survivors since</span></p>
+          <h3>Women who refuse</h3>
+          <p><strong>Julienne Lusenge</strong> names commanders in public and runs a coalition of Congolese women's organizations. <strong>Panzi Hospital</strong> in Bukavu has treated survivors since 1999. And in <strong>Garamba</strong>, a country at war, the giraffes are up fivefold in 14 years.</p>
+          <a class="chip" href="https://panzifoundation.org/">panzifoundation.org ↗</a>
+        </div>
+        <div class="story s-rosa">
+          <span class="who">Palestine</span>
+          <p class="helper-fig"><b>336,000</b><span>children UNICEF is scaling toward</span></p>
+          <h3>School's still in session</h3>
+          <p>Gaza had some of the highest literacy rates on earth. <strong>Teachers have since kept classes going in shelters the whole time.</strong> <br>UNICEF now scaling toward 336,000 kids. When exams coincided with a pause in the fighting, one teacher called it a miracle.</p>
+          <a class="chip" href="https://www.unicef.org/press-releases/rebuilding-hope-unicef-expands-back-learning-hundreds-thousands-children-gaza">unicef.org ↗</a>
+        </div>
+        <div class="story s-marigold">
+          <span class="who">Sudan</span>
+          <p class="helper-fig"><b>26,000</b><span>volunteers running kitchens, clinics, evacuations</span></p>
+          <h3>The Emergency Response Rooms</h3>
+          <p>The state government collapsed in April 2023. Now there are 700+ neighbor-improvised rooms across all 18 states. <br>26,000+ volunteers running kitchens, clinics and evacuations. Mostly unpaid people in their twenties, often under shelling.</p>
+          <a class="chip" href="https://www.mutualaidsudan.org/">mutualaidsudan.org ↗</a>
+        </div>
+      </div>
+
+      <p class="epitaph">Nobody here is waiting to be saved.</p>
+    </div>
+  </section>
+
+  <section class="band day day2">
+    <div class="wrap">
+      <h2>So? What to do?</h2>
+      <p class="lede">Make a difference by spending time instead of money</p>
+      <div class="acts">
+        <a class="act" href="https://www.usa.gov/elected-officials">
+          <span class="cost">2 min</span>
+          <span><h3>Call, don't post.</h3><p>Staffers tally calls but not reposts. For any Gen Z readers, just speak one legible sentence and then hang up.</p></span>
+          <span class="go">find yours ↗</span>
+        </a>
+        <div class="act">
+          <span class="cost">Saves money</span>
+          <span><h3>Maintain your phone</h3><p>Coltan and cobalt demand makes eastern Congo's mines more in demand. Not upgrading is all that is required.</p></span>
+        </div>
+        <a class="act" href="https://www.mutualaidsudan.org/">
+          <span class="cost">4 min</span>
+          <span><h3>Read from the Sudanese volunteers directly</h3><p>Not a thread, their own site.</p></span>
+          <span class="go">mutualaidsudan.org ↗</span>
+        </a>
+        <div class="act">
+          <span class="cost">10 sec</span>
+          <span><h3>Remember facts for casual conversation, and mention them</h3><p>Helpful during epic dinner table debates or for remembering to be grateful</p></span>
+        </div>
+      </div>
+      <p class="small wide" style="margin-top:1.7rem;margin-bottom:-1.5rem">Just trying to send money somewhere legitimate? The institutions linked from this page are vetted, or ask about finding your own!</p>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════ PANEL 2 · CONSERVATION ══════════ -->
+<div id="p-cons" role="tabpanel" aria-labelledby="tab-cons">
+
+  <section class="band day">
+    <div class="wrap">
+      <p class="eyebrow">Same map, different casualties</p>
+      <h2>War happens to places too as well as people.</h2>
+      <p class="lede">Congo holds the second biggest rainforest on earth. Same country as the first tab. The war and burning aren't distinct subjects.</p>
+
+      <div class="cards">
+
+        <article class="card k-marigold">
+          <p class="place">Bengal tiger · India, 2022 census</p>
+          <p class="stat">3,682</p>
+          <p class="unit">wild tigers, up from about 1,400 in 2006 — roughly 75% of every wild tiger alive</p>
+          <dl>
+            <dt>How they know</dt>
+            <dd>Camera traps and DNA from scat across 20 states. Largest wildlife survey on the planet.</dd>
+            <dt>The catch</dt>
+            <dd>Gains sit inside reserves. The corridors between them are highways and farmland now, and the Sundarbans habitat, in Bangladesh, is going under with sea level rise.</dd>
+            <dt>Why it's here</dt>
+            <dd>Because it went <em>up</em>. Keep reading.</dd>
+          </dl>
+          <div class="src">
+            <a class="chip" href="https://india.mongabay.com/2025/02/the-rise-fall-and-return-of-indias-tigers/">Mongabay</a>
+            <a class="chip" href="https://news.mongabay.com/2026/07/indias-tiger-numbers-are-rising-protecting-their-pathways-is-next/">Corridors 2026</a>
+          </div>
+        </article>
+
+        <article class="card k-verde">
+          <p class="place">Tropical forest · 2025 satellite data</p>
+          <p class="stat">4.3M ha</p>
+          <p class="unit">primary rainforest lost in one year — eleven football pitches a minute</p>
+          <dl>
+            <dt>The situation</dt>
+            <dd>Down 36% from 2024's record, mostly because there were fewer fires. Still 46% above a decade ago.</dd>
+            <dt>Pressure works</dt>
+            <dd>Brazil cut non-fire forest loss <strong>41% in a single year</strong>, to the lowest on record, after enforcement changed. Somebody made cutting it expensive.</dd>
+            <dt>Who's counting</dt>
+            <dd>Maryland's GLAD lab, from satellites, published openly.</dd>
+          </dl>
+          <div class="src">
+            <a class="chip" href="https://www.wri.org/news/release-tropical-rainforest-loss-drops-36-2025-fires-threaten-global-progress">WRI</a>
+            <a class="chip" href="https://gfr.wri.org/latest-analysis-deforestation-trends">Forest Watch</a>
+          </div>
+        </article>
+
+        <article class="card k-morado">
+          <p class="place">Air &amp; plastic · annual</p>
+          <p class="stat">~7M</p>
+          <p class="unit">premature deaths a year linked to air pollution - WHO. Estimates run 4–8M by method, aka the number is "soft".</p>
+          <dl>
+            <dt>Not far away</dt>
+            <dd>April 2026: <strong>152.3 million Americans (44%) live in a county that failed at least one air quality standard.</strong> Including 33.5 million people under 18.</dd>
+            <dt>Plastic</dt>
+            <dd>Over 450 million tonnes made a year. Under 10% of all plastic ever made has been recycled.</dd>
+            <dt>Why it's here</dt>
+            <dd>Not a "far-away people's problem." Check your ZIP. </dd>
+          </dl>
+
+          <form class="zipcheck" id="zipcheck" novalidate>
+            <label for="zipin">Your ZIP</label>
+            <input id="zipin" name="zip" inputmode="numeric" maxlength="5" placeholder="94132" autocomplete="postal-code">
+            <button type="submit"><span>Check</span></button>
+          </form>
+          <p id="zipout" class="zipout" role="status" aria-live="polite"></p>
+
+          <div class="src">
+            <a class="chip" href="https://ourworldindata.org/data-review-air-pollution-deaths">OWID · air</a>
+            <a class="chip" href="https://ourworldindata.org/plastic-pollution">OWID · plastic</a>
+            <a class="chip" href="https://www.lung.org/research/sota">ALA</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="band day day2">
+    <div class="wrap">
+      <div class="proof">
+        <div>
+          <h2>What winning looks like.</h2>
+          <p>1972: ~1,800 wild tigers left &amp; falling. 1973: Project Tiger. Reserves, wardens, money. 50 years later it has doubled+.</p>
+          <p>Not luck or charity but constant/boring pressure, applied by people publicly mocked for caring.</p>
+          <p class="small">NTCA mean estimates. 2022 figure has a stated range of 3,167 – 3,925.</p>
+        </div>
+        <div>
+          <svg class="chart" id="tigerChart" viewBox="0 0 460 300" role="img" aria-label="Line chart: wild tigers in India rising from 1,411 in 2006 to 3,682 in 2022">
+            <line class="gl" x1="40" y1="255" x2="450" y2="255"/><line class="gl" x1="40" y1="170" x2="450" y2="170"/>
+            <line class="gl" x1="40" y1="85" x2="450" y2="85"/><line class="gl" x1="40" y1="30" x2="450" y2="30"/>
+            <text x="0" y="259">1,000</text><text x="0" y="174">2,000</text><text x="0" y="89">3,000</text><text x="0" y="34">3,682</text>
+            <polyline class="line" points="60,220 155,195 250,151 345,88 440,30"/>
+            <circle class="pt" cx="60" cy="220" r="4.5"/><circle class="pt" cx="155" cy="195" r="4.5"/>
+            <circle class="pt" cx="250" cy="151" r="4.5"/><circle class="pt" cx="345" cy="88" r="4.5"/>
+            <circle class="pt" cx="440" cy="30" r="6"/>
+            <text x="48" y="280">2006</text><text x="143" y="280">2010</text><text x="238" y="280">2014</text>
+            <text x="333" y="280">2018</text><text x="420" y="280">2022</text>
+            <text class="cap" x="60" y="207">1,411</text>
+          </svg>
+          <p class="mono chart-note">1,411 → 1,706 → 2,226 → 2,967 → 3,682 wild tigers</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band day">
+    <div class="wrap">
+      <p class="eyebrow">Free Ideas for starting right now (or tomorrow)</p>
+      <div class="acts">
+        <a class="act" id="act-zip" href="#zipin">
+          <span class="cost">30 sec</span>
+          <span><h3>Check your own air</h3><p>Live US AQI for your ZIP, a few sections up this tab. No account, nothing stored.</p></span>
+          <span class="go">jump to it ↑</span>
+        </a>
+        <a class="act" href="https://www.globalforestwatch.org/">
+          <span class="cost">5 min</span>
+          <span><h3>Watch a forest from orbit</h3><p>Global Forest Watch is free. Pick a place you love, see what's happened since 2001.</p></span>
+          <span class="go">globalforestwatch.org ↗</span>
+        </a>
+        <a class="act" href="https://www.inaturalist.org/">
+          <span class="cost">2 min</span>
+          <span><h3>Photograph one living thing</h3><p>iNaturalist turns a phone photo into a research grade occurrence record. Scientists actually use this data. Now you're doing fieldwork too.</p></span>
+          <span class="go">inaturalist.org ↗</span>
+        </a>
+        <div class="act">
+          <span class="cost">Free · saves money</span>
+          <span><h3>"It takes a great deal of bravery to stand up to our enemies....</h3><p>but just as much to stand up to our friends." - Albus Dumbledore. <br> Speak up, but don't yell.</p></span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════ PANEL 3 · HUMANITY ══════════ -->
+<div id="p-humanity" role="tabpanel" aria-labelledby="tab-humanity">
+
+  <section class="band day day2">
+    <div class="wrap">
+      <h2>The drawer</h2>
+      <p class="lede">Free readings, tools, &amp; work by people I know, just for building bridges. First person (not peer reviewed).</p>
+      <p class="eyebrow sep">If anything on this page made you doubt yourself, check these out instead.</p>
+      <div class="paths">
+        <div class="path">
+          <h3>I Don't Belong in Science</h3>
+          <p>Olga Botvinnik — a computational biologist holding every credential imaginable, on fitting in.</p>
+          <span class="mono"><a href="https://olgabotvinnik.com/blog/i-dont-belong-in-science/">olgabotvinnik.com</a></span>
+        </div>
+        <div class="path">
+          <h3>Asexuality and Imposter Syndrome</h3>
+          <p>Feeling like an outsider twice over as a queer scientist, speaking about belonging.</p>
+          <span class="mono"><a href="https://sisterstem.org/2021/03/23/what-my-asexuality-and-imposter-syndrome-are-teaching-me-about-belonging/">sisterstem.org</a></span>
+        </div>
+        <div class="path">
+          <h3>How Useful Is "Impostor Syndrome"?</h3>
+          <p>An Aeon essay arguing the term itself hides the real structure — class, not just confidence — and questioning whether "fitting" is even the right goal.</p>
+          <span class="mono"><a href="https://aeon.co/essays/how-useful-is-impostor-syndrome-in-academia">aeon.co</a></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band day">
+    <div class="wrap">
+      <p class="eyebrow">Read primary sources for free</p>
+      <div class="paths">
+        <div class="path">
+          <h3>Unpaywall</h3>
+          <p>Browser extension. Hits a locked paper, finds the author's legal copy. Works about half the time, which is enough.</p>
+          <span class="mono"><a href="https://unpaywall.org/">unpaywall.org</a></span>
+        </div>
+        <div class="path">
+          <h3>PubMed Central</h3>
+          <p>Every NIH funded paper, free, no embargo since 2025. Most US biomedical research.</p>
+          <span class="mono"><a href="https://www.ncbi.nlm.nih.gov/pmc/">ncbi.nlm.nih.gov/pmc</a></span>
+        </div>
+        <div class="path">
+          <h3>DOAJ</h3>
+          <p>Directory of Open Access Journals. Vetted, so you're not wading through predatory titles.</p>
+          <span class="mono"><a href="https://doaj.org/">doaj.org</a></span>
+        </div>
+        <div class="path">
+          <h3>Mongabay</h3>
+          <p>Nonprofit conservation journalism, 500+ correspondents, nine languages, free forever. Most forest reporting is theirs.</p>
+          <span class="mono"><a href="https://news.mongabay.com/">news.mongabay.com</a></span>
+        </div>
+        <div class="path">
+          <h3>ProPublica</h3>
+          <p>Nonprofit investigative reporting. Free, w/ published data.</p>
+          <span class="mono"><a href="https://www.propublica.org/">propublica.org</a></span>
+        </div>
+        <div class="path">
+          <h3>Our World in Data</h3>
+          <p>Every chart downloadable, every source cited, licensed for reuse. When someone says "source?", this is the answer.</p>
+          <span class="mono"><a href="https://ourworldindata.org/">ourworldindata.org</a></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band day day2">
+    <div class="wrap">
+      <p class="eyebrow">Ten minutes, real contribution</p>
+      <h2>You can do actual science tonight.</h2>
+      <p class="lede">No degree, no fee, no application. The data goes into real papers.</p>
+      <div class="acts">
+        <a class="act" href="https://www.zooniverse.org/">
+          <span class="cost">10 min</span>
+          <span><h3>Zooniverse</h3><p>Classify camera-trap animals, transcribe old weather logs, find galaxies. Hundreds of live projects, credited in publications.</p></span>
+          <span class="go">zooniverse.org ↗</span>
+        </a>
+        <a class="act" href="https://earthobservatory.nasa.gov/">
+          <span class="cost">Browse</span>
+          <span><h3>NASA Earth Observatory</h3><p>Public-domain satellite imagery with the science written plainly. Free to reuse, including commercially.</p></span>
+          <span class="go">earthobservatory.nasa.gov ↗</span>
+        </a>
+        <a class="act" href="https://ebird.org/">
+          <span class="cost">5 min</span>
+          <span><h3>eBird</h3><p>Cornell's bird database. Your backyard list becomes one of the largest biodiversity datasets on earth.</p></span>
+          <span class="go">ebird.org ↗</span>
+        </a>
+        <a class="act" href="https://openlibrary.org/">
+          <span class="cost">Free</span>
+          <span><h3>Open Library</h3><p>Borrow scanned books free, one at a time, like a library. Because it is one.</p></span>
+          <span class="go">openlibrary.org ↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band day">
+    <div class="wrap">
+      <h2>Get paid to do this work.</h2>
+      <p class="lede">Cheapest first.</p>
+      <div class="paths">
+        <div class="path">
+          <h3>ComSciCon</h3>
+          <p>Scicomm workshops run by grad students, for grad students. Free if accepted, travel funded.</p>
+          <span class="mono">free · in person · <a href="https://comscicon.org/">comscicon.org</a></span>
+        </div>
+        <div class="path">
+          <h3>The Story Collider</h3>
+          <p>True science stories, told live and on the podcast. Workshops too. The podcast is free forever.</p>
+          <span class="mono">online + in person · <a href="https://www.storycollider.org/education">storycollider.org</a></span>
+        </div>
+        <div class="path">
+          <h3>SciArt Initiative — The Bridge</h3>
+          <p>A <em>virtual</em> residency pairing an artist with a scientist. No relocation, no money down.</p>
+          <span class="mono">online · <a href="http://www.sciartinitiative.org/the-bridge.html">sciartinitiative.org</a></span>
+        </div>
+        <div class="path">
+          <h3>Leonardo / ISAST</h3>
+          <p>Fifty years of art–science work via MIT Press. Runs a month-long residency for five artists and five scientists.</p>
+          <span class="mono">residency · in person · <a href="https://leonardo.info/programs">leonardo.info</a></span>
+        </div>
+        <div class="path">
+          <h3>PLAYA Art/Sci Residency</h3>
+          <p>Funded, biodiversity focused and explicitly open to naturalists &amp; data folk (not just painters).</p>
+          <span class="mono">funded · in person · <a href="https://artistcommunities.org/directory/open-calls/2026-artsci-awarded-residency">artistcommunities.org</a></span>
+        </div>
+        <div class="path">
+          <h3>ASTC Job Bank</h3>
+          <p>Where the actual openings are: outreach coordinator, exhibit developer, museum educator.</p>
+          <span class="mono">jobs · <a href="https://www.astc.org/resources-and-learning/job-bank/">astc.org</a></span>
+        </div>
+        <div class="path">
+          <h3>UC Santa Cruz Science Communication</h3>
+          <p>One year, ten students, two internships. The only US program that requires a science degree first.</p>
+          <span class="mono">graduate · in person · <a href="https://scicom.ucsc.edu/">scicom.ucsc.edu</a></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band day day2">
+    <div class="wrap">
+      <h2>Connect</h2>
+      <div class="paths">
+        <div class="path">
+          <h3>Rising Tigers Initiative</h3>
+          <p>Free help with career development ranging from school applications to immigration. No tasks handed out or oversight. Just brainstorming help, the reason this page exists at all.</p>
+          <span class="mono"><a href="https://www.tahreemkarim.xyz">tahreemkarim.xyz</a></span>
+        </div>
+        <div class="path">
+          <h3>The garden</h3>
+          <p>The cutting room floor for my projects, plus future ideas or even musings. Nothing there is finished as a rule.</p>
+          <span class="mono"><a href="https://garden.tahreemkarim.xyz">garden.tahreemkarim.xyz</a></span>
+        </div>
+        <div class="path">
+          <h3>The source repo</h3>
+          <p>Every figure on this page as a plain text file, with the date I checked it. Fork it, correct it, use it in your own thing.</p>
+          <span class="mono"><a href="https://github.com/TahreemK13/Rising_Tigers_Initiative">github.com/TahreemK13/Rising_Tigers_Initiative</a></span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="band night">
+  <div class="ghosts" aria-hidden="true"><span class="gh gh2"></span></div>
+  <div class="wrap">
+
+    <div class="wind-down">
+      <div class="src-head"><svg class="flower-icon" aria-hidden="true"><use href="#flower"/></svg></div>
+
+      <h2>This might all be too much for right now!</h2>
+      <p class="lede">Reading about atrocities for too long is not healthy. This is a known occupational hazard for professionals. They pace themselves, so we should too.</p>
+      <p>Close the tab and get away. Nothing like this expires overnight.</p>
+      <p class="small wide">Dart Center for Journalism and Trauma provides free, unsentimental guidance for reporters. <a href="https://dartcenter.org/topic/self-care">dartcenter.org</a></p>
+
+      <div class="src-head"><svg class="flower-icon" aria-hidden="true"><use href="#flower"/></svg></div>
+      <p class="eyebrow">Housekeeping</p>
+      <p class="epitaph">If you have an issue with these statistics, I encourage you to argue&nbsp;with: <br>- backed up sources &amp; research date stamps <br>- the UN <br>- a wall.</p>
+    </div>
+
+    <p class="eyebrow sep">Sources</p>
+    <p class="small wide" style="margin:0 0 .9rem">Every source below also lives as a plain file you can read, fork or correct
+      <a href="https://github.com/TahreemK13/Rising_Tigers_Initiative/blob/main/library/sources.md">github.com/TahreemK13/Rising_Tigers_Initiative</a>.
+      If you think a number here is wrong, here's the source to inspect.</p>
+    <ul class="srclist">
+      <li>HRW — <a href="https://www.hrw.org/world-report/2026/country-chapters/democratic-republic-of-congo">DR Congo, World Report 2026</a></li>
+      <li>Africa Center — <a href="https://africacenter.org/spotlight/drc-congo-conflict-drivers-beyond-m23/">Drivers of the DRC conflict</a></li>
+      <li>ACAPS — <a href="https://www.acaps.org/en/countries/drc">DRC displacement &amp; needs</a></li>
+      <li>Panzi Foundation — <a href="https://panzifoundation.org/">Care for survivors, eastern DRC</a></li>
+      <li>Nobel Women's Initiative — <a href="https://www.nobelwomensinitiative.org/meet-the-inspiring-women-activists-of-the-drc">Women activists of the DRC</a></li>
+      <li>UNRWA — <a href="https://www.unrwa.org/resources/reports/unrwa-situation-report-230-humanitarian-crisis-gaza-strip-and-occupied-west-bank">Situation Report #230, Jul 2026</a></li>
+      <li>OHCHR — <a href="https://www.ohchr.org/en/press-releases/2025/09/israel-has-committed-genocide-gaza-strip-un-commission-finds">Commission of Inquiry, Sep 2025</a></li>
+      <li>Gisha — <a href="https://gisha.org/en/gaza-now-facts-and-figures/">Gaza figures since the ceasefire</a></li>
+      <li>UNICEF — <a href="https://www.unicef.org/press-releases/rebuilding-hope-unicef-expands-back-learning-hundreds-thousands-children-gaza">Back to Learning, Jan 2026</a></li>
+      <li>UN News — <a href="https://news.un.org/en/story/2026/01/1166738">Sudan displacement &amp; need, Jan 2026</a></li>
+      <li>FAO / WFP / UNICEF — <a href="https://www.fao.org/newsroom/detail/risk-of-famine-persists-as-nearly-19.5-million-people-face-acute-food-insecurity-in-sudan/en">Sudan food security, May 2026</a></li>
+      <li>US State Dept via HRW — <a href="https://www.hrw.org/breaking-news/2025/01/08/us-state-department-determines-genocide-sudan">Genocide determination, Jan 2025</a></li>
+      <li>Mutual Aid Sudan — <a href="https://www.mutualaidsudan.org/">Emergency Response Rooms</a></li>
+      <li>Chatham House — <a href="https://www.chathamhouse.org/publications/the-world-today/2026-06/emergency-response-rooms-work-sudan-we-could-change-aid-models">How the ERRs work, Jun 2026</a></li>
+      <li>Mongabay — <a href="https://india.mongabay.com/2025/02/the-rise-fall-and-return-of-indias-tigers/">Rise, fall and return of India's tigers</a></li>
+      <li>Mongabay — <a href="https://news.mongabay.com/2026/07/indias-tiger-numbers-are-rising-protecting-their-pathways-is-next/">Tiger corridors, Jul 2026</a></li>
+      <li>WRI — <a href="https://www.wri.org/news/release-tropical-rainforest-loss-drops-36-2025-fires-threaten-global-progress">Tropical forest loss 2025</a></li>
+      <li>Global Forest Watch — <a href="https://gfr.wri.org/latest-analysis-deforestation-trends">Deforestation trends</a></li>
+      <li>Our World in Data — <a href="https://ourworldindata.org/data-review-air-pollution-deaths">Air pollution deaths</a></li>
+      <li>Our World in Data — <a href="https://ourworldindata.org/plastic-pollution">Plastic pollution</a></li>
+      <li>American Lung Association — <a href="https://www.lung.org/research/sota">State of the Air 2026</a></li>
+    </ul>
+
+    <p class="eyebrow sep">More Noble Causes: (Not the biggest names)</p>
+    <div class="paths">
+      <div class="path">
+        <h3>Breast Cancer Action</h3>
+        <p>Calls out pink ribbon marketing instead of running it. Pushes for prevention and the research the big charities skip.</p>
+        <span class="mono"><a href="https://www.bcaction.org/">bcaction.org</a></span>
+      </div>
+      <div class="path">
+        <h3>SurvJustice</h3>
+        <p>Free legal representation for sexual assault survivors in campus and criminal proceedings. Not a hotline.</p>
+        <span class="mono"><a href="https://survjustice.org/">survjustice.org</a></span>
+      </div>
+      <div class="path">
+        <h3>NDN Collective</h3>
+        <p>Indigenous-led. Funds land defenders and organizers directly for: land defense, climate justice, &amp; LANDBACK.</p>
+        <span class="mono"><a href="https://ndncollective.org/">ndncollective.org</a></span>
+      </div>
+    </div>
+
+    <p class="small wide" style="margin-top:1.2rem">If a statistic is wrong or stale, let me know. The repo will document the error/fix &amp; your name as reference.</p>
+    <p style="margin-top:.6rem"><a class="chip" href="https://github.com/TahreemK13/Rising_Tigers_Initiative">github.com/TahreemK13/Rising_Tigers_Initiative ↗</a></p>
+    <div class="sign">
+      <span class="mono">By the Rising Tigers Initiative — Tahreem Karim:</span>
+      <a href="https://portfolio.tahreemkarim.xyz">portfolio</a>
+      <a href="https://garden.tahreemkarim.xyz">garden</a>
+      <a href="https://www.linkedin.com/in/tahreem-karim">linkedin</a>
+    </div>
+    <p class="epitaph epitaph--candle">A page for counting the dead</p>
+    <p class="mono checked">Checked 20 August 2026</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  var reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── External links open in a new tab (keeps the HTML free of repeated attributes) ── */
+  document.querySelectorAll('a[href^="http"]').forEach(function(a){
+    if (a.host !== location.host){ a.target = '_blank'; a.rel = 'noopener'; }
+  });
+
+  /* ── Mobile menu ── */
+  var menuBtn = document.querySelector('.st-menu'),
+      menu    = document.getElementById('st-nav');
+
+  function setMenu(open){
+    menu.classList.toggle('open', open);
+    menuBtn.setAttribute('aria-expanded', String(open));
+  }
+  document.documentElement.classList.add('st-js');
+  menuBtn.addEventListener('click', function(){ setMenu(!menu.classList.contains('open')); });
+  menu.addEventListener('click', function(e){ if (e.target.closest('a')) setMenu(false); });
+
+  /* ── Vault wall: one span per 100,000 people; --i drives the stagger in CSS ── */
+  document.querySelectorAll('.vaults').forEach(function(row){
+    var frag = document.createDocumentFragment(), i, box;
+    for (i = 0; i < +row.dataset.n; i++){
+      box = document.createElement('span');
+      box.className = 'vault';
+      box.style.setProperty('--i', i);
+      frag.appendChild(box);
+    }
+    row.appendChild(frag);
+  });
+
+  /* ── Reveal on scroll: start the vault wall / draw the chart when visible ── */
+  var revealTargets = document.querySelectorAll('.vaults, #tigerChart');
+
+  function reveal(el){ el.classList.add(el.matches('.vaults') ? 'on' : 'drawn'); }
+
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (!entry.isIntersecting) return;
+        reveal(entry.target);
+        io.unobserve(entry.target);
+      });
+    }, {threshold:.12, rootMargin:'0px 0px -6% 0px'});
+    revealTargets.forEach(function(el){ io.observe(el); });
+  } else {
+    revealTargets.forEach(reveal);
+  }
+
+  /* ── Tabs ── */
+  var tabs = [].slice.call(document.querySelectorAll('.tab')),
+      TAB_IDS = ['war', 'cons', 'humanity'];
+
+  function show(id, updateHash){
+    tabs.forEach(function(t){
+      var on = t.id === 'tab-' + id;
+      t.setAttribute('aria-selected', on);
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+    /* sandboxed previews (about:srcdoc) reject replaceState, so ignore that */
+    if (updateHash) try { history.replaceState(null, '', '#' + id); } catch (e) {}
+  }
+
+  tabs.forEach(function(tab, i){
+    tab.addEventListener('click', function(){
+      show(tab.id.slice(4), true);
+      window.scrollTo({top:0, behavior: reduceMotion ? 'auto' : 'smooth'});
+    });
+    tab.addEventListener('keydown', function(e){
+      var step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!step) return;
+      e.preventDefault();
+      var next = tabs[(i + step + tabs.length) % tabs.length];
+      next.focus();
+      next.click();
+    });
+  });
+
+  document.querySelector('.spine').hidden = false;
+  var startTab = location.hash.slice(1);
+  show(TAB_IDS.indexOf(startTab) > -1 ? startTab : 'war', false);
+
+  /* ── "Check your own air" jumps to the ZIP box without changing the tab hash ── */
+  var zipJump  = document.getElementById('act-zip'),
+      zipInput = document.getElementById('zipin');
+
+  if (zipJump && zipInput) zipJump.addEventListener('click', function(e){
+    e.preventDefault();
+    zipInput.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block:'center'});
+    zipInput.focus({preventScroll:true});
+  });
+
+  /* ── ZIP → live AQI (no key, nothing stored) ── */
+  var zipForm = document.getElementById('zipcheck'),
+      zipOut  = document.getElementById('zipout');
+
+  function aqiBand(aqi){
+    if (aqi <=  50) return ['Good', 'var(--verde-pastel)'];
+    if (aqi <= 100) return ['Moderate', 'var(--candle)'];
+    if (aqi <= 150) return ['Unhealthy for sensitive groups', 'var(--marigold)'];
+    if (aqi <= 200) return ['Unhealthy', 'var(--rosa-day)'];
+    if (aqi <= 300) return ['Very unhealthy', 'var(--morado-day)'];
+    return ['Hazardous', '#7A1030'];
+  }
+
+  function getJSON(url){
+    return fetch(url).then(function(r){
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    });
+  }
+
+  function showAqi(aqi, pm25, where){
+    var band = aqiBand(aqi),
+        num  = document.createElement('span'),
+        note = document.createElement('span');
+    num.className = 'aqi-n';
+    num.style.color = band[1];
+    num.textContent = aqi;
+    note.className = 'aqi-note';
+    note.textContent = 'US AQI, right now. CAMS via Open-Meteo. Nothing you type is stored or sent anywhere else.';
+    zipOut.textContent = '';
+    zipOut.append(num, ' \u2014 ' + band[0] + ' in ' + where + '. PM2.5 ' + pm25 + ' \u00b5g/m\u00b3.', note);
+  }
+
+  function showAqiError(){
+    var link = document.createElement('a');
+    link.href = 'https://www.airnow.gov/';
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.textContent = 'AirNow has it directly \u2197';
+    zipOut.textContent = 'Couldn\u2019t reach the air data just now. ';
+    zipOut.appendChild(link);
+  }
+
+  if (zipForm) zipForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var zip = zipForm.zip.value.trim();
+    if (!/^\d{5}$/.test(zip)){ zipOut.textContent = 'Five digits, US ZIP.'; return; }
+    zipOut.textContent = 'Checking\u2026';
+
+    getJSON('https://api.zippopotam.us/us/' + zip)
+      .then(function(geo){
+        var place = geo.places[0],
+            where = place['place name'] + ', ' + place['state abbreviation'];
+        return getJSON('https://air-quality-api.open-meteo.com/v1/air-quality?latitude=' + place.latitude +
+                       '&longitude=' + place.longitude + '&current=us_aqi,pm2_5&timezone=auto')
+          .then(function(air){
+            if (!air.current || air.current.us_aqi == null) throw new Error('no data');
+            showAqi(Math.round(air.current.us_aqi), air.current.pm2_5, where);
+          });
+      })
+      .catch(showAqiError);
+  });
+
+})();
+</script>
+</body>
+</html>
