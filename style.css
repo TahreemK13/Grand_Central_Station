@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap');
 :root{--bg:#0b0b10;--fg:#f2f2f2;--muted:#b8b8c4;--accent:#c79bff}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.6 "Helvetica Neue",Arial,sans-serif}
@@ -26,4 +27,23 @@ footer .links a{margin:0 .5rem;display:inline-block}
   .hero-small{display:block}
   .hero h1{top:auto;bottom:20%}
   nav{justify-content:center}
+}
+
+/* ---- Google Sites look ---- */
+body{font-family:Lato,"Helvetica Neue",Arial,sans-serif;background:#000 radial-gradient(ellipse at 50% 60%,#2a0f45 0%,#0a0212 60%,#000 100%) fixed}
+nav{background:transparent}
+.hero h1{left:auto;right:5%;top:8%;text-align:right;font-weight:400;color:#f7e7cc;letter-spacing:.02em;text-shadow:none}
+.hero figure{position:relative}
+.hero figcaption{position:absolute;right:1.2rem;bottom:.8rem;font-style:italic;font-size:1rem;color:#6d5fe0}
+.hero figcaption a{color:#6d5fe0}
+main{max-width:1200px;text-align:center}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;align-items:start}
+.card h2{font-weight:400;font-size:2rem;margin:.5rem 0}
+.card img{aspect-ratio:1/1;object-fit:cover;border-radius:0}
+.card .cap{font-style:italic;font-size:1.05rem;color:var(--fg)}
+.card .cap a{color:var(--fg)}
+.card .more,.card .more a{color:#f5a623;font-size:1.25rem}
+@media (max-width:768px){
+  .cards{grid-template-columns:1fr}
+  .hero h1{top:6%}
 }
