@@ -1,189 +1,393 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Home</title>
-<meta property="og:title" content="Home">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;1,400&display=swap">
-<style>
-/* =========================================================
-   tahreemkarim.xyz — style.css
-   Edit the variables in section 1 first; most tweaks live there.
-   ========================================================= */
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tahreem Karim</title>
+  <meta name="description" content="Computational biologist and data scientist. Hub for science, art, travel, and activism.">
+  <meta property="og:title" content="Tahreem Karim">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    /* =========================================================
+       1. TOKENS — edit these first
+       ========================================================= */
+    :root {
+      /* Color */
+      --bg: #000;
+      --glow: #2a0f45;
+      --fg: #f2f2f2;
+      --link: #c79bff;
+      --orange: #f5a623;
+      --muted: #b8b8c4;
+      --rule: rgb(199 155 255 / .18);
+      --panel: rgb(20 8 34 / .7);
 
-/* ---------- 1. KNOBS (edit these) ---------- */
-:root{
-  /* Colors */
-  --bg:#000;
-  --glow:#2a0f45;          /* purple glow behind content */
-  --fg:#f2f2f2;            /* body text */
-  --link:#c79bff;          /* normal links */
-  --orange:#f5a623;        /* "more" lines under each card */
-  --muted:#b8b8c4;
+      /* Type */
+      --font: Lato, "Helvetica Neue", Arial, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+      --base-size: 17px;
 
-  /* Typography */
-  --font:Lato,"Helvetica Neue",Arial,sans-serif;
-  --base-size:17px;
+      /* Hero — wide (octopus) */
+      --name-color: #f7e7cc;
+      --name-size: clamp(3rem, 4vw, 5rem);
+      --name-top: 13%;
+      --name-right: 5%;
+      --name-align: right;
+      --cap-color: #6d5fe0;
+      --cap-size: 1rem;
+      --cap-right: 2rem;
+      --cap-bottom: 6rem;
 
-  /* HERO — wide screens (octopus) */
-  --name-color:#f7e7cc;
-  --name-size:clamp(3rem,7vw,6rem);
-  --name-top:8%;
-  --name-right:5%;
-  --name-align:right;
-  --cap-color:#6d5fe0;
-  --cap-size:1rem;
-  --cap-right:1.2rem;
-  --cap-bottom:.8rem;
+      /* Layout */
+      --content-width: 1200px;
+      --gap: 2rem;
+      --radius: 12px;
+      --ease: cubic-bezier(.2, .7, .2, 1);
+    }
 
-  /* Layout */
-  --content-width:1200px;
-  --card-gap:2rem;
-}
+    /* =========================================================
+       2. BASE
+       ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font: 400 var(--base-size)/1.6 var(--font);
+      color: var(--fg);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+    /* Fixed glow on its own layer: no repaint while scrolling */
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background: radial-gradient(ellipse at 50% 40%, var(--glow) 0%, #0a0212 55%, var(--bg) 100%);
+    }
+    img { display: block; max-width: 100%; height: auto; }
+    h1, h2, h3 { text-wrap: balance; font-weight: 300; }
+    p { text-wrap: pretty; margin: 0 0 1rem; }
 
-/* ---------- 2. BASE ---------- */
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font:var(--base-size)/1.6 var(--font);
-  color:var(--fg);
-  background:radial-gradient(ellipse at 50% 40%,var(--glow) 0%,#0a0212 55%,var(--bg) 100%) var(--bg);
-}
-a{color:var(--link)}
-img{max-width:100%;height:auto;display:block}
+    /* Links: underline grows from left */
+    a {
+      color: var(--link);
+      text-decoration: none;
+      background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+      transition: background-size .3s var(--ease), color .2s;
+    }
+    a:hover { background-size: 100% 1px; color: #e2cfff; }
+    a:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 2px; }
 
-/* ---------- 3. NAV ---------- */
-nav{display:flex;flex-wrap:wrap;gap:1.2rem;justify-content:flex-end;padding:1rem 1.5rem}
-nav a{color:#fff;text-decoration:none;font-weight:500}
+    .label {
+      font: 500 .72rem/1 var(--mono);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .skip { position: absolute; left: -999px; }
+    .skip:focus { left: 1rem; top: 1rem; z-index: 10; }
 
-/* ---------- 4. HERO (name + photo + caption) ---------- */
-.hero{position:relative;margin:0}
-.hero figure{position:relative;margin:0}
-.hero img{width:100%}
-.hero h1{
-  position:absolute;margin:0;line-height:1;font-weight:400;
-  top:var(--name-top);right:var(--name-right);text-align:var(--name-align);
-  font-size:var(--name-size);color:var(--name-color);
-}
-.hero figcaption{
-  position:absolute;right:var(--cap-right);bottom:var(--cap-bottom);
-  font-style:italic;font-size:var(--cap-size);color:var(--cap-color);
-}
-.hero figcaption a{color:inherit}
-.hero-small{display:none}
+    /* =========================================================
+       3. NAV
+       ========================================================= */
+    nav { display: flex; flex-wrap: wrap; gap: .25rem; padding: 1rem 1.5rem; }
+    nav a {
+      color: var(--fg);
+      font: 500 .8rem/1 var(--mono);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .55rem .8rem;
+      border-radius: 999px;
+      background: none;
+      transition: background-color .2s, color .2s;
+    }
+    nav a:hover { background: rgb(199 155 255 / .12); color: var(--link); }
+    nav a[aria-current="page"] { color: var(--orange); }
 
-/* ---------- 5. MAIN + CARDS ---------- */
-main,footer{max-width:var(--content-width);margin:0 auto;padding:2rem 1.5rem}
-main{text-align:center}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--card-gap);align-items:start}
-.card h2{font-weight:400;font-size:2rem;margin:.5rem 0}
-.card img{aspect-ratio:1/1;object-fit:cover;margin:0 auto}
-.cap{font-style:italic;font-size:1.05rem}
-.cap a{color:inherit}
-.more,.more a{color:var(--orange);font-size:1.25rem}
-.center{text-align:center}
+    /* =========================================================
+       4. HERO
+       ========================================================= */
+    .hero { position: relative; }
+    .hero figure { position: relative; margin: 0; }
+    .hero img { width: 100%; mask-image: linear-gradient(#000 75%, transparent); }
+    .hero h1 {
+      position: absolute; margin: 0; line-height: 1; font-weight: 400;
+      top: var(--name-top); right: var(--name-right); text-align: var(--name-align);
+      font-size: var(--name-size); color: var(--name-color);
+    }
+    .hero figcaption {
+      position: absolute; right: var(--cap-right); bottom: var(--cap-bottom);
+      font-style: italic; font-size: var(--cap-size); color: var(--cap-color);
+    }
+    .hero figcaption a { color: inherit; }
+    .hero-small { display: none; }
 
-/* ---------- 6. FOOTER + OTHER PAGES ---------- */
-footer{text-align:center;border-top:1px solid #333}
-footer .links a{margin:0 .5rem;display:inline-block}
-main h1{font-size:clamp(2.2rem,6vw,4rem);line-height:1.1}
-.buttons a{display:inline-block;margin:.2rem .6rem .2rem 0;padding:.4rem .9rem;border:1px solid var(--link);border-radius:4px;text-decoration:none}
-.files{padding-left:1.2rem;text-align:left}
+    /* =========================================================
+       5. MAIN
+       ========================================================= */
+    main, footer { max-width: var(--content-width); margin: 0 auto; padding: 2rem 1.5rem; }
 
-/* ---------- 7. NARROW SCREENS (agave photo) ---------- */
-@media (max-width:768px){
-  :root{
-    /* HERO — narrow screens (agaves): edit these separately */
-    --name-color:#f7e7cc;
-    --name-size:clamp(2.5rem,12vw,4rem);
-    --name-top:6%;
-    --name-right:5%;
-    --name-align:right;
-    --cap-color:#d9c8ff;
-    --cap-size:.85rem;
-    --cap-right:.8rem;
-    --cap-bottom:.6rem;
-  }
-  .hero-large{display:none}
-  .hero-small{display:block}
-  nav{justify-content:center}
-  .cards{grid-template-columns:1fr}
-}
-</style>
+    .intro { text-align: center; margin: 1rem auto 1.25rem; max-width: 62ch; }
+    .intro h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin: .75rem 0 1.25rem; }
+    .intro p { color: #ddd; }
+    .intro .label { display: block; margin-top: 3.5rem; }
+
+    /* Transit line */
+    .line {
+      position: relative;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap);
+      padding-top: 2.5rem;
+    }
+    .line::before {
+      content: ""; position: absolute; top: .55rem; left: 16.66%; right: 16.66%; height: 2px;
+      background: linear-gradient(90deg, var(--link), var(--orange));
+      opacity: .6;
+    }
+
+    /* Cards */
+    .card {
+      position: relative;
+      display: flex; flex-direction: column;
+      padding: 1.5rem;
+      text-align: center;
+      background: var(--panel);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      transition: transform .35s var(--ease), border-color .35s;
+    }
+    .card::before { /* station dot */
+      content: "";
+      position: absolute; top: -2.5rem; left: 50%; translate: -50% 0;
+      width: 1.1rem; height: 1.1rem; border-radius: 50%;
+      background: var(--bg); border: 2px solid var(--link);
+      box-shadow: 0 0 0 4px rgb(199 155 255 / .12);
+    }
+    .card:hover { transform: translateY(-4px); border-color: rgb(199 155 255 / .45); }
+    .card h3 { font-size: 1.75rem; margin: .4rem 0 .5rem; }
+    .card .lede { color: var(--muted); min-height: 3.2em; }
+
+    .card figure { margin: .5rem 0 1rem; }
+    .card img {
+      width: 100%; aspect-ratio: 1; object-fit: cover;
+      border-radius: calc(var(--radius) - 4px);
+      box-shadow: 0 8px 24px rgb(0 0 0 / .5);
+    }
+    .card figcaption { margin-top: .6rem; font-size: .9rem; font-style: italic; color: var(--muted); }
+    .card figcaption a { color: inherit; }
+    .meta { font: .8rem/1.5 var(--mono); color: var(--muted); }
+
+    .more {
+      margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--rule);
+      display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem;
+    }
+    .more a, .more span {
+      color: var(--orange);
+      font: 500 .78rem/1 var(--mono);
+      padding: .45rem .65rem;
+      border: 1px solid rgb(245 166 35 / .35);
+      border-radius: 999px;
+      background: none;
+      transition: background-color .2s, border-color .2s, color .2s;
+    }
+    .more a:hover { background: var(--orange); color: #000; border-color: var(--orange); }
+    .more span { border-style: dashed; opacity: .75; }
+
+    /* Credentials strip */
+    .creds {
+      margin-top: 4rem;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      text-align: center;
+      border-block: 1px solid var(--rule);
+    }
+    .creds > div { padding: 1.5rem; }
+    .creds > div + div { border-left: 1px solid var(--rule); }
+    .creds p { margin: .5rem 0 0; }
+
+    /* =========================================================
+       6. FOOTER
+       ========================================================= */
+    footer { text-align: center; }
+    footer .mail { font-size: 1.1rem; }
+    footer ul {
+      list-style: none; padding: 0; margin: 1rem 0 0;
+      display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem 1.25rem;
+    }
+    footer li a { font: .85rem/1.8 var(--mono); }
+
+    /* =========================================================
+       7. NARROW SCREENS
+       ========================================================= */
+    @media (max-width: 768px) {
+      :root {
+        --base-size: 16px;
+        --gap: 1.5rem;
+        --name-size: clamp(1.75rem, 4vw, 2.25rem);
+        --name-top: 4%;
+        --name-right: 9%;
+        --cap-color: #d9c8ff;
+        --cap-size: .85rem;
+        --cap-right: 3.5rem;
+        --cap-bottom: -.9rem;
+      }
+
+      /* Nav: sticky single scrollable row (solid bg, no blur) */
+      nav {
+        position: sticky; top: 0; z-index: 5;
+        flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+        padding: .6rem 1rem;
+        background: rgb(10 2 18 / .94);
+        border-bottom: 1px solid var(--rule);
+      }
+      nav::-webkit-scrollbar { display: none; }
+      nav a { font-size: .72rem; padding: .5rem .7rem; white-space: nowrap; }
+
+      .hero-large { display: none; }
+      .hero-small { display: block; }
+      .hero-small { padding-top: 2.5rem; }
+      .hero-small img { mask-image: linear-gradient(transparent, #000 15%, #000 75%, transparent); }
+      .hero figcaption { left: 1rem; text-align: right; line-height: 1.3; text-shadow: 0 1px 8px #000; }
+      main { padding: 1.5rem 1.25rem; }
+      .intro { margin-top: 0; }
+      .intro h2 { font-size: 1.6rem; }
+      .intro p { font-size: .98rem; }
+      .intro .label { margin: 2.5rem 0 1.5rem; }
+
+      /* Vertical rail */
+      .line { grid-template-columns: 1fr; padding: 0 0 0 1.5rem; }
+      .line::before {
+        top: 0; bottom: 0; left: .35rem; right: auto; width: 1px; height: auto;
+        background: linear-gradient(180deg, var(--link), var(--orange)); opacity: .5;
+      }
+      .card::before { top: 1.85rem; left: -1.15rem; width: .8rem; height: .8rem; }
+
+      .card { padding: 1.25rem; }
+      .card:hover { transform: none; }
+      .card h3 { font-size: 1.5rem; margin-top: 0; }
+      .card .lede { min-height: 0; }
+      .card:nth-child(2) { order: -1; }
+      .card img { aspect-ratio: 4 / 3; }
+      .more a, .more span { font-size: .72rem; padding: .4rem .6rem; }
+
+      .creds { grid-template-columns: 1fr; margin-top: 3rem; }
+      .creds > div { padding: 1.25rem 0; }
+      .creds > div + div { border-left: 0; border-top: 1px solid var(--rule); }
+
+      footer ul { display: grid; grid-template-columns: 1fr 1fr; gap: .25rem 1rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
 </head>
 <body>
-<nav>
-  <a href="/">Home</a>
-  <a href="/now">Now</a>
-  <a href="/science">Science</a>
-  <a href="/art">Art</a>
-  <a href="/travel">Travel</a>
-  <a href="/free-resources">Free resources</a>
-</nav>
-<header class="hero">
-  <figure class="hero-large">
-    <img src="/images/octopus.png" alt="Glowing octopus and coral lanterns at night">
-    <figcaption>Glowfari: <a href="https://www.oaklandzoo.org/programs-and-events/glowfari">Oakland Zoo.</a> Oakland, CA</figcaption>
-  </figure>
-  <figure class="hero-small">
-    <img src="/images/agave.png" alt="Agave plants wrapped in purple lights">
-    <figcaption>Autumn Lights Festival 2025: <a href="https://gardensatlakemerritt.org/autumn-lights-festival-2026/">The Gardens at Lake Merritt.</a> Oakland, CA</figcaption>
-  </figure>
-  <h1>Tahreem<br>Karim</h1>
-</header>
-<main>
-<section>
-  <h2>Welcome, and thank you for being here!</h2>
-  <p>This page is like the Grand Central Station for my work and interests. It connects many hubs of my life and gathers free resources that I find along the way. Check out my <a href="http://garden.tahreemkarim.xyz">digital garden</a> to see developing ideas. My professional pages are linked below.</p>
-  <p>Feel free to reach out if you’d like to talk about bioengineering, synthetic biology, my puppy <a href="https://www.instagram.com/raja.hobbes.tigerdog/">Raja</a>, or anything else you see here.</p>
-</section>
-<div class="cards">
-<section class="card">
-  <h2>Travel and Activism</h2>
-  <p>Guides and articles meant to inform, teach, and create global impact.</p>
-  <img src="/images/RTI_logo1.2.png" loading="lazy" decoding="async" alt="Rising Tigers Initiative logo">
-  <p class="cap">I founded the <a href="http://risingtigers.tahreemkarim.xyz">Rising Tigers Initiative,</a> an informational non-profit, in 2025</p>
-  <p class="more">Travel guides, product lists, research articles, activism dashboards.</p>
-</section>
-<section class="card">
-  <h2>Science</h2>
-  <p>Using visualizations and simulations to bridge biology labs with underutilized software and improve workflows.</p>
-  <img src="/images/VulvVizConcat.png" loading="lazy" decoding="async" alt="Concatenated Altair charts">
-  <p class="cap">Cancer Aging study results for <a href="https://medical.brown.edu/">Brown University.</a> Providence, RI</p>
-  <p>20 Concatenated charts generated in <a href="https://altair-viz.github.io/">Altair</a>. Deidentified raw Excel data. Custom design.</p>
-  <p class="more"><a href="http://tahreemk13.github.io/portfolio">Portfolio</a>, <a href="https://github.com/TahreemK13">GitHub</a>, <a href="https://www.linkedin.com/in/tahreem-karim-67a86973/">LinkedIn</a>, <a href="https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view?usp=sharing">CV</a>, <a href="http://garden.tahreemkarim.xyz">Garden</a></p>
-</section>
-<section class="card">
-  <h2>Art</h2>
-  <p>Photography as a craft, documentation, and contextual inquiry.</p>
-  <img src="/images/glass.png" loading="lazy" decoding="async" alt="Glass sculpture">
-  <p class="cap">Glass Sculpture: <a href="https://www.cmog.org/">Corning Glass Museum.</a> Corning, NY</p>
-  <p class="more"><a href="https://www.flickr.com/photos/tahreemkphotography/">Flickr</a>, <a href="https://www.instagram.com/tahreemkphoto/">Instagram</a>, high-resolution requests, &amp; technology specs.</p>
-</section>
-</div>
-<section class="center">
-  <h2>Master's student in Applied Data Science</h2>
-  <p>Computational Biologist</p>
-  <p><a href="https://www.si.umich.edu/programs/master-applied-data-science">UMich: Ann Arbor</a>, <a href="https://mcb.berkeley.edu/undergrad/imm#IMM%20UD">UC Berkeley</a></p>
-  <p><a href="https://seanome.org/">Seanome</a>, <a href="https://lab.moasser.com/">UCSF</a>, <a href="https://chanzuckerberg.com/">CZ Biohub</a></p>
-</section>
-</main>
-<footer>
-  <p><a href="mailto:Tahreem.Karim@gmail.com">Tahreem.Karim@gmail.com</a></p>
-  <p class="links">
-    <a href="http://tahreemk13.github.io/portfolio">Portfolio</a>
-    <a href="https://github.com/TahreemK13">GitHub</a>
-    <a href="https://www.linkedin.com/in/tahreem-karim-67a86973/">LinkedIn</a>
-    <a href="https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view?usp=sharing">CV</a>
-    <a href="https://www.flickr.com/photos/tahreemkphotography/">Flickr</a>
-    <a href="https://www.instagram.com/tahreemkphoto/">Instagram</a>
-    <a href="https://www.linkedin.com/company/rising-tigers-initiative/">Rising Tigers Initiative</a>
-    <a href="http://garden.tahreemkarim.xyz">Digital Garden</a>
-    <a href="http://garden.tahreemkarim.xyz/library">Digital Library</a>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <nav aria-label="Main">
     <a href="/now">Now</a>
-  </p>
-</footer>
+    <a href="/science" aria-current="page">Science</a>
+    <a href="/art">Art</a>
+    <a href="/travel">Travel</a>
+    <a href="/free-resources">Free</a>
+  </nav>
+
+  <header class="hero">
+    <!-- loading="lazy" lets the browser skip whichever hero is display:none -->
+    <figure class="hero-large">
+      <img src="/images/octopus.png" loading="lazy" decoding="async" alt="Glowing octopus and coral lanterns at night">
+      <figcaption>Glowfari: <a href="https://www.oaklandzoo.org/programs-and-events/glowfari">Oakland Zoo</a>. Oakland, CA</figcaption>
+    </figure>
+    <figure class="hero-small">
+      <img src="/images/agave.png" loading="lazy" decoding="async" alt="Agave plants wrapped in purple lights">
+      <figcaption><a href="https://gardensatlakemerritt.org/autumn-lights-festival-2026/">Autumn Lights</a>. Lake Merritt, Oakland, CA</figcaption>
+    </figure>
+    <h1>Tahreem<br>Karim</h1>
+  </header>
+
+  <main id="main">
+    <section class="intro">
+      <h2>Welcome, and thank you for being here!</h2>
+      <p>This page connects the many hubs of my work and interests, and gathers free resources I find along the way. Developing ideas live in my <a href="https://garden.tahreemkarim.xyz">digital garden</a>; professional pages are linked below.</p>
+      <p>Reach out to talk bioengineering, synthetic biology, or my puppy <a href="https://www.instagram.com/raja.hobbes.tigerdog/">Raja</a>.</p>
+      <span class="label">Grand Central Station</span>
+    </section>
+
+    <div class="line" aria-label="Sections">
+      <article class="card">
+        <h3>Travel &amp; Activism</h3>
+        <p class="lede">Guides and articles meant to inform, teach, and create global impact.</p>
+        <figure>
+          <img src="/images/RTI_logo1.2.png" loading="lazy" decoding="async" alt="Rising Tigers Initiative logo">
+          <figcaption>Founder, <a href="https://risingtigers.tahreemkarim.xyz">Rising Tigers Initiative</a>, an informational nonprofit (2025)</figcaption>
+        </figure>
+        <div class="more">
+          <span>Travel guides</span><span>Product lists</span><span>Research</span><span>Dashboards</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Science</h3>
+        <p class="lede">Visualizations and simulations that bridge biology labs with underutilized software.</p>
+        <figure>
+          <img src="/images/VulvVizConcat.png" loading="lazy" decoding="async" alt="Concatenated Altair charts">
+          <figcaption>Cancer aging study results for <a href="https://medical.brown.edu/">Brown University</a>. Providence, RI</figcaption>
+        </figure>
+        <p class="meta">20 concatenated charts · <a href="https://altair-viz.github.io/">Altair</a> · deidentified raw data · custom design</p>
+        <div class="more">
+          <a href="https://tahreemk13.github.io/portfolio">Portfolio</a>
+          <a href="https://github.com/TahreemK13">GitHub</a>
+          <a href="https://www.linkedin.com/in/tahreem-karim-67a86973/">LinkedIn</a>
+          <a href="https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view?usp=sharing">CV</a>
+          <a href="https://garden.tahreemkarim.xyz">Garden</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Art</h3>
+        <p class="lede">Photography as craft, documentation, and contextual inquiry.</p>
+        <figure>
+          <img src="/images/glass.png" loading="lazy" decoding="async" alt="Glass sculpture">
+          <figcaption>Glass sculpture: <a href="https://www.cmog.org/">Corning Museum of Glass</a>. Corning, NY</figcaption>
+        </figure>
+        <div class="more">
+          <a href="https://www.flickr.com/photos/tahreemkphotography/">Flickr</a>
+          <a href="https://www.instagram.com/tahreemkphoto/">Instagram</a>
+          <span>Hi-res on request</span><span>Tech specs</span>
+        </div>
+      </article>
+    </div>
+
+    <section class="creds" aria-label="Credentials">
+      <div>
+        <span class="label">Role</span>
+        <p>Master's student, Applied Data Science<br>Computational Biologist</p>
+      </div>
+      <div>
+        <span class="label">Education</span>
+        <p><a href="https://www.si.umich.edu/programs/master-applied-data-science">University of Michigan</a><br><a href="https://mcb.berkeley.edu/undergrad/imm#IMM%20UD">UC Berkeley</a></p>
+      </div>
+      <div>
+        <span class="label">Research</span>
+        <p><a href="https://seanome.org/">Seanome</a> · <a href="https://lab.moasser.com/">UCSF</a> · <a href="https://chanzuckerberg.com/">CZ Biohub</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p class="mail"><a href="mailto:Tahreem.Karim@gmail.com">Tahreem.Karim@gmail.com</a></p>
+    <ul>
+      <li><a href="https://tahreemk13.github.io/portfolio">Portfolio</a></li>
+      <li><a href="https://github.com/TahreemK13">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/tahreem-karim-67a86973/">LinkedIn</a></li>
+      <li><a href="https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view?usp=sharing">CV</a></li>
+      <li><a href="https://www.flickr.com/photos/tahreemkphotography/">Flickr</a></li>
+      <li><a href="https://www.instagram.com/tahreemkphoto/">Instagram</a></li>
+      <li><a href="https://www.linkedin.com/company/rising-tigers-initiative/">Rising Tigers Initiative</a></li>
+      <li><a href="https://garden.tahreemkarim.xyz">Digital Garden</a></li>
+      <li><a href="https://garden.tahreemkarim.xyz/library">Digital Library</a></li>
+      <li><a href="/now">Now</a></li>
+    </ul>
+  </footer>
 </body>
 </html>
