@@ -1,1 +1,171 @@
+# Map pipeline. See "Automation" in README.md.
+#
+# check   Hourly (edits only) and Mondays (everything), or on demand. Crawls the
+#         sites with conditional requests, so unchanged pages cost a 304. Anything
+#         new, edited or gone waits until its last deploy is 24 hours old, then is
+#         drawn as under construction and committed to main, only if every gate passes.
+# apply   When you change a decision in tools/gcmap/stations.py on main, or on demand
+#         (a full refresh). Integrates the change on the map-update branch,
+#         re-crawls, recomputes every shortest path, stamps the update notice,
+#         runs the gates, and opens a pull request. Merging publishes.
+# peek    Anyone: an issue titled "Map check" gets a read-only report as a reply.
+#
+# On demand: Actions → Map pipeline → Run workflow, or
+#   gh workflow run map-pipeline.yml -f task=check
+#   gh workflow run map-pipeline.yml -f task=apply
+#
+# test    Any push that touches code, data or pages: the scenario suite and the gates.
 
+name: Map pipeline
+
+on:
+  schedule:
+    - cron: "17 * * * *"         # hourly: edited pages only (a few 304s when nothing changed)
+    - cron: "43 15 * * 1"        # Mondays 15:43 UTC (8:43 am PDT): new and gone pages too
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "check: crawl and draw what has settled · apply: full refresh on a branch"
+        type: choice
+        options: [check, apply]
+        default: check
+  push:
+    branches: [main]
+    paths: ["tools/**", "tests/**", "*.html"]   # a decision, code, or a page changed
+  issues:
+    types: [opened]                # the public "check the map" button
+
+permissions:
+  contents: write
+  pull-requests: write
+
+defaults:
+  run:
+    shell: bash                    # a failing command in a pipe fails the step
+
+env:
+  PIP: python3 -m pip install --quiet --break-system-packages   # the runner's own Python: no setup step
+
+jobs:
+  check:
+    if: github.event_name == 'schedule' || inputs.task == 'check'
+    runs-on: ubuntu-latest
+    concurrency: map               # check and apply take turns
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SCHEDULE: ${{ github.event.schedule }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Crawl and settle
+        run: |
+          mode=""
+          if [ "$SCHEDULE" = "17 * * * *" ]; then mode="--edits-only"; fi
+          python3 tools/build_map.py check $mode | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Gates, only if something changed
+        id: gates
+        run: |
+          if git diff --quiet; then echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          $PIP pyflakes playwright
+          python3 -m playwright install --with-deps chromium > /dev/null
+          python3 tools/build_map.py verify
+          python3 tests/test_pipeline.py
+          python3 tests/test_hub.py --online | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Commit to main
+        if: steps.gates.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git commit -qam "Map: under construction ($(date -u +%F))"
+          git push || { git pull --rebase --quiet && git push; }
+      - uses: actions/upload-artifact@v4
+        if: steps.gates.outputs.changed == 'true'
+        with:
+          name: map-preview
+          path: tools/.preview/map.png
+          if-no-files-found: ignore
+
+  apply:                           # on a push this is a no-op unless PROPOSED holds a decision
+    if: (github.event_name == 'push' && github.actor != 'github-actions[bot]') || inputs.task == 'apply'
+    runs-on: ubuntu-latest
+    concurrency: map
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Integrate, re-crawl, recompute
+        run: |
+          flag=""
+          if [ "${{ github.event_name }}" = workflow_dispatch ]; then flag="--refresh"; fi
+          python3 tools/build_map.py apply $flag | tee report.md
+      - name: Gates
+        id: gates
+        run: |
+          if git diff --quiet; then echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          $PIP pyflakes playwright
+          python3 -m playwright install --with-deps chromium > /dev/null
+          python3 tests/test_pipeline.py
+          { echo; echo "### Gates"; echo '```'; python3 tests/test_hub.py --online; echo '```'; } | tee -a report.md
+      - name: Open or update the pull request
+        if: steps.gates.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git switch -C map-update
+          git commit -qam "Map update: $(sed -n '1s/^## Map update: //p' report.md)"
+          git push --force-with-lease origin map-update
+          if [ "$(gh pr list --head map-update --state open --json number --jq length)" = 0 ]; then
+            gh pr create --head map-update --base main --title "Map update" --body-file report.md
+          else
+            gh pr edit map-update --body-file report.md
+          fi
+      - uses: actions/upload-artifact@v4
+        if: steps.gates.outputs.changed == 'true'
+        with:
+          name: map-preview
+          path: tools/.preview/map.png
+          if-no-files-found: ignore
+
+  test:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scenario suite and gates
+        run: |
+          $PIP pyflakes playwright
+          python3 -m playwright install --with-deps chromium > /dev/null
+          python3 tests/test_pipeline.py
+          python3 tests/test_hub.py | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: map-preview
+          path: tools/.preview/map.png
+          if-no-files-found: ignore
+
+  peek:
+    if: github.event_name == 'issues' && startsWith(github.event.issue.title, 'Map check')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read               # read-only: can't commit, whoever opened the issue
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ISSUE: ${{ github.event.issue.number }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare the live sites with the map, and reply
+        run: |
+          {
+            echo "Thanks for checking. Here's the live web compared with the map as it's drawn right now:"
+            echo
+            python3 tools/build_map.py check --dry-run
+            echo
+            echo "Your check changed nothing. The map picks changes up on its own a day after they're deployed. See it at https://www.tahreemkarim.xyz/#map"
+          } > reply.md
+          gh issue comment "$ISSUE" --body-file reply.md
+          gh issue close "$ISSUE" --reason completed
