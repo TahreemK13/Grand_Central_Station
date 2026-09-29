@@ -3,12 +3,58 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tahreem Karim</title>
-  <meta name="description" content="Computational biologist and data scientist. Hub for science, art, travel, and activism.">
+  <title>Tahreem Karim · Computational Biologist &amp; Data Scientist</title>
+  <meta name="description" content="Computational biologist and applied data scientist. The hub for my science, art, travel, and the Rising Tigers Initiative.">
+  <link rel="canonical" href="https://www.tahreemkarim.xyz/">
+  <meta name="theme-color" content="#0a0212">
+  <meta name="color-scheme" content="dark">
+
+  <!-- Social cards -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Tahreem Karim">
   <meta property="og:title" content="Tahreem Karim">
+  <meta property="og:description" content="Computational biologist and applied data scientist. Science, art, travel, and activism in one place.">
+  <meta property="og:url" content="https://www.tahreemkarim.xyz/">
+  <meta property="og:image" content="https://www.tahreemkarim.xyz/images/og-card.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Glowing octopus lantern at the Oakland Zoo's Glowfari">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicon: a station dot, no extra file needed -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='%230a0212' stroke='%23c79bff' stroke-width='5'/%3E%3C/svg%3E">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+  <!-- Flags JS before first paint so the menu never flashes open -->
+  <script>document.documentElement.classList.add('js')</script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Tahreem Karim",
+    "url": "https://www.tahreemkarim.xyz/",
+    "jobTitle": "Computational Biologist",
+    "email": "mailto:Tahreem.Karim@gmail.com",
+    "alumniOf": [
+      {"@type": "CollegeOrUniversity", "name": "University of Michigan"},
+      {"@type": "CollegeOrUniversity", "name": "University of California, Berkeley"}
+    ],
+    "sameAs": [
+      "https://portfolio.tahreemkarim.xyz",
+      "https://garden.tahreemkarim.xyz",
+      "https://risingtigers.tahreemkarim.xyz",
+      "https://github.com/TahreemK13",
+      "https://www.linkedin.com/in/tahreem-karim/",
+      "https://www.flickr.com/photos/tahreemkphotography/",
+      "https://www.instagram.com/tahreemkphoto/"
+    ]
+  }
+  </script>
+
   <style>
     /* =========================================================
        1. TOKENS — edit these first
@@ -16,6 +62,7 @@
     :root {
       /* Color */
       --bg: #000;
+      --bar: rgb(10 2 18 / .96);
       --glow: #2a0f45;
       --fg: #f2f2f2;
       --link: #c79bff;
@@ -23,6 +70,13 @@
       --muted: #b8b8c4;
       --rule: rgb(199 155 255 / .18);
       --panel: rgb(20 8 34 / .7);
+
+      /* Transit lines (system map) */
+      --line-home: #c79bff;
+      --line-garden: #8fd6b4;
+      --line-portfolio: #f5a623;
+      --line-tigers: #ff8fa3;
+      --line-profiles: #a9a9bc;
 
       /* Type */
       --font: Lato, "Helvetica Neue", Arial, sans-serif;
@@ -41,6 +95,7 @@
       --cap-bottom: 6rem;
 
       /* Layout */
+      --bar-h: 3.5rem;
       --content-width: 1200px;
       --gap: 2rem;
       --radius: 12px;
@@ -65,8 +120,10 @@
       background: radial-gradient(ellipse at 50% 40%, var(--glow) 0%, #0a0212 55%, var(--bg) 100%);
     }
     img { display: block; max-width: 100%; height: auto; }
+    picture { display: block; }
     h1, h2, h3 { text-wrap: balance; font-weight: 300; }
     p { text-wrap: pretty; margin: 0 0 1rem; }
+    [id] { scroll-margin-top: calc(var(--bar-h) + 1rem); }
 
     /* Links: underline grows from left */
     a {
@@ -76,7 +133,7 @@
       transition: background-size .3s var(--ease), color .2s;
     }
     a:hover { background-size: 100% 1px; color: #e2cfff; }
-    a:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 2px; }
+    :focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 2px; }
 
     .label {
       font: 500 .72rem/1 var(--mono);
@@ -84,28 +141,85 @@
       text-transform: uppercase;
       color: var(--muted);
     }
-    .skip { position: absolute; left: -999px; }
-    .skip:focus { left: 1rem; top: 1rem; z-index: 10; }
-
-    /* =========================================================
-       3. NAV
-       ========================================================= */
-    nav { display: flex; flex-wrap: wrap; gap: .25rem; padding: 1rem 1.5rem; }
-    nav a {
-      color: var(--fg);
-      font: 500 .8rem/1 var(--mono);
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      padding: .55rem .8rem;
-      border-radius: 999px;
-      background: none;
-      transition: background-color .2s, color .2s;
+    .skip { position: absolute; left: -999px; z-index: 30; padding: .5rem .75rem; background: var(--bg); }
+    .skip:focus { left: 1rem; top: 1rem; }
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; overflow: hidden;
+      clip: rect(0 0 0 0); white-space: nowrap;
     }
-    nav a:hover { background: rgb(199 155 255 / .12); color: var(--link); }
-    nav a[aria-current="page"] { color: var(--orange); }
 
     /* =========================================================
-       4. HERO
+       3. TOP BAR + MENU
+       Solid background (no backdrop blur) keeps scrolling cheap.
+       Without JS the menu shows as a plain row of links.
+       ========================================================= */
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      height: var(--bar-h); padding: 0 1.25rem;
+      background: var(--bar);
+      border-bottom: 1px solid var(--rule);
+    }
+    .brand {
+      display: inline-flex; align-items: center; gap: .6rem;
+      color: var(--fg); background: none;
+      font: 500 .78rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase;
+    }
+    .brand::before {
+      content: ""; width: .8rem; height: .8rem; border-radius: 50%;
+      border: 2px solid var(--link); box-shadow: 0 0 0 3px rgb(199 155 255 / .15);
+    }
+    .brand:hover { color: var(--link); }
+
+    .menu-btn {
+      display: none; /* shown only when JS is available */
+      align-items: center; gap: .6rem;
+      font: 500 .78rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase;
+      color: var(--fg); background: none; cursor: pointer;
+      padding: .55rem .85rem; border: 1px solid var(--rule); border-radius: 999px;
+      transition: border-color .2s, color .2s;
+    }
+    .js .menu-btn { display: inline-flex; }
+    .menu-btn:hover, .menu-btn[aria-expanded="true"] { color: var(--link); border-color: rgb(199 155 255 / .5); }
+    .menu-icon { position: relative; width: 16px; height: 10px; }
+    .menu-icon::before, .menu-icon::after {
+      content: ""; position: absolute; left: 0; right: 0; height: 2px; border-radius: 1px;
+      background: currentColor; transition: transform .25s var(--ease), top .25s var(--ease);
+    }
+    .menu-icon::before { top: 0; }
+    .menu-icon::after { top: 8px; }
+    [aria-expanded="true"] .menu-icon::before { top: 4px; transform: rotate(45deg); }
+    [aria-expanded="true"] .menu-icon::after { top: 4px; transform: rotate(-45deg); }
+
+    .menu {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem 2rem;
+      padding: 1.5rem 1.5rem 1.75rem;
+      background: var(--bar);
+      border-bottom: 1px solid var(--rule);
+    }
+    /* JS on: panel drops below the bar; only opacity/transform animate */
+    .js .menu {
+      position: fixed; top: var(--bar-h); left: 0; right: 0; z-index: 19;
+      max-height: calc(100dvh - var(--bar-h)); overflow-y: auto; overscroll-behavior: contain;
+      visibility: hidden; opacity: 0; transform: translateY(-.5rem);
+      transition: opacity .2s var(--ease), transform .2s var(--ease), visibility 0s .2s;
+    }
+    .js .menu.open {
+      visibility: visible; opacity: 1; transform: none;
+      transition: opacity .2s var(--ease), transform .2s var(--ease), visibility 0s;
+    }
+    .menu section { max-width: 22rem; }
+    .menu .label { display: block; margin-bottom: .75rem; }
+    .menu ul { list-style: none; margin: 0; padding: 0; }
+    .menu li + li { margin-top: .15rem; }
+    .menu a { color: var(--fg); font-size: 1rem; }
+    .menu a:hover { color: var(--link); }
+    .menu a[aria-current="page"] { color: var(--orange); }
+    .menu small { color: var(--muted); font: .72rem var(--mono); margin-left: .4rem; }
+
+    /* =========================================================
+       4. HERO — two figures, CSS swaps them at 768px.
+       <source> tags ensure only the visible image downloads.
        ========================================================= */
     .hero { position: relative; }
     .hero figure { position: relative; margin: 0; }
@@ -192,6 +306,28 @@
     .more a:hover { background: var(--orange); color: #000; border-color: var(--orange); }
     .more span { border-style: dashed; opacity: .75; }
 
+    /* Arrivals board */
+    .board {
+      margin-top: 4rem;
+      border: 1px solid var(--rule); border-radius: var(--radius);
+      background: var(--panel);
+      overflow: hidden;
+    }
+    .board header {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+      padding: 1rem 1.25rem; border-bottom: 1px solid var(--rule);
+    }
+    .board h2 { margin: 0; font: 500 .8rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--orange); }
+    .board header a { font: .78rem var(--mono); }
+    .board ol { list-style: none; margin: 0; padding: 0; }
+    .board li {
+      display: grid; grid-template-columns: 6.5rem 1fr auto; gap: 1rem; align-items: baseline;
+      padding: .8rem 1.25rem;
+    }
+    .board li + li { border-top: 1px solid rgb(199 155 255 / .08); }
+    .board time, .board .plat { font: .78rem var(--mono); color: var(--muted); }
+    .board .plat { text-transform: uppercase; letter-spacing: .08em; }
+
     /* Credentials strip */
     .creds {
       margin-top: 4rem;
@@ -204,23 +340,124 @@
     .creds p { margin: .5rem 0 0; }
 
     /* =========================================================
-       6. FOOTER
+       6. SYSTEM MAP
+       Each route is an <ol> of stops; the colored line is a single
+       pseudo-element. Static HTML, no JS, skipped until scrolled near.
        ========================================================= */
-    footer { text-align: center; }
+    .network { margin-top: 5rem; content-visibility: auto; contain-intrinsic-size: auto 1100px; }
+    .network > header { text-align: center; max-width: 60ch; margin: 0 auto 2rem; }
+    .network h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin: .75rem 0 .75rem; }
+    .network > header p { color: var(--muted); }
+
+    .legend {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 1.5rem;
+      margin: 0 0 2rem; padding: 0; list-style: none;
+      font: .75rem var(--mono); color: var(--muted);
+    }
+    .legend li { display: inline-flex; align-items: center; gap: .5rem; }
+    .legend .dot { position: static; }
+
+    /* Connected network (inline SVG, generated) */
+    .map-scroll {
+      overflow-x: auto; overscroll-behavior-x: contain;
+      margin: 0 -1.5rem; padding: 0 1.5rem;
+      scrollbar-width: thin; scrollbar-color: var(--rule) transparent;
+    }
+    .map-scroll svg { display: block; width: 100%; min-width: 60rem; height: auto; overflow: visible; }
+    .map-hint { display: none; text-align: center; font: .72rem var(--mono); color: var(--muted); margin: .75rem 0 0; }
+
+    .net-line { fill: none; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+    .net-line.planned { stroke-width: 4; stroke-dasharray: 1 10; opacity: .7; }
+    .l-home { stroke: var(--line-home); }       .t-home { fill: var(--line-home); }
+    .l-garden { stroke: var(--line-garden); }   .t-garden { fill: var(--line-garden); }
+    .l-portfolio { stroke: var(--line-portfolio); } .t-portfolio { fill: var(--line-portfolio); }
+    .l-tigers { stroke: var(--line-tigers); }   .t-tigers { fill: var(--line-tigers); }
+    .l-profiles { stroke: var(--line-profiles); } .t-profiles { fill: var(--line-profiles); }
+
+    .st-name { font: 400 15px var(--font); fill: var(--fg); }
+    .st-note { font: 400 11px var(--mono); fill: var(--muted); }
+    .st-tag  { font: 500 11px var(--mono); letter-spacing: .12em; }
+    .st-gc   { font: 400 20px var(--font); fill: var(--link); }
+    .net a { cursor: pointer; background: none; }
+    .net a:hover .st-name, .net a:focus-visible .st-name { fill: var(--link); }
+    .net a:focus-visible { outline: 2px solid var(--link); outline-offset: 4px; }
+    .st-planned { opacity: .55; }
+
+    .directory { margin-top: 2.5rem; }
+    .directory summary {
+      cursor: pointer; width: fit-content; margin: 0 auto 1rem;
+      font: 500 .75rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+      padding: .6rem .9rem; border: 1px solid var(--rule); border-radius: 999px;
+    }
+    .directory summary:hover { color: var(--link); }
+
+    .route {
+      --c: var(--line-home);
+      display: grid; grid-template-columns: 12.5rem minmax(0, 1fr); gap: 1.5rem;
+      padding: 1.5rem 0;
+      border-top: 1px solid var(--rule);
+    }
+    .route:last-of-type { border-bottom: 1px solid var(--rule); }
+    .route h3 { margin: 0; font: 500 .8rem/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c); }
+    .route h3 a { color: inherit; }
+    .route h3 small { display: block; overflow-wrap: anywhere; margin-top: .3rem; font-size: .72rem; letter-spacing: 0; text-transform: none; color: var(--muted); }
+    .garden    { --c: var(--line-garden); }
+    .portfolio { --c: var(--line-portfolio); }
+    .tigers    { --c: var(--line-tigers); }
+    .profiles  { --c: var(--line-profiles); }
+
+    .stops {
+      position: relative; display: flex;
+      margin: 0; padding: 0; list-style: none;
+    }
+    .stop:not(:last-child)::after { /* track segment to the next stop */
+      content: ""; position: absolute; top: .4rem; left: .5rem; right: 0;
+      height: 3px; background: var(--c);
+    }
+    .stop {
+      position: relative; flex: 1 1 0; min-width: 0;
+      padding: 1.6rem .4rem 0 0;
+      font-size: .85rem; line-height: 1.35;
+    }
+    .stop a, .stop > span:first-of-type { color: var(--fg); }
+    .stop a:hover { color: var(--c); }
+    .stop .note { display: block; margin-top: .2rem; font: .7rem/1.35 var(--mono); color: var(--muted); }
+    .stop .ret { color: var(--c); font-size: .8rem; margin-left: .15rem; }
+
+    .dot {
+      position: absolute; top: 0; left: 0; z-index: 1;
+      width: 1rem; height: 1rem; border-radius: 50%;
+      background: var(--c, var(--fg)); border: 3px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--c, var(--fg));
+    }
+    .hub .dot { width: 1.3rem; height: 1.3rem; top: -.15rem; background: var(--fg); border-color: var(--bg); box-shadow: 0 0 0 3px var(--c), 0 0 0 7px rgb(199 155 255 / .15); }
+    .hub > a { font-weight: 400; color: var(--c); }
+    .building .dot { background: var(--bg); box-shadow: none; border: 2px dashed var(--orange); }
+    .planned { opacity: .6; }
+    .planned .dot { background: var(--bg); box-shadow: none; border: 2px dotted var(--muted); }
+    .xfer .dot { background: var(--fg); }
+
+    /* =========================================================
+       7. FOOTER
+       ========================================================= */
+    footer { text-align: center; content-visibility: auto; contain-intrinsic-size: auto 260px; }
     footer .mail { font-size: 1.1rem; }
     footer ul {
       list-style: none; padding: 0; margin: 1rem 0 0;
       display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem 1.25rem;
     }
     footer li a { font: .85rem/1.8 var(--mono); }
+    .colophon { margin-top: 2rem; font: .72rem/1.6 var(--mono); color: var(--muted); }
+    .colophon a { color: inherit; }
 
     /* =========================================================
-       7. NARROW SCREENS
+       8. NARROW SCREENS
        ========================================================= */
     @media (max-width: 768px) {
       :root {
         --base-size: 16px;
         --gap: 1.5rem;
+        --bar-h: 3.25rem;
         --name-size: clamp(1.75rem, 4vw, 2.25rem);
         --name-top: 4%;
         --name-right: 9%;
@@ -230,16 +467,9 @@
         --cap-bottom: -.9rem;
       }
 
-      /* Nav: sticky single scrollable row (solid bg, no blur) */
-      nav {
-        position: sticky; top: 0; z-index: 5;
-        flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
-        padding: .6rem 1rem;
-        background: rgb(10 2 18 / .94);
-        border-bottom: 1px solid var(--rule);
-      }
-      nav::-webkit-scrollbar { display: none; }
-      nav a { font-size: .72rem; padding: .5rem .7rem; white-space: nowrap; }
+      .topbar { padding: 0 1rem; }
+      .menu { grid-template-columns: 1fr; gap: 1.25rem; padding: 1.25rem 1.25rem 1.5rem; }
+      .menu a { font-size: 1.05rem; line-height: 2; }
 
       .hero-large { display: none; }
       .hero-small { display: block; }
@@ -268,9 +498,24 @@
       .card img { aspect-ratio: 4 / 3; }
       .more a, .more span { font-size: .72rem; padding: .4rem .6rem; }
 
+      .board { margin-top: 3rem; }
+      .board li { grid-template-columns: 1fr auto; gap: .15rem 1rem; }
+      .board li a { grid-column: 1 / -1; grid-row: 2; }
+
       .creds { grid-template-columns: 1fr; margin-top: 3rem; }
       .creds > div { padding: 1.25rem 0; }
       .creds > div + div { border-left: 0; border-top: 1px solid var(--rule); }
+
+      /* Map: routes run top to bottom */
+      .network { margin-top: 3.5rem; }
+      .map-scroll { margin: 0 -1.25rem; padding: 0 1.25rem; }
+      .map-hint { display: block; }
+      .route { grid-template-columns: 1fr; gap: 1rem; }
+      .stops { flex-direction: column; gap: .9rem; }
+      .stop:not(:last-child)::after { top: .5rem; bottom: -.9rem; left: .4rem; right: auto; width: 3px; height: auto; }
+      .stop { padding: 0 0 0 1.9rem; font-size: .95rem; }
+      .stop .note { display: inline; margin: 0 0 0 .4rem; }
+      .hub .dot { left: -.15rem; }
 
       footer ul { display: grid; grid-template-columns: 1fr 1fr; gap: .25rem 1rem; }
     }
@@ -284,26 +529,76 @@
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
-  <nav aria-label="Main">
-    <a href="/now">Now</a>
-    <a href="/science" aria-current="page">Science</a>
-    <a href="/art">Art</a>
-    <a href="/travel">Travel</a>
-    <a href="/free-resources">Free</a>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Tahreem Karim, home">Grand Central</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu">
+      <span class="menu-icon" aria-hidden="true"></span>Menu
+    </button>
+  </header>
+
+  <nav class="menu" id="site-menu" aria-label="Site">
+    <section>
+      <span class="label">This site</span>
+      <ul>
+        <li><a href="/" aria-current="page">Home</a></li>
+        <li><a href="/now">Now</a></li>
+        <li><a href="/science">Science &amp; CV</a></li>
+        <li><a href="/free-resources">Free resources</a></li>
+        <li><a href="/art">Art</a><small>soon</small></li>
+        <li><a href="/travel">Travel</a><small>soon</small></li>
+        <li><a href="#map">System map</a></li>
+      </ul>
+    </section>
+    <section>
+      <span class="label">Platforms</span>
+      <ul>
+        <li><a href="https://portfolio.tahreemkarim.xyz">Portfolio</a></li>
+        <li><a href="https://garden.tahreemkarim.xyz">Digital garden</a></li>
+        <li><a href="https://garden.tahreemkarim.xyz/library">Library</a></li>
+        <li><a href="https://risingtigers.tahreemkarim.xyz">Rising Tigers Initiative</a></li>
+        <li><a href="https://risingtigers.tahreemkarim.xyz/activism/">Math, Murder, and Making a Difference</a></li>
+      </ul>
+    </section>
+    <section>
+      <span class="label">Profiles</span>
+      <ul>
+        <li><a href="https://github.com/TahreemK13">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/tahreem-karim/">LinkedIn</a></li>
+        <li><a href="https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view?usp=sharing">CV</a><small>PDF</small></li>
+        <li><a href="https://www.flickr.com/photos/tahreemkphotography/">Flickr</a></li>
+        <li><a href="https://www.instagram.com/tahreemkphoto/">Instagram</a></li>
+        <li><a href="mailto:Tahreem.Karim@gmail.com">Email</a></li>
+      </ul>
+    </section>
   </nav>
 
-  <header class="hero">
-    <!-- loading="lazy" lets the browser skip whichever hero is display:none -->
+  <div class="hero">
+    <!-- Wide screens: octopus. The 1px <source> stops phones from downloading it. -->
     <figure class="hero-large">
-      <img src="/images/octopus.png" loading="lazy" decoding="async" alt="Glowing octopus and coral lanterns at night">
+      <picture>
+        <source media="(max-width: 768px)" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+        <img src="/images/octopus-1400.webp"
+             srcset="/images/octopus-1400.webp 1400w, /images/octopus-2400.webp 2400w"
+             sizes="100vw" width="2400" height="1080"
+             fetchpriority="high" decoding="async"
+             alt="Glowing octopus and coral lanterns at night">
+      </picture>
       <figcaption>Glowfari: <a href="https://www.oaklandzoo.org/programs-and-events/glowfari">Oakland Zoo</a>. Oakland, CA</figcaption>
     </figure>
+    <!-- Narrow screens: agave. The 1px <source> stops desktops from downloading it. -->
     <figure class="hero-small">
-      <img src="/images/agave.png" loading="lazy" decoding="async" alt="Agave plants wrapped in purple lights">
+      <picture>
+        <source media="(min-width: 768.02px)" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+        <img src="/images/agave-800.webp"
+             srcset="/images/agave-800.webp 800w, /images/agave-1200.webp 1200w"
+             sizes="100vw" width="1200" height="606"
+             fetchpriority="high" decoding="async"
+             alt="Agave plants wrapped in purple lights">
+      </picture>
       <figcaption><a href="https://gardensatlakemerritt.org/autumn-lights-festival-2026/">Autumn Lights</a>. Lake Merritt, Oakland, CA</figcaption>
     </figure>
     <h1>Tahreem<br>Karim</h1>
-  </header>
+  </div>
 
   <main id="main">
     <section class="intro">
@@ -318,11 +613,15 @@
         <h3>Travel &amp; Activism</h3>
         <p class="lede">Guides and articles meant to inform, teach, and create global impact.</p>
         <figure>
-          <img src="/images/RTI_logo1.2.png" loading="lazy" decoding="async" alt="Rising Tigers Initiative logo">
+          <img src="/images/rti-logo-600.webp" width="600" height="597" loading="lazy" decoding="async" alt="Rising Tigers Initiative logo">
           <figcaption>Founder, <a href="https://risingtigers.tahreemkarim.xyz">Rising Tigers Initiative</a>, an informational nonprofit (2025)</figcaption>
         </figure>
         <div class="more">
-          <span>Travel guides</span><span>Product lists</span><span>Research</span><span>Dashboards</span>
+          <a href="https://risingtigers.tahreemkarim.xyz">Rising Tigers</a>
+          <a href="https://risingtigers.tahreemkarim.xyz/activism/">Research</a>
+          <a href="https://risingtigers.tahreemkarim.xyz/#guide">Regional guides</a>
+          <a href="https://risingtigers.tahreemkarim.xyz/#apply">Get help</a>
+          <span>Travel guides · soon</span>
         </div>
       </article>
 
@@ -330,15 +629,15 @@
         <h3>Science</h3>
         <p class="lede">Visualizations and simulations that bridge biology labs with underutilized software.</p>
         <figure>
-          <img src="/images/VulvVizConcat.png" loading="lazy" decoding="async" alt="Concatenated Altair charts">
+          <img src="/images/vulvviz-900.webp" width="900" height="936" loading="lazy" decoding="async" alt="Twenty concatenated Altair charts from an aging biomarker study">
           <figcaption>Cancer aging study results for <a href="https://medical.brown.edu/">Brown University</a>. Providence, RI</figcaption>
         </figure>
         <p class="meta">20 concatenated charts · <a href="https://altair-viz.github.io/">Altair</a> · deidentified raw data · custom design</p>
         <div class="more">
-          <a href="https://tahreemk13.github.io/portfolio">Portfolio</a>
+          <a href="https://portfolio.tahreemkarim.xyz">Portfolio</a>
+          <a href="/science">CV page</a>
           <a href="https://github.com/TahreemK13">GitHub</a>
-          <a href="https://www.linkedin.com/in/tahreem-karim-67a86973/">LinkedIn</a>
-          <a href="https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view?usp=sharing">CV</a>
+          <a href="https://www.linkedin.com/in/tahreem-karim/">LinkedIn</a>
           <a href="https://garden.tahreemkarim.xyz">Garden</a>
         </div>
       </article>
@@ -347,16 +646,30 @@
         <h3>Art</h3>
         <p class="lede">Photography as craft, documentation, and contextual inquiry.</p>
         <figure>
-          <img src="/images/glass.png" loading="lazy" decoding="async" alt="Glass sculpture">
+          <img src="/images/glass-900.webp" width="900" height="675" loading="lazy" decoding="async" alt="Glass sculpture">
           <figcaption>Glass sculpture: <a href="https://www.cmog.org/">Corning Museum of Glass</a>. Corning, NY</figcaption>
         </figure>
         <div class="more">
           <a href="https://www.flickr.com/photos/tahreemkphotography/">Flickr</a>
           <a href="https://www.instagram.com/tahreemkphoto/">Instagram</a>
-          <span>Hi-res on request</span><span>Tech specs</span>
+          <a href="mailto:Tahreem.Karim@gmail.com?subject=Hi-res%20photo%20request">Request hi-res</a>
+          <span>Tech specs · soon</span>
         </div>
       </article>
     </div>
+
+    <section class="board" aria-labelledby="arrivals">
+      <header>
+        <h2 id="arrivals">Recent arrivals</h2>
+        <a href="/now">What I'm doing now →</a>
+      </header>
+      <ol>
+        <li><time datetime="2026-09">Sep 2026</time><span class="plat">Rising Tigers</span><a href="https://risingtigers.tahreemkarim.xyz">Rising Tigers Initiative site: free mentorship and regional safety guides</a></li>
+        <li><time datetime="2026-09">Sep 2026</time><span class="plat">Rising Tigers</span><a href="https://risingtigers.tahreemkarim.xyz/artifacts/congo/">Cause hubs for Congo, Sudan, and Palestine</a></li>
+        <li><time datetime="2026-09">Sep 2026</time><span class="plat">Garden</span><a href="https://garden.tahreemkarim.xyz/posts/rti_brainstorm.html">Brainstorm with us? Building an informational nonprofit</a></li>
+        <li><time datetime="2026-08">Aug 2026</time><span class="plat">Research</span><a href="https://risingtigers.tahreemkarim.xyz/activism/">Math, Murder, and Making a Difference</a></li>
+      </ol>
+    </section>
 
     <section class="creds" aria-label="Credentials">
       <div>
@@ -372,22 +685,200 @@
         <p><a href="https://seanome.org/">Seanome</a> · <a href="https://lab.moasser.com/">UCSF</a> · <a href="https://chanzuckerberg.com/">CZ Biohub</a></p>
       </div>
     </section>
+
+    <!--
+      SYSTEM MAP — built from a crawl on 28 Sep 2026.
+      Stop states: live (filled) · building (dashed) · planned (dotted, no link).
+      ⇄ = that page links back to www.tahreemkarim.xyz. No ⇄ = one-way for now.
+      Maintenance notes found during the crawl (fix at the source, then update here):
+        - garden: "The internet hub" card href is relative -> garden.tahreemkarim.xyz/www.tahreemkarim.xyz (404). Needs https://
+        - garden: "Science communication as a design problem" read -> href="#"
+        - RTI /activism nav: #help and #fund don't exist on RTI home (it uses #apply, #cause)
+        - RTI /activism "Connect > Rising Tigers Initiative" card points to tahreemkarim.xyz, not risingtigers.tahreemkarim.xyz
+        - RTI home "Browse artifacts" -> /activism; /artifacts/ is an unstyled Jekyll README
+        - RTI home + cause hubs have no link to tahreemkarim.xyz
+        - RTI contact email differs: therisingtigersinitiative@ (site) vs risingtigersinitiative@ (garden post)
+        - Congo hub canonical says /congo/ but page lives at /artifacts/congo/
+    -->
+    <section class="network" id="map" aria-labelledby="map-title">
+      <header>
+        <span class="label">System map</span>
+        <h2 id="map-title">Every stop, every line</h2>
+        <p>Everything I keep on the internet and how it connects. Stations marked ⇄ route back here.</p>
+      </header>
+
+      <ul class="legend" aria-label="Legend">
+        <li><span class="dot" style="--c: var(--fg)" aria-hidden="true"></span>Live</li>
+        <li class="building"><span class="dot" aria-hidden="true"></span>Under construction</li>
+        <li class="planned"><span class="dot" aria-hidden="true"></span>Planned</li>
+        <li><span aria-hidden="true">⇄</span>Links back to Grand Central</li>
+      </ul>
+
+      <div class="map-scroll" tabindex="0" role="group" aria-label="System map. Scroll sideways on small screens.">
+<!-- MAP:START (generated by tools/build_map.py — edit the data there, not here) -->
+<svg class="net" viewBox="40 82 1210 800" xmlns="http://www.w3.org/2000/svg" aria-labelledby="net-title"><title id="net-title">Connected map of Tahreem Karim's websites</title>
+<g aria-hidden="true">
+<polyline class="net-line l-profiles" points="240,350 240,815"/>
+<polyline class="net-line l-home" points="240,350 900,350"/>
+<polyline class="net-line l-garden" points="240,350 240,230 320,150 1020,150"/>
+<polyline class="net-line planned l-garden" points="1020,150 1150,150"/>
+<polyline class="net-line l-portfolio" points="240,350 420,530 1020,530"/>
+<polyline class="net-line l-tigers" points="1020,150 1020,675"/>
+<polyline class="net-line planned l-tigers" points="1020,675 1020,805"/>
+<text x="240" y="858" text-anchor="middle" class="st-tag t-profiles">PROFILES</text>
+<text x="924" y="355" text-anchor="start" class="st-tag t-home">HOME LINE</text>
+<text x="256" y="262" text-anchor="start" class="st-tag t-garden">GARDEN LINE</text>
+<text x="372" y="452" text-anchor="start" class="st-tag t-portfolio">PORTFOLIO LINE</text>
+<text x="1020" y="858" text-anchor="middle" class="st-tag t-tigers">RISING TIGERS LINE</text>
+</g>
+<a href="/" aria-label="Grand Central"><title>Grand Central</title><circle cx="240" cy="350" r="26" fill="none" stroke="var(--link)" stroke-opacity=".3" stroke-width="2"/><circle cx="240" cy="350" r="17" fill="var(--fg)" stroke="#0a0212" stroke-width="4"/><text x="210" y="347" text-anchor="end" class="st-gc">Grand Central</text><text x="210" y="363" text-anchor="end" class="st-note">You are here</text></a>
+<a href="/now" aria-label="Now"><title>Now</title><circle cx="380" cy="350" r="7.5" class="t-home" stroke="#0a0212" stroke-width="3"/><text x="380" y="382" text-anchor="middle" class="st-name">Now<tspan class="t-home"> ⇄</tspan></text><text x="380" y="398" text-anchor="middle" class="st-note">Updated Mar 2026</text></a>
+<a href="/science" aria-label="Science &amp; CV"><title>Science &amp; CV</title><circle cx="510" cy="350" r="7.5" class="t-home" stroke="#0a0212" stroke-width="3"/><text x="510" y="382" text-anchor="middle" class="st-name">Science &amp; CV<tspan class="t-home"> ⇄</tspan></text></a>
+<a href="/free-resources" aria-label="Free resources, under construction"><title>Free resources, under construction</title><circle cx="640" cy="350" r="7.5" fill="#0a0212" stroke="var(--orange)" stroke-width="2.5" stroke-dasharray="3 3"/><text x="640" y="382" text-anchor="middle" class="st-name">Free resources<tspan class="t-home"> ⇄</tspan></text><text x="640" y="398" text-anchor="middle" class="st-note">Downloads being linked</text></a>
+<a href="/art" aria-label="Art, under construction"><title>Art, under construction</title><circle cx="770" cy="350" r="7.5" fill="#0a0212" stroke="var(--orange)" stroke-width="2.5" stroke-dasharray="3 3"/><text x="770" y="382" text-anchor="middle" class="st-name">Art<tspan class="t-home"> ⇄</tspan></text><text x="770" y="398" text-anchor="middle" class="st-note">Coming soon</text></a>
+<a href="/travel" aria-label="Travel, under construction"><title>Travel, under construction</title><circle cx="900" cy="350" r="7.5" fill="#0a0212" stroke="var(--orange)" stroke-width="2.5" stroke-dasharray="3 3"/><text x="900" y="382" text-anchor="middle" class="st-name">Travel<tspan class="t-home"> ⇄</tspan></text><text x="900" y="398" text-anchor="middle" class="st-note">Coming soon</text></a>
+<a href="https://garden.tahreemkarim.xyz" aria-label="Digital garden"><title>Digital garden</title><circle cx="380" cy="150" r="10" fill="var(--fg)" stroke="var(--line-garden)" stroke-width="4"/><text x="380" y="128" text-anchor="middle" class="st-name">Digital garden<tspan class="t-garden"> ⇄</tspan></text></a>
+<a href="https://garden.tahreemkarim.xyz/library" aria-label="Library"><title>Library</title><circle cx="500" cy="150" r="7.5" class="t-garden" stroke="#0a0212" stroke-width="3"/><text x="500" y="182" text-anchor="middle" class="st-name">Library<tspan class="t-garden"> ⇄</tspan></text></a>
+<a href="https://garden.tahreemkarim.xyz/posts/on_curriculum.html" aria-label="Online curriculum"><title>Online curriculum</title><circle cx="620" cy="150" r="7.5" class="t-garden" stroke="#0a0212" stroke-width="3"/><text x="620" y="128" text-anchor="middle" class="st-name">Online curriculum<tspan class="t-garden"> ⇄</tspan></text></a>
+<a href="https://garden.tahreemkarim.xyz/posts/on-philosophy.html" aria-label="Born with it?"><title>Born with it?</title><circle cx="740" cy="150" r="7.5" class="t-garden" stroke="#0a0212" stroke-width="3"/><text x="740" y="182" text-anchor="middle" class="st-name">Born with it?<tspan class="t-garden"> ⇄</tspan></text></a>
+<a href="https://garden.tahreemkarim.xyz/posts/comics-multimodal.html" aria-label="Marvel vs. DC"><title>Marvel vs. DC</title><circle cx="860" cy="150" r="7.5" class="t-garden" stroke="#0a0212" stroke-width="3"/><text x="860" y="112" text-anchor="middle" class="st-name">Marvel vs. DC<tspan class="t-garden"> ⇄</tspan></text><text x="860" y="130" text-anchor="middle" class="st-note">ML seedling</text></a>
+<a href="https://garden.tahreemkarim.xyz/posts/rti_brainstorm.html" aria-label="Brainstorm with us?"><title>Brainstorm with us?</title><circle cx="1020" cy="150" r="12" fill="var(--fg)" stroke="#0a0212" stroke-width="4"/><circle cx="1020" cy="150" r="14" fill="none" stroke="var(--fg)" stroke-width="1.5"/><text x="1038" y="110" text-anchor="start" class="st-name">Brainstorm with us?<tspan class="t-garden"> ⇄</tspan></text><text x="1038" y="128" text-anchor="start" class="st-note">Garden ⇆ Rising Tigers</text></a>
+<g class="st-planned" role="img" aria-label="SciComm as design, planned"><circle cx="1150" cy="150" r="7" fill="#0a0212" stroke="var(--muted)" stroke-width="2" stroke-dasharray="1.5 3.5"/><text x="1150" y="182" text-anchor="middle" class="st-name">SciComm as design</text><text x="1150" y="198" text-anchor="middle" class="st-note">Planned</text></g>
+<a href="https://portfolio.tahreemkarim.xyz" aria-label="Portfolio"><title>Portfolio</title><circle cx="460" cy="530" r="10" fill="var(--fg)" stroke="var(--line-portfolio)" stroke-width="4"/><text x="460" y="562" text-anchor="middle" class="st-name">Portfolio<tspan class="t-portfolio"> ⇄</tspan></text></a>
+<a href="https://tahreemk13.github.io/SynBioHub_parts_visualization/" aria-label="SynBioHub parts"><title>SynBioHub parts</title><circle cx="575" cy="530" r="7.5" class="t-portfolio" stroke="#0a0212" stroke-width="3"/><text x="575" y="492" text-anchor="middle" class="st-name">SynBioHub parts</text><text x="575" y="510" text-anchor="middle" class="st-note">Interactive</text></a>
+<a href="https://github.com/TahreemK13/portfolio/blob/main/Visualizations" aria-label="Aging biomarkers"><title>Aging biomarkers</title><circle cx="690" cy="530" r="7.5" class="t-portfolio" stroke="#0a0212" stroke-width="3"/><text x="690" y="562" text-anchor="middle" class="st-name">Aging biomarkers</text><text x="690" y="578" text-anchor="middle" class="st-note">Brown University</text></a>
+<a href="https://github.com/TahreemK13/portfolio/blob/main/Coding/SHM%20simulator%20Prototype_ntbk.ipynb" aria-label="SHM simulator"><title>SHM simulator</title><circle cx="805" cy="530" r="7.5" class="t-portfolio" stroke="#0a0212" stroke-width="3"/><text x="805" y="492" text-anchor="middle" class="st-name">SHM simulator</text><text x="805" y="510" text-anchor="middle" class="st-note">Notebook</text></a>
+<a href="https://github.com/TahreemK13/portfolio/tree/main/Presentations" aria-label="Presentations"><title>Presentations</title><circle cx="920" cy="530" r="7.5" class="t-portfolio" stroke="#0a0212" stroke-width="3"/><text x="920" y="562" text-anchor="middle" class="st-name">Presentations</text><text x="920" y="578" text-anchor="middle" class="st-note">Journal clubs</text></a>
+<a href="https://risingtigers.tahreemkarim.xyz/activism/" aria-label="Math, Murder, and Making a Difference"><title>Math, Murder, and Making a Difference</title><circle cx="1020" cy="530" r="12" fill="var(--fg)" stroke="#0a0212" stroke-width="4"/><circle cx="1020" cy="530" r="14" fill="none" stroke="var(--fg)" stroke-width="1.5"/><text x="1040" y="518" text-anchor="start" class="st-name">Math, Murder, and</text><text x="1040" y="536" text-anchor="start" class="st-name">Making a Difference<tspan class="t-tigers"> ⇄</tspan></text><text x="1040" y="552" text-anchor="start" class="st-note">Portfolio ⇆ Rising Tigers</text></a>
+<a href="https://risingtigers.tahreemkarim.xyz" aria-label="Rising Tigers"><title>Rising Tigers</title><circle cx="1020" cy="245" r="10" fill="var(--fg)" stroke="var(--line-tigers)" stroke-width="4"/><text x="1040" y="242" text-anchor="start" class="st-name">Rising Tigers</text><text x="1040" y="258" text-anchor="start" class="st-note">Mentorship · guides</text></a>
+<a href="https://risingtigers.tahreemkarim.xyz/artifacts/congo/" aria-label="Congo"><title>Congo</title><circle cx="1020" cy="315" r="7.5" class="t-tigers" stroke="#0a0212" stroke-width="3"/><text x="1040" y="320" text-anchor="start" class="st-name">Congo</text></a>
+<a href="https://risingtigers.tahreemkarim.xyz/artifacts/sudan/" aria-label="Sudan"><title>Sudan</title><circle cx="1020" cy="385" r="7.5" class="t-tigers" stroke="#0a0212" stroke-width="3"/><text x="1040" y="390" text-anchor="start" class="st-name">Sudan</text></a>
+<a href="https://risingtigers.tahreemkarim.xyz/artifacts/palestine/" aria-label="Palestine"><title>Palestine</title><circle cx="1020" cy="455" r="7.5" class="t-tigers" stroke="#0a0212" stroke-width="3"/><text x="1040" y="460" text-anchor="start" class="st-name">Palestine</text></a>
+<a href="https://github.com/TahreemK13/Rising_Tigers_Initiative/tree/main/library" aria-label="Source library"><title>Source library</title><circle cx="1020" cy="610" r="7.5" class="t-tigers" stroke="#0a0212" stroke-width="3"/><text x="1040" y="607" text-anchor="start" class="st-name">Source library</text><text x="1040" y="623" text-anchor="start" class="st-note">GitHub</text></a>
+<a href="https://risingtigers.tahreemkarim.xyz/artifacts/" aria-label="Artifacts index, under construction"><title>Artifacts index, under construction</title><circle cx="1020" cy="675" r="7.5" fill="#0a0212" stroke="var(--orange)" stroke-width="2.5" stroke-dasharray="3 3"/><text x="1040" y="680" text-anchor="start" class="st-name">Artifacts index</text></a>
+<g class="st-planned" role="img" aria-label="Bangladesh, planned"><circle cx="1020" cy="740" r="7" fill="#0a0212" stroke="var(--muted)" stroke-width="2" stroke-dasharray="1.5 3.5"/><text x="1040" y="737" text-anchor="start" class="st-name">Bangladesh</text><text x="1040" y="753" text-anchor="start" class="st-note">Planned</text></g>
+<g class="st-planned" role="img" aria-label="Armenia, planned"><circle cx="1020" cy="805" r="7" fill="#0a0212" stroke="var(--muted)" stroke-width="2" stroke-dasharray="1.5 3.5"/><text x="1040" y="802" text-anchor="start" class="st-name">Armenia</text><text x="1040" y="818" text-anchor="start" class="st-note">Planned</text></g>
+<a href="https://github.com/TahreemK13" aria-label="GitHub"><title>GitHub</title><circle cx="240" cy="430" r="7.5" class="t-profiles" stroke="#0a0212" stroke-width="3"/><text x="220" y="435" text-anchor="end" class="st-name">GitHub</text></a>
+<a href="https://www.linkedin.com/in/tahreem-karim/" aria-label="LinkedIn"><title>LinkedIn</title><circle cx="240" cy="485" r="7.5" class="t-profiles" stroke="#0a0212" stroke-width="3"/><text x="220" y="490" text-anchor="end" class="st-name">LinkedIn</text></a>
+<a href="https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view?usp=sharing" aria-label="CV"><title>CV</title><circle cx="240" cy="540" r="7.5" class="t-profiles" stroke="#0a0212" stroke-width="3"/><text x="220" y="545" text-anchor="end" class="st-name">CV</text></a>
+<a href="https://www.flickr.com/photos/tahreemkphotography/" aria-label="Flickr"><title>Flickr</title><circle cx="240" cy="595" r="7.5" class="t-profiles" stroke="#0a0212" stroke-width="3"/><text x="220" y="600" text-anchor="end" class="st-name">Flickr</text></a>
+<a href="https://www.instagram.com/tahreemkphoto/" aria-label="Instagram"><title>Instagram</title><circle cx="240" cy="650" r="7.5" class="t-profiles" stroke="#0a0212" stroke-width="3"/><text x="220" y="655" text-anchor="end" class="st-name">Instagram</text></a>
+<a href="https://www.instagram.com/raja.hobbes.tigerdog/" aria-label="Raja"><title>Raja</title><circle cx="240" cy="705" r="7.5" class="t-profiles" stroke="#0a0212" stroke-width="3"/><text x="220" y="710" text-anchor="end" class="st-name">Raja</text></a>
+<a href="https://www.linkedin.com/company/rising-tigers-initiative/" aria-label="RTI LinkedIn"><title>RTI LinkedIn</title><circle cx="240" cy="760" r="7.5" class="t-profiles" stroke="#0a0212" stroke-width="3"/><text x="220" y="765" text-anchor="end" class="st-name">RTI LinkedIn</text></a>
+<a href="https://www.instagram.com/the_rising_tigers_initiative/" aria-label="RTI Instagram"><title>RTI Instagram</title><circle cx="240" cy="815" r="7.5" class="t-profiles" stroke="#0a0212" stroke-width="3"/><text x="220" y="820" text-anchor="end" class="st-name">RTI Instagram</text></a>
+</svg>
+<!-- MAP:END -->
+      </div>
+      <p class="map-hint">Swipe sideways to explore the map →</p>
+
+      <details class="directory">
+        <summary>Line-by-line directory</summary>
+
+      <div class="route home">
+        <h3>Home line<small>tahreemkarim.xyz</small></h3>
+        <ol class="stops">
+          <li class="stop hub"><span class="dot" aria-hidden="true"></span><a href="/" aria-current="page">Grand Central</a><span class="note">You are here</span></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="/now">Now</a><span class="ret" title="Links back here">⇄</span><span class="note">Updated Mar 2026</span></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="/science">Science &amp; CV</a><span class="ret" title="Links back here">⇄</span></li>
+          <li class="stop building"><span class="dot" aria-hidden="true"></span><a href="/free-resources">Free resources</a><span class="ret" title="Links back here">⇄</span><span class="note">Downloads being linked</span></li>
+          <li class="stop building"><span class="dot" aria-hidden="true"></span><a href="/art">Art</a><span class="ret" title="Links back here">⇄</span><span class="note">Coming soon</span></li>
+          <li class="stop building"><span class="dot" aria-hidden="true"></span><a href="/travel">Travel</a><span class="ret" title="Links back here">⇄</span><span class="note">Coming soon</span></li>
+        </ol>
+      </div>
+
+      <div class="route garden">
+        <h3><a href="https://garden.tahreemkarim.xyz">Garden line</a><small>garden.tahreemkarim.xyz</small></h3>
+        <ol class="stops">
+          <li class="stop hub"><span class="dot" aria-hidden="true"></span><a href="https://garden.tahreemkarim.xyz">Digital garden</a><span class="ret" title="Links back here">⇄</span></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://garden.tahreemkarim.xyz/library">Library</a><span class="ret" title="Links back here">⇄</span></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://garden.tahreemkarim.xyz/posts/on_curriculum.html">Online curriculum</a><span class="ret" title="Links back here">⇄</span></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://garden.tahreemkarim.xyz/posts/on-philosophy.html">Born with it?</a><span class="ret" title="Links back here">⇄</span></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://garden.tahreemkarim.xyz/posts/comics-multimodal.html">Marvel vs. DC</a><span class="ret" title="Links back here">⇄</span><span class="note">ML seedling</span></li>
+          <li class="stop xfer"><span class="dot" aria-hidden="true"></span><a href="https://garden.tahreemkarim.xyz/posts/rti_brainstorm.html">Brainstorm with us?</a><span class="ret" title="Links back here">⇄</span><span class="note">Transfer: Rising Tigers</span></li>
+          <li class="stop planned"><span class="dot" aria-hidden="true"></span><span>SciComm as design</span><span class="note">Planned</span></li>
+        </ol>
+      </div>
+
+      <div class="route portfolio">
+        <h3><a href="https://portfolio.tahreemkarim.xyz">Portfolio line</a><small>portfolio.tahreemkarim.xyz</small></h3>
+        <ol class="stops">
+          <li class="stop hub"><span class="dot" aria-hidden="true"></span><a href="https://portfolio.tahreemkarim.xyz">Portfolio</a><span class="ret" title="Links back here">⇄</span></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://tahreemk13.github.io/SynBioHub_parts_visualization/">SynBioHub parts</a><span class="note">Interactive</span></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://github.com/TahreemK13/portfolio/blob/main/Visualizations">Aging biomarkers</a><span class="note">Brown University</span></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://github.com/TahreemK13/portfolio/blob/main/Coding/SHM%20simulator%20Prototype_ntbk.ipynb">SHM simulator</a><span class="note">Notebook</span></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://github.com/TahreemK13/portfolio/tree/main/Presentations">Presentations</a><span class="note">Journal clubs</span></li>
+          <li class="stop xfer"><span class="dot" aria-hidden="true"></span><a href="https://risingtigers.tahreemkarim.xyz/activism/">Math, Murder…</a><span class="note">Transfer: Rising Tigers</span></li>
+        </ol>
+      </div>
+
+      <div class="route tigers">
+        <h3><a href="https://risingtigers.tahreemkarim.xyz">Rising Tigers line</a><small>risingtigers.tahreemkarim.xyz</small></h3>
+        <ol class="stops">
+          <li class="stop hub"><span class="dot" aria-hidden="true"></span><a href="https://risingtigers.tahreemkarim.xyz">Rising Tigers</a><span class="note">Mentorship · guides</span></li>
+          <li class="stop xfer"><span class="dot" aria-hidden="true"></span><a href="https://risingtigers.tahreemkarim.xyz/activism/">Math, Murder, and Making a Difference</a><span class="ret" title="Links back here">⇄</span></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://risingtigers.tahreemkarim.xyz/artifacts/congo/">Congo</a></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://risingtigers.tahreemkarim.xyz/artifacts/sudan/">Sudan</a></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://risingtigers.tahreemkarim.xyz/artifacts/palestine/">Palestine</a></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://github.com/TahreemK13/Rising_Tigers_Initiative/tree/main/library">Source library</a><span class="note">GitHub</span></li>
+          <li class="stop building"><span class="dot" aria-hidden="true"></span><a href="https://risingtigers.tahreemkarim.xyz/artifacts/">Artifacts index</a></li>
+          <li class="stop planned"><span class="dot" aria-hidden="true"></span><span>Bangladesh</span><span class="note">Planned</span></li>
+          <li class="stop planned"><span class="dot" aria-hidden="true"></span><span>Armenia</span><span class="note">Planned</span></li>
+        </ol>
+      </div>
+
+      <div class="route profiles">
+        <h3>Profiles<small>Elsewhere</small></h3>
+        <ol class="stops">
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://github.com/TahreemK13">GitHub</a></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://www.linkedin.com/in/tahreem-karim/">LinkedIn</a></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view?usp=sharing">CV</a></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://www.flickr.com/photos/tahreemkphotography/">Flickr</a></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://www.instagram.com/tahreemkphoto/">Instagram</a></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://www.instagram.com/raja.hobbes.tigerdog/">Raja</a></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://www.linkedin.com/company/rising-tigers-initiative/">RTI LinkedIn</a></li>
+          <li class="stop"><span class="dot" aria-hidden="true"></span><a href="https://www.instagram.com/the_rising_tigers_initiative/">RTI Instagram</a></li>
+        </ol>
+      </div>
+      </details>
+    </section>
   </main>
 
   <footer>
     <p class="mail"><a href="mailto:Tahreem.Karim@gmail.com">Tahreem.Karim@gmail.com</a></p>
     <ul>
-      <li><a href="https://tahreemk13.github.io/portfolio">Portfolio</a></li>
+      <li><a href="https://portfolio.tahreemkarim.xyz">Portfolio</a></li>
       <li><a href="https://github.com/TahreemK13">GitHub</a></li>
-      <li><a href="https://www.linkedin.com/in/tahreem-karim-67a86973/">LinkedIn</a></li>
+      <li><a href="https://www.linkedin.com/in/tahreem-karim/">LinkedIn</a></li>
       <li><a href="https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view?usp=sharing">CV</a></li>
       <li><a href="https://www.flickr.com/photos/tahreemkphotography/">Flickr</a></li>
       <li><a href="https://www.instagram.com/tahreemkphoto/">Instagram</a></li>
-      <li><a href="https://www.linkedin.com/company/rising-tigers-initiative/">Rising Tigers Initiative</a></li>
+      <li><a href="https://risingtigers.tahreemkarim.xyz">Rising Tigers Initiative</a></li>
       <li><a href="https://garden.tahreemkarim.xyz">Digital Garden</a></li>
       <li><a href="https://garden.tahreemkarim.xyz/library">Digital Library</a></li>
       <li><a href="/now">Now</a></li>
     </ul>
+    <p class="colophon">© 2026 Tahreem Karim · Built by hand, hosted on GitHub Pages · <a href="https://github.com/TahreemK13/Grand_Central_Station">Source</a></p>
   </footer>
+
+  <script>
+    // Menu toggle: one button, no scroll listeners.
+    (() => {
+      const btn = document.querySelector('.menu-btn');
+      const menu = document.getElementById('site-menu');
+      const set = (open) => {
+        btn.setAttribute('aria-expanded', open);
+        menu.classList.toggle('open', open);
+        if (open) menu.querySelector('a').focus({ preventScroll: true });
+      };
+      btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
+      menu.addEventListener('click', (e) => { if (e.target.closest('a')) set(false); });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && menu.classList.contains('open')) { set(false); btn.focus(); }
+      });
+      document.addEventListener('click', (e) => {
+        if (menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)) set(false);
+      });
+    })();
+  </script>
 </body>
 </html>
