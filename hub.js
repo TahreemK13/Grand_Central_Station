@@ -1,5 +1,5 @@
-// Grand Central hub: the menu, the system map (centering, reveal, route tracing)
-// and the live check under it. Loaded at the end of index.html.
+// Grand Central hub: the menu, the system map (centering, reveal, route tracing,
+// hover highlights) and the live check under it. Loaded at the end of index.html.
 
 // Menu toggle: one button, no scroll listeners.
 (() => {
@@ -20,7 +20,7 @@
   });
 })();
 
-// System map: opens centered on Grand Central, reveals once, traces routes.
+// System map: opens centered on Grand Central, reveals once, traces routes, highlights on hover.
 (() => {
   const svg = document.querySelector('svg.net');
   if (!svg) return;
@@ -96,6 +96,110 @@
   svg.addEventListener('focusin', on);
   svg.addEventListener('pointerleave', clear);
   svg.addEventListener('focusout', clear);
+
+  // ---- Hover highlights (pointer only; CSS does the drawing, this only sets classes).
+
+  // PLANNED, either the label under the Garden line or any planned stop: light them all.
+  svg.querySelectorAll('.ring-planned, .st-planned').forEach((el) => {
+    el.addEventListener('mouseenter', () => svg.classList.add('planned-lit'));
+    el.addEventListener('mouseleave', () => svg.classList.remove('planned-lit'));
+  });
+
+  // Dwell: rest on a stop for DWELL ms and its slanted label levels out, on the
+  // assumption you are trying to read it. Prepared on first use, not at load:
+  // CSS cannot animate the SVG transform attribute, so each slanted group's angle
+  // moves to a custom property the transition can pick up.
+  const DWELL = 400;
+  let dwellOn = null, timer = 0, prepped = false;
+  const prep = () => {
+    prepped = true;
+    svg.querySelectorAll('a[data-k] g[transform^="rotate("], .st-planned g[transform^="rotate("]').forEach((g) => {
+      const m = g.getAttribute('transform').match(/rotate\(\s*(-?[\d.]+)[\s,]+(-?[\d.]+)[\s,]+(-?[\d.]+)/);
+      if (!m) return;
+      g.style.setProperty('--a', `${m[1]}deg`);
+      g.style.transformOrigin = `${m[2]}px ${m[3]}px`;
+      g.setAttribute('data-rot', '');
+    });
+    svg.getBoundingClientRect();  // commit the start state so the first level-out animates
+  };
+  const level = (el, on) => el.querySelectorAll('g[data-rot]').forEach((g) => g.classList.toggle('straight', on));
+  const undwell = () => { clearTimeout(timer); if (dwellOn) level(dwellOn, false); dwellOn = null; };
+  svg.addEventListener('pointerover', (e) => {
+    if (e.pointerType === 'touch') return;
+    const el = e.target.closest('a[data-k], .st-planned');
+    if (el === dwellOn) return;
+    undwell();
+    dwellOn = el;
+    if (el) timer = setTimeout(() => { if (!prepped) prep(); level(el, true); }, DWELL);
+  });
+  svg.addEventListener('pointerleave', undwell);
+
+  // Edges: light the one nearest the pointer, and the two stops it joins. Picking by
+  // distance rather than stacked hit areas keeps the dense overlapping bundles usable.
+  const REACH = 10;  // screen pixels
+  let edges = null, hot = null, frame = 0, at = null;
+  const build = () => {  // deferred to first hover, so page load pays nothing
+    const nodes = [];
+    svg.querySelectorAll('a[data-k]').forEach((a) => {
+      const c = a.querySelector('circle');
+      if (c) nodes.push({ a, x: +c.getAttribute('cx'), y: +c.getAttribute('cy') });
+    });
+    const near = (x, y) => nodes.find((n) => Math.abs(n.x - x) < 1 && Math.abs(n.y - y) < 1);
+    edges = [];
+    svg.querySelectorAll('.links .link').forEach((p) => {
+      const n = (p.getAttribute('d').match(/-?\d*\.?\d+/g) || []).map(Number);
+      if (n.length < 4) return;
+      const len = p.getTotalLength(), steps = Math.max(8, Math.ceil(len / 6)), pts = [];
+      let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+      for (let i = 0; i <= steps; i++) {
+        const q = p.getPointAtLength(len * i / steps);
+        pts.push(q.x, q.y);
+        x0 = Math.min(x0, q.x); x1 = Math.max(x1, q.x); y0 = Math.min(y0, q.y); y1 = Math.max(y1, q.y);
+      }
+      const ends = [near(n[0], n[1]), near(n[n.length - 2], n[n.length - 1])].filter(Boolean);
+      edges.push({ p, pts, box: [x0, y0, x1, y1], ends });
+    });
+  };
+  const gap = (px, py, pts) => {  // distance from the pointer to a sampled curve
+    let best = Infinity;
+    for (let i = 0; i < pts.length - 2; i += 2) {
+      const ax = pts[i], ay = pts[i + 1], dx = pts[i + 2] - ax, dy = pts[i + 3] - ay, len2 = dx * dx + dy * dy;
+      const t = len2 ? Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / len2)) : 0;
+      const ex = ax + t * dx - px, ey = ay + t * dy - py, d = ex * ex + ey * ey;
+      if (d < best) best = d;
+    }
+    return Math.sqrt(best);
+  };
+  const light = (e) => {
+    if (e === hot) return;
+    if (hot) { hot.p.classList.remove('lit'); hot.ends.forEach((n) => n.a.classList.remove('edge-lit')); }
+    hot = e;
+    if (hot) { hot.p.classList.add('lit'); hot.ends.forEach((n) => n.a.classList.add('edge-lit')); }
+  };
+  const pick = () => {
+    frame = 0;
+    const m = svg.getScreenCTM();
+    if (!m || !at) return;
+    let pt = svg.createSVGPoint();
+    pt.x = at.x; pt.y = at.y;
+    pt = pt.matrixTransform(m.inverse());
+    let best = null, bd = REACH / m.a;
+    for (const e of edges) {
+      const [x0, y0, x1, y1] = e.box;
+      if (pt.x < x0 - bd || pt.x > x1 + bd || pt.y < y0 - bd || pt.y > y1 + bd) continue;  // cheap reject
+      const d = gap(pt.x, pt.y, e.pts);
+      if (d < bd) { bd = d; best = e; }
+    }
+    light(best);
+  };
+  svg.addEventListener('pointermove', (e) => {
+    if (e.pointerType === 'touch') return;
+    if (e.target.closest('a[data-k], .st-planned')) { light(null); return; }  // stops win
+    if (!edges) build();
+    at = { x: e.clientX, y: e.clientY };
+    if (!frame) frame = requestAnimationFrame(pick);
+  });
+  svg.addEventListener('pointerleave', () => { at = null; light(null); });
 })();
 
 // Check for new pages: read every mapped page on the four sites, one hop out,
