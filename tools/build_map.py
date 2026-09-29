@@ -5,7 +5,7 @@ Edit STATIONS and LINES below, then run from the repo root:
     python3 tools/build_map.py
 
 The SVG is written between the <!-- MAP:START --> and <!-- MAP:END -->
-markers in index.html. Coordinates run roughly x 40–1250, y 82–882 (see VIEW).
+markers in index.html. Coordinates run roughly x 40–1340, y 82–918 (see VIEW).
 
 Station fields
   name    label text; use "\n" for a line break
@@ -27,86 +27,97 @@ P = "https://github.com/TahreemK13/portfolio"
 
 STATIONS = {
     # Grand Central: every line starts here
-    "gc": dict(name="Grand Central", href="/", x=240, y=350, label="left",
+    "gc": dict(name="Grand Central", href="/", x=200, y=400, label="left",
                kind="gc", note="You are here", line="home"),
 
-    # Home line — tahreemkarim.xyz
-    "now":  dict(name="Now", href="/now", x=380, y=350, label="below", ret=True, note="Updated Mar 2026", line="home"),
-    "sci":  dict(name="Science & CV", href="/science", x=510, y=350, label="below", ret=True, line="home"),
-    "free": dict(name="Free resources", href="/free-resources", x=640, y=350, label="below", ret=True,
-                 status="building", note="Downloads being linked", line="home"),
-    "art":  dict(name="Art", href="/art", x=770, y=350, label="below", ret=True, status="building", note="Coming soon", line="home"),
-    "trav": dict(name="Travel", href="/travel", x=900, y=350, label="below", ret=True, status="building", note="Coming soon", line="home"),
+    # Shared trunk — Now, Science and Resources sit in the nav of every
+    # home, garden and portfolio page, so all three lines run through them.
+    "now":  dict(name="Now", href="/now", x=290, y=400, label="below", kind="xfer", ret=True,
+                 note="Updated Mar 2026", line="home"),
+    "sci":  dict(name="Science & CV", href="/science", x=380, y=400, label="above", kind="xfer", ret=True, line="home"),
+    "free": dict(name="Free resources", href="/free-resources", x=470, y=400, label="below", kind="xfer", ret=True,
+                 status="building", note="PDFs not linked yet", line="home"),
+
+    # Home line spur — only reachable from tahreemkarim.xyz pages
+    "art":  dict(name="Art", href="/art", x=650, y=400, label="below", ret=True, status="building", note="Coming soon", line="home"),
+    "trav": dict(name="Travel", href="/travel", x=760, y=400, label="below", ret=True, status="building", note="Coming soon", line="home"),
 
     # Garden line — garden.tahreemkarim.xyz
-    "gdn":  dict(name="Digital garden", href=G, x=380, y=150, label="above", kind="hub", ret=True, line="garden"),
-    "lib":  dict(name="Library", href=f"{G}/library", x=500, y=150, label="below", ret=True, line="garden"),
-    "cur":  dict(name="Online curriculum", href=f"{G}/posts/on_curriculum.html", x=620, y=150, label="above", ret=True, line="garden"),
-    "born": dict(name="Born with it?", href=f"{G}/posts/on-philosophy.html", x=740, y=150, label="below", ret=True, line="garden"),
-    "mvd":  dict(name="Marvel vs. DC", href=f"{G}/posts/comics-multimodal.html", x=860, y=150, label="above", ret=True,
+    "gdn":  dict(name="Digital garden", href=G, x=650, y=160, label="above", kind="hub", ret=True, line="garden"),
+    "lib":  dict(name="Library", href=f"{G}/library", x=746, y=160, label="below", ret=True,
+                 note="Also on portfolio", line="garden"),
+    "cur":  dict(name="Online curriculum", href=f"{G}/posts/on_curriculum.html", x=842, y=160, label="above", ret=True, line="garden"),
+    "born": dict(name="Born with it?", href=f"{G}/posts/on-philosophy.html", x=938, y=160, label="below", ret=True, line="garden"),
+    "mvd":  dict(name="Marvel vs. DC", href=f"{G}/posts/comics-multimodal.html", x=1034, y=160, label="above", ret=True,
                  note="ML seedling", line="garden"),
-    "brain": dict(name="Brainstorm with us?", href=f"{G}/posts/rti_brainstorm.html", x=1020, y=150, label="above-right",
+    "brain": dict(name="Brainstorm with us?", href=f"{G}/posts/rti_brainstorm.html", x=1130, y=160, label="above-right",
                   kind="xfer", ret=True, note="Garden ⇆ Rising Tigers", line="garden"),
-    "scicomm": dict(name="SciComm as design", x=1150, y=150, label="below", status="planned", note="Planned", line="garden"),
+    "scicomm": dict(name="SciComm as design", x=1240, y=160, label="below", status="planned", note="Planned", line="garden"),
 
-    # Portfolio line — portfolio.tahreemkarim.xyz
-    "pf":   dict(name="Portfolio", href="https://portfolio.tahreemkarim.xyz", x=460, y=530, label="below",
-                 kind="hub", ret=True, line="portfolio"),
-    "sbh":  dict(name="SynBioHub parts", href="https://tahreemk13.github.io/SynBioHub_parts_visualization/",
-                 x=575, y=530, label="above", note="Interactive", line="portfolio"),
-    "age":  dict(name="Aging biomarkers", href=f"{P}/blob/main/Visualizations", x=690, y=530, label="below",
+    # Portfolio line — portfolio.tahreemkarim.xyz (one page; stops are what it links to)
+    "pf":   dict(name="Portfolio", href="https://portfolio.tahreemkarim.xyz", x=650, y=600, label="below",
+                 kind="hub", ret=True, note="Resume PDF", line="portfolio"),
+    "age":  dict(name="Aging biomarkers", href=f"{P}/blob/main/Visualizations", x=730, y=600, label="above",
                  note="Brown University", line="portfolio"),
     "shm":  dict(name="SHM simulator", href=f"{P}/blob/main/Coding/SHM%20simulator%20Prototype_ntbk.ipynb",
-                 x=805, y=530, label="above", note="Notebook", line="portfolio"),
-    "pres": dict(name="Presentations", href=f"{P}/tree/main/Presentations", x=920, y=530, label="below",
-                 note="Journal clubs", line="portfolio"),
-    "mmm":  dict(name="Math, Murder, and\nMaking a Difference", href=f"{R}/activism/", x=1020, y=530, label="right",
+                 x=810, y=600, label="below", note="Notebook", line="portfolio"),
+    "sbh":  dict(name="SynBioHub parts", href="https://tahreemk13.github.io/SynBioHub_parts_visualization/",
+                 x=890, y=600, label="above", note="Interactive", line="portfolio"),
+    "m593": dict(name="SIADS 593\nMilestone I", href="https://github.com/KCYL/SIADS593-milestone1-project",
+                 x=970, y=600, label="below", note="Team repo", line="portfolio"),
+    "pres": dict(name="Presentations", href=f"{P}/tree/main/Presentations", x=1050, y=600, label="above",
+                 note="4 decks", line="portfolio"),
+    "mmm":  dict(name="Math, Murder, and\nMaking a Difference", href=f"{R}/activism/", x=1130, y=600, label="right",
                  kind="xfer", ret=True, note="Portfolio ⇆ Rising Tigers", line="tigers"),
 
-    # Rising Tigers line — risingtigers.tahreemkarim.xyz (runs north–south, crossing Garden and Portfolio)
-    "rti":  dict(name="Rising Tigers", href=R, x=1020, y=245, label="right", kind="hub",
-                 note="Mentorship · guides", line="tigers"),
-    "congo": dict(name="Congo", href=f"{R}/artifacts/congo/", x=1020, y=315, label="right", line="tigers"),
-    "sudan": dict(name="Sudan", href=f"{R}/artifacts/sudan/", x=1020, y=385, label="right", line="tigers"),
-    "pal":  dict(name="Palestine", href=f"{R}/artifacts/palestine/", x=1020, y=455, label="right", line="tigers"),
+    # Rising Tigers line — risingtigers.tahreemkarim.xyz. Entered from the garden
+    # (Brainstorm) or the portfolio (the article); no trunk page links here.
+    "rti":  dict(name="Rising Tigers", href=R, x=1130, y=240, label="right", kind="hub",
+                 note="Guides · causes", line="tigers"),
+    "congo": dict(name="Congo", href=f"{R}/artifacts/congo/", x=1130, y=330, label="right", note="+ PDF", line="tigers"),
+    "sudan": dict(name="Sudan", href=f"{R}/artifacts/sudan/", x=1130, y=420, label="right", note="+ PDF", line="tigers"),
+    "pal":  dict(name="Palestine", href=f"{R}/artifacts/palestine/", x=1130, y=510, label="right", note="+ PDF", line="tigers"),
     "srcl": dict(name="Source library", href="https://github.com/TahreemK13/Rising_Tigers_Initiative/tree/main/library",
-                 x=1020, y=610, label="right", note="GitHub", line="tigers"),
-    "arti": dict(name="Artifacts index", href=f"{R}/artifacts/", x=1020, y=675, label="right", status="building", line="tigers"),
-    "bang": dict(name="Bangladesh", x=1020, y=740, label="right", status="planned", note="Planned", line="tigers"),
-    "arm":  dict(name="Armenia", x=1020, y=805, label="right", status="planned", note="Planned", line="tigers"),
+                 x=1130, y=670, label="right", note="GitHub", line="tigers"),
+    "arti": dict(name="Artifacts index", href=f"{R}/artifacts/", x=1130, y=740, label="right", status="building",
+                 note="Unlinked", line="tigers"),
+    "bang": dict(name="Bangladesh", x=1130, y=800, label="right", status="planned", note="Planned", line="tigers"),
+    "arm":  dict(name="Armenia", x=1130, y=860, label="right", status="planned", note="Planned", line="tigers"),
 
     # Profiles — elsewhere on the internet
-    "gh":   dict(name="GitHub", href="https://github.com/TahreemK13", x=240, y=430, label="left", line="profiles"),
-    "li":   dict(name="LinkedIn", href="https://www.linkedin.com/in/tahreem-karim/", x=240, y=485, label="left", line="profiles"),
+    "gh":   dict(name="GitHub", href="https://github.com/TahreemK13", x=200, y=470, label="left", line="profiles"),
+    "li":   dict(name="LinkedIn", href="https://www.linkedin.com/in/tahreem-karim/", x=200, y=520, label="left", line="profiles"),
     "cv":   dict(name="CV", href="https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view?usp=sharing",
-                 x=240, y=540, label="left", line="profiles"),
-    "fl":   dict(name="Flickr", href="https://www.flickr.com/photos/tahreemkphotography/", x=240, y=595, label="left", line="profiles"),
-    "ig":   dict(name="Instagram", href="https://www.instagram.com/tahreemkphoto/", x=240, y=650, label="left", line="profiles"),
-    "raja": dict(name="Raja", href="https://www.instagram.com/raja.hobbes.tigerdog/", x=240, y=705, label="left", line="profiles"),
-    "rli":  dict(name="RTI LinkedIn", href="https://www.linkedin.com/company/rising-tigers-initiative/", x=240, y=760,
+                 x=200, y=570, label="left", line="profiles"),
+    "fl":   dict(name="Flickr", href="https://www.flickr.com/photos/tahreemkphotography/", x=200, y=620, label="left", line="profiles"),
+    "ig":   dict(name="Instagram", href="https://www.instagram.com/tahreemkphoto/", x=200, y=670, label="left", line="profiles"),
+    "raja": dict(name="Raja", href="https://www.instagram.com/raja.hobbes.tigerdog/", x=200, y=720, label="left", line="profiles"),
+    "rli":  dict(name="RTI LinkedIn", href="https://www.linkedin.com/company/rising-tigers-initiative/", x=200, y=770,
                  label="left", line="profiles"),
-    "rig":  dict(name="RTI Instagram", href="https://www.instagram.com/the_rising_tigers_initiative/", x=240, y=815,
+    "rig":  dict(name="RTI Instagram", href="https://www.instagram.com/the_rising_tigers_initiative/", x=200, y=820,
                  label="left", line="profiles"),
 }
 
 # Each line: its track as polylines. "planned" segments draw dotted.
 # A line's name tag is drawn at `tag` (x, y, anchor).
+# Garden and Portfolio run parallel to Home (±10px) through the shared trunk,
+# then split at x=570: Garden north, Portfolio south, Home straight on.
 LINES = [
-    dict(id="profiles", name="PROFILES", tag=(240, 858, "middle"),
-         track=[[(240, 350), (240, 815)]]),
-    dict(id="home", name="HOME LINE", tag=(924, 355, "start"),
-         track=[[(240, 350), (900, 350)]]),
-    dict(id="garden", name="GARDEN LINE", tag=(256, 262, "start"),
-         track=[[(240, 350), (240, 230), (320, 150), (1020, 150)]],
-         planned=[[(1020, 150), (1150, 150)]]),
-    dict(id="portfolio", name="PORTFOLIO LINE", tag=(372, 452, "start"),
-         track=[[(240, 350), (420, 530), (1020, 530)]]),
-    dict(id="tigers", name="RISING TIGERS LINE", tag=(1020, 858, "middle"),
-         track=[[(1020, 150), (1020, 675)]],
-         planned=[[(1020, 675), (1020, 805)]]),
+    dict(id="profiles", name="PROFILES", tag=(200, 862, "middle"),
+         track=[[(200, 400), (200, 820)]]),
+    dict(id="garden", name="GARDEN LINE", tag=(586, 300, "start"),
+         track=[[(200, 390), (570, 390), (570, 200), (610, 160), (1130, 160)]],
+         planned=[[(1130, 160), (1240, 160)]]),
+    dict(id="portfolio", name="PORTFOLIO LINE", tag=(586, 500, "start"),
+         track=[[(200, 410), (570, 410), (570, 560), (610, 600), (1130, 600)]]),
+    dict(id="home", name="HOME LINE", tag=(784, 405, "start"),
+         track=[[(200, 400), (760, 400)]]),
+    dict(id="tigers", name="RISING TIGERS LINE", tag=(1130, 902, "middle"),
+         track=[[(1130, 160), (1130, 740)]],
+         planned=[[(1130, 740), (1130, 860)]]),
 ]
 
-VIEW = (40, 82, 1210, 800)  # x, y, width, height of the visible canvas
+VIEW = (40, 82, 1300, 836)  # x, y, width, height of the visible canvas
 BG = "#0a0212"
 
 
