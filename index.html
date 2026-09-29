@@ -445,10 +445,13 @@
     .ring-label { transition: fill .2s, opacity .2s, font-size .2s; }
     .net a:hover .st-name, .net a:hover .st-note, .net a:focus-visible .st-name, .net a:focus-visible .st-note,
     .net a.edge-lit .st-name, .net a.edge-lit .st-note, .net.planned-lit .st-planned .st-name { font-size: 15px; }
+    /* A levelled label sits away from the pointer, so hover has dropped: hold the highlight. */
+    .net a.dwell-lit .st-name, .net a.dwell-lit .st-note { fill: var(--hl-stop); }
+    .net a.dwell-lit circle[fill="var(--fg)"] { stroke: var(--hl-stop); }
     .ring-grp:hover .ring-label, .net.planned-lit .ring-planned .ring-label { font-size: 13px; }
-    /* Dwell: after ~0.4s on a stop, its slanted label levels out and grows one more step.
+    /* Dwell: after ~1.4s on a stop, the map dims and its slanted label levels out and grows a step.
        hub.js tags slanted groups with data-rot (and --a, the origin) the first time it is needed. */
-    .net g[data-rot] { transform: rotate(var(--a)); transition: transform .35s var(--ease); }
+    .net g[data-rot] { transform: rotate(var(--a)); transition: transform .7s var(--ease); }
     .net g[data-rot].straight { transform: rotate(0deg); }
     .net g.straight .st-name, .net g.straight .st-note { font-size: 16px; paint-order: stroke; stroke: var(--bg); stroke-width: 4px; stroke-linejoin: round; }
     .ring-label { font: 500 12px var(--mono); letter-spacing: .18em; fill: var(--muted); opacity: .85; }
@@ -482,8 +485,11 @@
 
     /* Trace: the shortest route from Grand Central to the stop under the pointer or focus. */
     .trace { fill: none; stroke: var(--fg); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
-    .net.tracing [data-k]:not(.on) { opacity: .3; }
-    .net.tracing .links, .net.tracing .rings { opacity: .35; }
+    /* Hovering only traces and greens the stop. The map dims at the dwell, with the
+       level-out, so the two read as one move rather than a flicker on every pass. */
+    .net.dwelling [data-k], .net.dwelling .links, .net.dwelling .rings { transition: opacity .7s var(--ease); }
+    .net.dwelling [data-k]:not(.on) { opacity: .3; }
+    .net.dwelling .links, .net.dwelling .rings { opacity: .35; }
     .trace-note { min-height: 1.6em; margin: .75rem 0 0; text-align: center; font: .78rem/1.6 var(--mono); color: var(--muted); }
     @media (hover: none) { .trace-note { display: none; } }
 
