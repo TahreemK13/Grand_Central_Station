@@ -27,7 +27,7 @@ The map on the home page is drawn like a subway map, but every part of it comes 
 - **Connectors** are the links between pages. The more shortest routes run through a link, the thicker it's drawn.
 - **Bullets** under a stop show which other lines that page links to.
 
-Hover any stop to see its shortest route from here.
+Hover a stop, or tab to it, and its shortest route from Grand Central lights up while the rest dims. The map opens centered on Grand Central, sized to fit the window (never below readable text), and draws itself outward once as it scrolls into view. Visitors who prefer reduced motion skip the animation. On phones it opens scrolled to the center, and stops are at least 24px targets.
 
 ### Updating it
 
