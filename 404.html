@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stop not found · Tahreem Karim</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/style.css">
+<style>
+  /* 404 only. Absolute paths throughout: this page is served at whatever address was missing. */
+  main.lost { text-align: center; padding-top: 3rem; }
+  .lost .code { font: 500 .78rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--orange); }
+  .lost h1 { margin: .9rem 0 .75rem; }
+  .lost > p { color: var(--muted); max-width: 44ch; margin-inline: auto; }
+
+  /* The photo keeps its own shape (never cropped) and stays small */
+  .lost figure { display: grid; justify-items: center; gap: .6rem; margin: 2.25rem auto; }
+  .lost figure img {
+    display: block; width: auto; height: auto;
+    max-width: min(17rem, 72vw); max-height: 38vh;
+    border-radius: 10px; box-shadow: 0 10px 30px rgb(0 0 0 / .55);
+  }
+  .lost figure .cap { margin: 0; }
+  /* Until the photo is uploaded, a quiet frame holds its place */
+  .lost figure.empty img { display: none; }
+  .lost figure.empty::before {
+    content: "Photo of Raja goes here"; display: grid; place-items: center;
+    width: min(15rem, 64vw); aspect-ratio: 4 / 5;
+    border: 1.5px dashed var(--rule); border-radius: 10px;
+    font: .75rem var(--mono); color: var(--muted);
+  }
+
+  .lost .buttons { justify-content: center; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/">Home</a>
+  <a href="/now">Now</a>
+  <a href="/science">Science</a>
+  <a href="/art">Art</a>
+  <a href="/travel">Travel</a>
+  <a href="/free-resources">Free resources</a>
+</nav>
+<main class="lost">
+  <p class="code">404 · Stop not found</p>
+  <h1>This stop isn't on the map</h1>
+  <p>The page you were looking for has moved, or never existed. Trains still leave from Grand Central.</p>
+  <figure>
+    <img src="/images/raja-404.jpg" alt="Raja the whippet" onerror="this.parentNode.classList.add('empty')">
+    <figcaption class="cap">Coming soon!</figcaption>
+  </figure>
+  <p class="buttons">
+    <a href="/">Back to Grand Central</a>
+    <a href="/#map">See every stop</a>
+    <a href="/now">What I'm up to now</a>
+  </p>
+</main>
+<footer>
+  <p><a href="mailto:Tahreem.Karim@gmail.com">Tahreem.Karim@gmail.com</a></p>
+  <p class="links">
+    <a href="https://portfolio.tahreemkarim.xyz">Portfolio</a>
+    <a href="https://garden.tahreemkarim.xyz">Digital Garden</a>
+    <a href="https://risingtigers.tahreemkarim.xyz">Rising Tigers</a>
+    <a href="https://github.com/TahreemK13">GitHub</a>
+    <a href="https://www.linkedin.com/in/tahreem-karim/">LinkedIn</a>
+  </p>
+</footer>
+</body>
+</html>
