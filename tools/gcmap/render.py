@@ -139,13 +139,27 @@ def draw(net):
            'computed from the links on every page.</desc>',
            '<g class="deco" aria-hidden="true">']
 
-    # rings: one per click distance, labeled just under the east and west lines
+    # rings: one per click distance, labeled just under the east and west lines.
+    # Each ring travels with its own labels in a group, so hovering either lights the
+    # pair (hub.js and the .ring-grp rules); the transparent twin is a wide, easy
+    # target for a dotted line. The labels clear the stop notes on the same row.
     svg.append('<g class="rings">')
-    svg += [f'<ellipse cx="{CX}" cy="{CY}" rx="{n(r * AX)}" ry="{n(r * AY)}" class="ring"/>' for r in RINGS[1:-1]]
-    for i, text in enumerate(["1 click", "2 clicks", "planned"]):
+    for i, text in enumerate(["1 click", "2 clicks"]):
+        rx, ry = n(RINGS[i + 1] * AX), n(RINGS[i + 1] * AY)
         r = (RINGS[i] + RINGS[i + 1]) / 2
-        svg += [f'<text x="{n(CX + sx * r * AX * .985)}" y="{n(CY + 50 + r * 12)}" text-anchor="middle" '
+        svg.append(f'<g class="ring-grp"><ellipse cx="{CX}" cy="{CY}" rx="{rx}" ry="{ry}" class="ring-hit"/>'
+                   f'<ellipse cx="{CX}" cy="{CY}" rx="{rx}" ry="{ry}" class="ring"/>')
+        svg += [f'<text x="{n(CX + sx * r * AX * .985)}" y="{n(CY + 62 + r * 12)}" text-anchor="middle" '
                 f'class="ring-label">{text.upper()}</text>' for sx in (-1, 1)]
+        svg.append("</g>")
+    # One PLANNED control, tucked under the Garden line tag: hovering it (or any planned
+    # stop) lights every planned stop at once. Two of these, out at the ends of the east
+    # and west lines, read as two separate switches for what is really one state.
+    gx, gy = next((at(d, RINGS[-1] + .045) if len(ln["spokes"]) == 1 else at(d, t[keys[-1]] + .09))
+                  for ln, d, keys, _ in spokes() if ln["id"] == "garden")
+    svg.append(f'<g class="ring-grp ring-planned">'
+               f'<rect x="{n(gx + 16)}" y="{n(gy + 12)}" width="88" height="24" class="planned-hit"/>'
+               f'<text x="{n(gx + 24)}" y="{n(gy + 28)}" text-anchor="start" class="ring-label">PLANNED</text></g>')
     svg.append("</g>")
 
     # connectors: links between pages, weighted by shortest-path traffic. Grand
