@@ -115,7 +115,8 @@ HUBS = {"gdn", "pf", "rti"}  # a site's front page: drawn with a ring in its lin
 CX, CY = 700, 520                  # Grand Central
 AX, AY = 640, 440                  # outer radius, horizontal and vertical
 RINGS = [0.12, 0.56, 0.90, 1.00]   # ring edges: 1 click | 2 clicks | planned
-VIEW = "0 30 1400 970"
+HALF = (700, 490)                  # half-width and half-height of the frame around Grand Central
+VIEW = f"{CX - HALF[0]} {CY - HALF[1]} {2 * HALF[0]} {2 * HALF[1]}"  # centered on the hub
 DIRS = {"N": (0, -1), "S": (0, 1), "E": (1, 0), "W": (-1, 0), "SE": (1, 1), "SW": (-1, 1)}
 DIAG = AX * AY / sqrt(AX * AX + AY * AY)  # where a 45° spoke meets each ring
 
@@ -266,17 +267,19 @@ class Net:
         s = STATIONS[k].get("status", "live")
         return "orphan" if s != "planned" and k not in self.dist else s
 
-    def path(self, k):
+    def route(self, k):
+        """Stops from Grand Central to k along the shortest path."""
         p = [k]
         while p[-1] in self.prev:
             p.append(self.prev[p[-1]])
-        return " → ".join(name(x) for x in reversed(p))
+        return p[::-1]
 
     @cache
     def hint(self, k):
         if k in self.dist:
             c = self.dist[k]
-            h = f"{c} click{'s' * (c > 1)}: {self.path(k)}"
+            path = " → ".join(name(x) for x in self.route(k))
+            h = f"{c} click{'s' * (c > 1)}: {path}"
         else:
             h = {"planned": "planned", "orphan": "not linked from any mapped page"}[self.status(k)]
         return h + " (under construction)" * (self.status(k) == "building")
@@ -383,7 +386,7 @@ def label(x, y, k, side, bullets, note):
            for i, t in enumerate(rows)]
     if note or bullets:
         ry = top + len(rows) * lh + 8
-        bw, nw = len(bullets) * 16, (len(note) * 6.4 + 5 * bool(bullets)) if note else 0
+        bw, nw = len(bullets) * 16, (len(note) * 7.1 + 5 * bool(bullets)) if note else 0
         start = {"start": ax, "end": ax - bw - nw, "middle": ax - (bw + nw) / 2}[anchor]
         out += [bullet(start + 7 + i * 16, ry, ln) for i, ln in enumerate(bullets)]
         if note:
@@ -410,11 +413,13 @@ def draw(net):
            '<g class="deco" aria-hidden="true">']
 
     # rings: one per click distance, labeled just under the east and west lines
+    svg.append('<g class="rings">')
     svg += [f'<ellipse cx="{CX}" cy="{CY}" rx="{n(r * AX)}" ry="{n(r * AY)}" class="ring"/>' for r in RINGS[1:-1]]
     for i, text in enumerate(["1 click", "2 clicks", "planned"]):
         r = (RINGS[i] + RINGS[i + 1]) / 2
         svg += [f'<text x="{n(CX + sx * r * AX * .985)}" y="{n(CY + 50 + r * 12)}" text-anchor="middle" '
                 f'class="ring-label">{text.upper()}</text>' for sx in (-1, 1)]
+    svg.append("</g>")
 
     # connectors: links between pages, weighted by shortest-path traffic. Grand
     # Central's own links and links between neighbors on a track are left out:
@@ -422,11 +427,13 @@ def draw(net):
     track = {tuple(sorted(p)) for ks in ordered.values() for p in zip(["gc", *ks], ks)}
     eb = {e: v for e, v in net.betweenness().items() if "gc" not in e and e not in track}
     top = max(eb.values(), default=1)
+    svg.append('<g class="links">')
     for (a, b), v in sorted(eb.items(), key=lambda e: (round(e[1], 6), e[0])):
         f = sqrt(v / top)
         cls = f"link l-{net.line[a]}" if net.line[a] == net.line[b] else "link"
         svg.append(f'<path class="{cls}" d="{curve(pos[a], pos[b])}" stroke-width="{.8 + 3.8 * f:.2f}" '
                    f'stroke-opacity="{.1 + .42 * f:.2f}"/>')
+    svg.append("</g>")
 
     # tracks, with a route bullet and tag at each end
     def pts(ks):
@@ -435,7 +442,7 @@ def draw(net):
     for ln, d, keys, tag in spokes():
         ks = ordered[d]
         live = [k for k in ks if STATIONS[k].get("status") != "planned"]
-        svg.append(f'<polyline class="net-line l-{ln["id"]}" points="{pts(["gc", *live])}"/>')
+        svg.append(f'<polyline class="net-line l-{ln["id"]}" pathLength="1" points="{pts(["gc", *live])}"/>')
         if len(live) < len(ks):
             svg.append(f'<polyline class="net-line planned l-{ln["id"]}" points="{pts([live[-1], *ks[len(live):]])}"/>')
         ex, ey = at(d, RINGS[-1] + .045) if len(ln["spokes"]) == 1 else at(d, t[keys[-1]] + .09)
@@ -452,14 +459,17 @@ def draw(net):
         for i, k in enumerate(ordered[d]):
             s, status, (x, y) = STATIONS[k], net.status(k), pos[k]
             note = "Not linked anywhere" if status == "orphan" else s.get("note")
-            body = marker(x, y, status, net.kind(k), ln["id"]) + label(x, y, k, side_for(d, i), net.bullets(k), note)
+            hit = f'<circle class="hit" cx="{n(x)}" cy="{n(y)}" r="15" fill="transparent"/>' * (status != "planned")
+            body = hit + marker(x, y, status, net.kind(k), ln["id"]) + label(x, y, k, side_for(d, i), net.bullets(k), note)
+            data = f'data-k="{k}" style="--d:{min(net.dist.get(k, 3), 3)}"' + (f' data-route="{" ".join(net.route(k))}"' if k in net.dist else "")
             hint = net.hint(k)
             aria = escape(f"{name(k)}, {hint}")
             tip = f"<title>{escape(name(k))} — {escape(hint)}</title>"
-            svg.append(f'<a href="{escape(s["href"])}" aria-label="{aria}">{tip}{body}</a>' if s.get("href") and status != "planned"
-                       else f'<g class="st-planned" role="img" aria-label="{aria}">{tip}{body}</g>')
-    svg.append('<a href="/" aria-label="Grand Central, you are here"><title>Grand Central — you are here</title>'
-               f'<circle cx="{CX}" cy="{CY}" r="34" fill="none" stroke="var(--link)" stroke-opacity=".25" stroke-width="2"/>'
+            svg.append(f'<a href="{escape(s["href"])}" {data} aria-label="{aria}">{tip}{body}</a>' if s.get("href") and status != "planned"
+                       else f'<g class="st-planned" {data} role="img" aria-label="{aria}">{tip}{body}</g>')
+    svg.append('<a href="/" data-k="gc" data-route="gc" style="--d:0" aria-label="Grand Central, you are here">'
+               '<title>Grand Central — you are here</title>'
+               f'<circle class="hit" cx="{CX}" cy="{CY}" r="34" fill="transparent" stroke="var(--link)" stroke-opacity=".25" stroke-width="2"/>'
                f'<circle cx="{CX}" cy="{CY}" r="22" fill="var(--fg)" stroke="{BG}" stroke-width="5"/>'
                f'<text x="{CX + 30}" y="{CY - 44}" class="st-gc">Grand Central</text>'
                f'<text x="{CX + 30}" y="{CY - 28}" class="st-note">You are here</text></a></svg>')
