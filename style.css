@@ -1,0 +1,112 @@
+/* Shared styles for the Home line pages: now, science, free-resources, art, travel.
+   Tokens match index.html so every page reads as part of Grand Central. */
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+:root {
+  --bg: #000;
+  --glow: #2a0f45;
+  --fg: #f2f2f2;
+  --link: #c79bff;
+  --orange: #f5a623;
+  --muted: #b8b8c4;
+  --rule: rgb(199 155 255 / .18);
+  --panel: rgb(20 8 34 / .7);
+  --font: Lato, "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font: 400 17px/1.65 var(--font);
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+body::before { /* the hub's glow, on its own layer so scrolling stays cheap */
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 30%, var(--glow) 0%, #0a0212 55%, var(--bg) 100%);
+}
+img { display: block; max-width: 100%; height: auto; }
+
+/* Links: underline grows from the left, as on the hub */
+a {
+  color: var(--link);
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size .3s var(--ease), color .2s;
+}
+a:hover { background-size: 100% 1px; color: #e2cfff; }
+:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 2px; }
+
+/* Top bar */
+nav {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem 1.5rem;
+  padding: .9rem 1.25rem;
+  background: rgb(10 2 18 / .96);
+  border-bottom: 1px solid var(--rule);
+}
+nav a { color: var(--fg); font: 500 .75rem/1.6 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+nav a:hover { color: var(--link); }
+nav a:first-child::before { /* a station dot on Home */
+  content: ""; display: inline-block; width: .6rem; height: .6rem; margin-right: .5rem; vertical-align: -.05rem;
+  border-radius: 50%; border: 2px solid var(--link); box-shadow: 0 0 0 3px rgb(199 155 255 / .15);
+}
+
+/* Content */
+main { max-width: 68ch; margin: 0 auto; padding: 3.5rem 1.5rem 2rem; }
+h1, h2, h3 { text-wrap: balance; }
+h1 { margin: 0 0 1rem; font: 300 clamp(2.4rem, 6vw, 3.6rem)/1.05 var(--font); }
+h2 {
+  margin: 3rem 0 1rem; padding-top: 1.25rem; border-top: 1px solid var(--rule);
+  font: 500 .8rem/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--orange);
+}
+h3 { margin: 2rem 0 .4rem; font: 400 1.3rem/1.3 var(--font); color: var(--fg); }
+p { margin: 0 0 1rem; text-wrap: pretty; }
+strong { font-weight: 400; color: var(--link); }
+.cap { font: .8rem/1.5 var(--mono); color: var(--muted); letter-spacing: .04em; }
+
+/* Pill buttons, as in the hub's cards */
+.buttons { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.25rem 0 1.5rem; }
+.buttons a {
+  padding: .5rem .8rem; border: 1px solid rgb(245 166 35 / .35); border-radius: 999px;
+  color: var(--orange); font: 500 .78rem/1 var(--mono); background: none;
+  transition: background-color .2s, border-color .2s, color .2s;
+}
+.buttons a:hover { background: var(--orange); border-color: var(--orange); color: #000; }
+
+.card {
+  margin: 3rem 0 1rem; padding: 1.5rem;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 12px;
+}
+.card h3 { margin-top: 0; }
+.center { text-align: center; }
+.center .buttons { justify-content: center; }
+
+/* File list (free resources) */
+.files { list-style: none; margin: 0; padding: 0; }
+.files li { padding: .7rem 0; border-top: 1px solid var(--rule); font-size: .95rem; line-height: 1.45; overflow-wrap: anywhere; }
+.files li:last-child { border-bottom: 1px solid var(--rule); }
+.files a[href="#"] { color: var(--muted); pointer-events: none; } /* not linked yet */
+.files a[href="#"]::after { content: " · soon"; font: .72rem var(--mono); color: var(--orange); }
+
+/* Footer */
+footer { max-width: 68ch; margin: 3rem auto 0; padding: 2rem 1.5rem 3rem; text-align: center; border-top: 1px solid var(--rule); }
+footer .links { display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem 1.25rem; margin-top: 1rem; }
+footer .links a { font: .82rem/1.8 var(--mono); }
+
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  nav { justify-content: flex-start; gap: .1rem 1rem; padding: .75rem 1rem; }
+  main { padding: 2.5rem 1.25rem 1.5rem; }
+  footer .links { display: grid; grid-template-columns: 1fr 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+  html { scroll-behavior: auto; }
+}
