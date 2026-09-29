@@ -91,7 +91,11 @@
     svg.classList.add('tracing');
     note.textContent = a.querySelector('title').textContent;
   };
-  const on = (e) => { const a = e.target.closest('[data-route]'); if (a) show(a); else clear(); };
+  const on = (e) => {
+    if (anchor) return;  // a levelled label has moved: what is under the pointer means nothing
+    const a = e.target.closest('[data-route]');
+    if (a) show(a); else clear();
+  };
   svg.addEventListener('pointerover', on);
   svg.addEventListener('focusin', on);
   svg.addEventListener('pointerleave', clear);
@@ -109,7 +113,13 @@
   // assumption you are trying to read it. Prepared on first use, not at load:
   // CSS cannot animate the SVG transform attribute, so each slanted group's angle
   // moves to a custom property the transition can pick up.
-  const DWELL = 400;
+  //
+  // Once levelled the label has moved, so it is no longer under the pointer and
+  // hover would swing it straight back. Only real pointer travel (HOLD px from
+  // where it levelled) puts it back; until then what sits under the pointer is ignored.
+  // DWELL is deliberately long: the idea is that you have just started wishing the label
+  // would turn when it does, so it reads as mind-reading rather than as a hover effect.
+  const DWELL = 1400, HOLD = 60;
   let dwellOn = null, timer = 0, prepped = false;
   const prep = () => {
     prepped = true;
@@ -122,22 +132,39 @@
     });
     svg.getBoundingClientRect();  // commit the start state so the first level-out animates
   };
-  const level = (el, on) => el.querySelectorAll('g[data-rot]').forEach((g) => g.classList.toggle('straight', on));
-  const undwell = () => { clearTimeout(timer); if (dwellOn) level(dwellOn, false); dwellOn = null; };
-  svg.addEventListener('pointerover', (e) => {
-    if (e.pointerType === 'touch') return;
+  const level = (el, on) => {
+    el.classList.toggle('dwell-lit', on);  // the pointer has left the moved label; keep it lit anyway
+    // Dim the rest of the map now, not on plain hover: a routed stop is already marked .on.
+    svg.classList.toggle('dwelling', on && el.matches('a[data-route]'));
+    el.querySelectorAll('g[data-rot]').forEach((g) => g.classList.toggle('straight', on));
+  };
+  const undwell = () => {
+    clearTimeout(timer);
+    if (dwellOn) level(dwellOn, false);
+    dwellOn = anchor = null;
+  };
+  // Returns true while a label is levelled and the pointer has not travelled away.
+  const dwell = (e) => {
+    if (anchor) {
+      if (Math.hypot(e.clientX - anchor.x, e.clientY - anchor.y) < HOLD) return true;
+      undwell();
+    }
     const el = e.target.closest('a[data-k], .st-planned');
-    if (el === dwellOn) return;
-    undwell();
+    if (el === dwellOn) return false;
+    clearTimeout(timer);
     dwellOn = el;
-    if (el) timer = setTimeout(() => { if (!prepped) prep(); level(el, true); }, DWELL);
-  });
-  svg.addEventListener('pointerleave', undwell);
+    if (el) timer = setTimeout(() => {
+      if (!prepped) prep();
+      level(el, true);
+      anchor = at;  // where the pointer was when it levelled
+    }, DWELL);
+    return false;
+  };
 
   // Edges: light the one nearest the pointer, and the two stops it joins. Picking by
   // distance rather than stacked hit areas keeps the dense overlapping bundles usable.
   const REACH = 10;  // screen pixels
-  let edges = null, hot = null, frame = 0, at = null;
+  let edges = null, hot = null, frame = 0, at = null, anchor = null;
   const build = () => {  // deferred to first hover, so page load pays nothing
     const nodes = [];
     svg.querySelectorAll('a[data-k]').forEach((a) => {
@@ -194,12 +221,13 @@
   };
   svg.addEventListener('pointermove', (e) => {
     if (e.pointerType === 'touch') return;
+    at = { x: e.clientX, y: e.clientY };
+    if (dwell(e)) return;  // levelled and holding: leave the edge highlight as it is
     if (e.target.closest('a[data-k], .st-planned')) { light(null); return; }  // stops win
     if (!edges) build();
-    at = { x: e.clientX, y: e.clientY };
     if (!frame) frame = requestAnimationFrame(pick);
   });
-  svg.addEventListener('pointerleave', () => { at = null; light(null); });
+  svg.addEventListener('pointerleave', () => { at = null; undwell(); light(null); });
 })();
 
 // Check for new pages: read every mapped page on the four sites, one hop out,
