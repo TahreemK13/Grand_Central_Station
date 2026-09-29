@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-focus="off" data-view="both" data-text="md" data-contrast="default" data-motion="allow" data-patterns="off" data-font="default">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,8 +28,30 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 
-  <!-- Flags JS before first paint so the menu never flashes open -->
-  <script>document.documentElement.classList.add('js')</script>
+  <!-- Flags JS before first paint (menu never flashes open), then applies saved
+       accessibility choices and the #focus deep link so nothing flashes or jumps. -->
+  <script>
+    document.documentElement.classList.add('js');
+    (function () {
+      var KEY = 'gc-map-a11y', d = document.documentElement;
+      var mq = function (q) { return window.matchMedia && matchMedia(q).matches; };
+      var s = { view: 'both', text: 'md', zoom: 1, contrast: mq('(prefers-contrast: more)'), motion: mq('(prefers-reduced-motion: reduce)'), patterns: false, font: false };
+      var def = JSON.parse(JSON.stringify(s));
+      try { var raw = localStorage.getItem(KEY); if (raw) Object.assign(s, JSON.parse(raw)); } catch (e) {}
+      function apply() {
+        d.dataset.view = s.view; d.dataset.text = s.text;
+        d.dataset.contrast = s.contrast ? 'high' : 'default';
+        d.dataset.motion = s.motion ? 'reduce' : 'allow';
+        d.dataset.patterns = s.patterns ? 'on' : 'off';
+        d.dataset.font = s.font ? 'plain' : 'default';
+        d.style.setProperty('--zoom', s.zoom);
+      }
+      function save() { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
+      window.gcA11y = { s: s, def: def, apply: apply, save: save };
+      apply();
+      if (location.hash === '#focus') d.dataset.focus = 'on';
+    })();
+  </script>
 
   <script type="application/ld+json">
   {
@@ -74,9 +96,11 @@
       /* Transit lines (system map) */
       --line-home: #c79bff;
       --line-garden: #8fd6b4;
-      --line-portfolio: #f5a623;
-      --line-tigers: #ff8fa3;
+      --line-portfolio: #ff8fa3;
+      --line-tigers: #f5a623;
       --line-profiles: #a9a9bc;
+      --hl: #f7e7cc;      /* hover highlight for rings and click labels (matches the hero name) */
+      --hl-stop: #39ff14; /* hover highlight for stations and their text */
 
       /* Type */
       --font: Lato, "Helvetica Neue", Arial, sans-serif;
@@ -380,19 +404,57 @@
 
     .deco { pointer-events: none; } /* rings, connectors, tracks: skip hit-testing */
     .st-name { font: 400 14px var(--transit); fill: var(--fg); }
-    .st-note { font: 400 12px var(--mono); fill: var(--muted); }
-    .st-tag  { font: 500 11px var(--mono); letter-spacing: .12em; }
-    .st-gc   { font: 400 20px var(--transit); fill: var(--link); }
+    .st-note { font: 400 14px var(--mono); fill: var(--muted); }
+    .st-tag  { font: 500 12px var(--mono); letter-spacing: .12em; }
+    .st-gc   { font: 400 18px var(--transit); fill: var(--link); }
     .net a { cursor: pointer; background: none; }
-    .net a:hover .st-name, .net a:focus-visible .st-name { fill: var(--link); }
+    .net a:hover .st-name, .net a:focus-visible .st-name, .net a:hover .st-note, .net a:focus-visible .st-note { fill: var(--hl-stop); }
     .net a:focus-visible { outline: 2px solid var(--link); outline-offset: 4px; }
     .st-planned { opacity: .55; }
     .link { fill: none; stroke: var(--fg); stroke-linecap: round; }
     .ring { fill: none; stroke: var(--muted); stroke-opacity: .22; stroke-width: 1; stroke-dasharray: 2 6; }
-    .ring-label { font: 500 10px var(--mono); letter-spacing: .18em; fill: var(--muted); opacity: .6; }
-    .bul, .bul-big { font: 700 9px var(--transit); fill: var(--bg); pointer-events: none; }
-    .bul-big { font-size: 15px; }
-    .net a:hover circle[fill="var(--fg)"] { stroke: var(--link); }
+    /* Hover the whole map: writing gets brighter, the brightest whites ease off a touch */
+    .net circle[fill="var(--fg)"] { transition: fill .2s; }
+    .net:hover .st-name, .net:hover .st-note { fill: #fff; }
+    .net:hover .st-name { font-weight: 700; }
+    .net:hover .st-planned { opacity: .85; }
+    .net:hover circle[fill="var(--fg)"] { fill: #d2d2da; }
+    html[data-contrast="high"] .net:hover circle[fill="var(--fg)"] { fill: var(--fg); }
+    /* Hover a ring or its "click" label: that ring and its labels light up. The halo is a
+       wide translucent stroke (cheap) rather than a blur filter over a huge ellipse. */
+    .ring-grp .ring-hit { fill: none; stroke: transparent; stroke-width: 24; pointer-events: stroke; transition: stroke .2s; }
+    .ring-grp .ring-label { pointer-events: all; cursor: default; }
+    .ring-planned .planned-hit { fill: transparent; pointer-events: all; }
+    .ring { transition: stroke .2s, stroke-opacity .2s; }
+    .ring-grp:hover .ring { stroke: var(--hl); stroke-opacity: 1; stroke-width: 1.5; }
+    .ring-grp:hover .ring-hit { stroke: rgb(247 231 204 / .1); }
+    .ring-grp:hover .ring-label { fill: var(--hl); opacity: 1; }
+    /* Hover PLANNED (under the Garden line) or any planned stop: all planned stops and the label take the ring highlight. Class set by hub.js. */
+    .st-planned, .st-planned circle { transition: opacity .2s, stroke .2s; }
+    .net.planned-lit .st-planned { opacity: 1; }
+    .net.planned-lit .ring-planned .ring-label { fill: var(--hl); opacity: 1; }
+    .net.planned-lit .st-planned .st-name { fill: var(--hl); }
+    .net.planned-lit .st-planned circle { stroke: var(--hl); }
+    /* Hover a connecting edge: it glows and the two stops it joins take the ring highlight */
+    .net .link { transition: stroke .2s, stroke-opacity .2s, stroke-width .2s; }
+    .net .link.lit { stroke: var(--hl); stroke-opacity: .9; stroke-width: 2.2; filter: drop-shadow(0 0 3px var(--hl)); }
+    .net a.edge-lit .st-name, .net a.edge-lit .st-note { fill: var(--hl); }
+    .net a.edge-lit circle[fill="var(--fg)"] { stroke: var(--hl); }
+    /* Any highlight also nudges the writing up a size (14 -> 15, 12 -> 13) */
+    .st-name, .st-note { transition: fill .2s, font-size .2s; }
+    .ring-label { transition: fill .2s, opacity .2s, font-size .2s; }
+    .net a:hover .st-name, .net a:hover .st-note, .net a:focus-visible .st-name, .net a:focus-visible .st-note,
+    .net a.edge-lit .st-name, .net a.edge-lit .st-note, .net.planned-lit .st-planned .st-name { font-size: 15px; }
+    .ring-grp:hover .ring-label, .net.planned-lit .ring-planned .ring-label { font-size: 13px; }
+    /* Dwell: after ~0.4s on a stop, its slanted label levels out and grows one more step.
+       hub.js tags slanted groups with data-rot (and --a, the origin) the first time it is needed. */
+    .net g[data-rot] { transform: rotate(var(--a)); transition: transform .35s var(--ease); }
+    .net g[data-rot].straight { transform: rotate(0deg); }
+    .net g.straight .st-name, .net g.straight .st-note { font-size: 16px; paint-order: stroke; stroke: var(--bg); stroke-width: 4px; stroke-linejoin: round; }
+    .ring-label { font: 500 12px var(--mono); letter-spacing: .18em; fill: var(--muted); opacity: .85; }
+    .bul, .bul-big { font: 700 12px var(--transit); fill: var(--bg); pointer-events: none; }
+    .bul-big { font-size: 18px; }
+    .net a:hover circle[fill="var(--fg)"] { stroke: var(--hl-stop); }
     .bul-i {
       display: inline-grid; place-items: center; width: 1.05rem; height: 1.05rem; margin-left: .3rem;
       border-radius: 50%; background: var(--bc); color: var(--bg);
@@ -575,6 +637,128 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition: none !important; }
       html { scroll-behavior: auto; }
+    }
+
+    /* =========================================================
+       9. FOCUS MODE + ACCESSIBILITY
+       Focus mode is the same page with everything except the map hidden.
+       It is reached at /#focus (the "Pop out" button, or a shared link).
+       ========================================================= */
+    .sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+    /* Toolbar: needs JS, so it stays hidden without it */
+    .tools { display: none; justify-content: center; flex-wrap: wrap; gap: .5rem; margin: -.5rem 0 1.75rem; }
+    .js .tools { display: flex; }
+    .tool {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font: 500 .75rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--fg);
+      background: none; border: 1px solid var(--rule); border-radius: 999px; padding: .65rem 1rem; cursor: pointer;
+      transition: border-color .2s, color .2s;
+    }
+    .tool:hover, .tool[aria-expanded="true"] { color: var(--link); border-color: rgb(199 155 255 / .5); }
+    html[data-focus="on"] #popout-btn { display: none; }
+    html:not([data-focus="on"]) #exit-btn { display: none; }
+
+    /* Accessibility panel */
+    .a11y { max-width: 64rem; margin: 0 auto 2rem; padding: 1.25rem; background: var(--panel); border: 1px solid var(--rule); border-radius: var(--radius); }
+    .a11y[hidden] { display: none; }
+    .a11y h3 { margin: 0 0 1rem; }
+    .a11y-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1rem; }
+    .a11y fieldset { margin: 0; padding: .75rem 1rem 1rem; border: 1px solid var(--rule); border-radius: calc(var(--radius) - 4px); }
+    .a11y legend { padding: 0 .4rem; font: 500 .72rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    .a11y label { display: flex; align-items: center; gap: .6rem; padding: .3rem 0; cursor: pointer; }
+    .a11y input { accent-color: var(--link); width: 1.15rem; height: 1.15rem; margin: 0; }
+    .a11y button, .zoom output {
+      font: 500 .8rem/1 var(--mono); color: var(--fg); background: none;
+      padding: .6rem .8rem; border: 1px solid var(--rule); border-radius: 999px; min-width: 2.75rem; text-align: center;
+    }
+    .a11y button { cursor: pointer; }
+    .a11y button:hover:not(:disabled) { color: var(--link); border-color: rgb(199 155 255 / .5); }
+    .a11y button:disabled { opacity: .4; cursor: default; }
+    .zoom { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+    .zoom output { border-style: dashed; }
+    .a11y-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 1rem; }
+    .a11y-foot p { margin: 0; font: .75rem var(--mono); color: var(--muted); }
+
+    /* Map: zoom is a CSS variable (1 = the original size) */
+    .network .map-scroll svg { width: calc(100% * var(--zoom, 1)); min-width: calc(70rem * var(--zoom, 1)); }
+    .map-caption { margin: .5rem 0 0; text-align: center; font: .78rem/1.6 var(--mono); color: var(--muted); }
+    .kbd-hint, .linekey, .read { display: none; }
+
+    /* Focus mode: only the map, fitted to the window */
+    html[data-focus="on"] .hero, html[data-focus="on"] .intro, html[data-focus="on"] .line,
+    html[data-focus="on"] .board, html[data-focus="on"] .creds, html[data-focus="on"] footer,
+    html[data-focus="on"] .how, html[data-focus="on"] .map-hint { display: none; }
+    html[data-focus="on"] main { max-width: 1500px; padding-top: 1rem; }
+    html[data-focus="on"] .network { margin-top: 0; }
+    html[data-focus="on"] .network > header { margin-bottom: 1rem; }
+    html[data-focus="on"] .network h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin: .4rem 0; }
+    html[data-focus="on"] .network .map-scroll {
+      width: 100%; margin: 0; padding: 0; max-height: calc(100svh - 8rem); overflow: auto;
+      border: 1px solid var(--rule); border-radius: var(--radius);
+    }
+    html[data-focus="on"] .network .map-scroll svg {
+      --fit: min(100%, calc((100svh - 10rem) * 1.4286));
+      width: calc(var(--fit) * var(--zoom, 1)); margin-inline: auto;
+    }
+    html[data-focus="on"] .legend { margin-bottom: 1rem; }
+    html[data-focus="on"] .linekey {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 1.5rem; margin: 0 0 1rem; padding: 0; list-style: none;
+      font: .75rem var(--mono); color: var(--muted);
+    }
+    .linekey li { display: inline-flex; align-items: center; gap: .5rem; }
+    .linekey .bul-i { margin: 0; }
+    html[data-focus="on"] .kbd-hint { display: block; max-width: 70ch; margin: .75rem auto 0; text-align: center; font: .75rem/1.6 var(--mono); color: var(--muted); }
+    html[data-focus="on"] .read { display: block; max-width: 62ch; margin: 3rem auto 0; }
+    .read h3 { margin: 0 0 .75rem; font-size: 1.15rem; }
+    .read ul { margin: 0 0 1rem; padding-left: 1.2rem; color: #ddd; }
+    .read li + li { margin-top: .4rem; }
+    .read details { color: var(--muted); }
+    .read summary { cursor: pointer; width: fit-content; font: 500 .75rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    .read details p { margin: .75rem 0 0; }
+    html[data-focus="on"] .directory { margin-top: 3rem; }
+
+    /* View switch (works in both modes) */
+    html[data-view="map"] .directory { display: none; }
+    html[data-view="list"] #map-wrap { display: none; }
+
+    /* Page text size (map labels scale with Map zoom instead) */
+    html[data-text="lg"] { --base-size: 21px; }
+    html[data-text="xl"] { --base-size: 25px; }
+
+    /* High contrast */
+    html[data-contrast="high"] {
+      --bg: #000; --fg: #fff; --muted: #ececf2; --link: #e3c9ff; --orange: #ffc24d; --glow: #000;
+      --rule: rgb(255 255 255 / .55); --panel: #0c0418;
+      --line-home: #d8b4ff; --line-garden: #a6ffd6; --line-portfolio: #ffa3b3; --line-tigers: #ffc24d; --line-profiles: #d0d0e0;
+    }
+    html[data-contrast="high"] .link { stroke-opacity: .55; }
+    html[data-contrast="high"] .ring { stroke-opacity: .6; }
+    html[data-contrast="high"] .ring-label { opacity: 1; }
+    html[data-contrast="high"] .st-planned, html[data-contrast="high"] .planned { opacity: 1; }
+    html[data-contrast="high"] .intro p, html[data-contrast="high"] .read ul { color: var(--fg); }
+    html[data-contrast="high"] :focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+    html[data-contrast="high"] .net a:focus-visible { outline: 3px solid #fff; outline-offset: 6px; }
+
+    /* Plain font */
+    html[data-font="plain"] { --font: Verdana, Arial, sans-serif; --mono: Verdana, Arial, sans-serif; --transit: Verdana, Arial, sans-serif; }
+
+    /* Lines told apart by pattern as well as color (dash lengths are fractions of each line's length) */
+    html[data-patterns="on"] .net-line.l-garden[pathLength]    { stroke-dasharray: .05 .02; }
+    html[data-patterns="on"] .net-line.l-portfolio[pathLength] { stroke-dasharray: .012 .02; }
+    html[data-patterns="on"] .net-line.l-tigers[pathLength]    { stroke-dasharray: .06 .02 .012 .02; }
+    html[data-patterns="on"] .net-line.l-profiles[pathLength]  { stroke-dasharray: .03 .03; }
+
+    /* Reduce motion: no reveal animation, no transitions */
+    html[data-motion="reduce"] *, html[data-motion="reduce"] *::before, html[data-motion="reduce"] *::after {
+      animation: none !important; transition: none !important; scroll-behavior: auto !important;
+    }
+    html[data-motion="reduce"] .net.pre [data-k], html[data-motion="reduce"] .net.pre .links, html[data-motion="reduce"] .net.pre .rings { opacity: 1; }
+    html[data-motion="reduce"] .net.pre .net-line[pathLength] { stroke-dashoffset: 0; }
+
+    @media (max-width: 768px) {
+      html[data-focus="on"] .network .map-scroll { max-height: none; }
+      html[data-focus="on"] .network .map-scroll svg { --fit: 100%; }
     }
   </style>
 </head>
@@ -765,26 +949,79 @@
         <p>Everything I keep on the internet, drawn from the links actually on each page, footers included. Each ring is one more click from here.</p>
       </header>
 
+      <div class="tools">
+        <a class="tool" id="popout-btn" href="#focus" aria-label="Pop out focused map view">Pop out ↗</a>
+        <a class="tool" id="exit-btn" href="#map">← Back to full page</a>
+        <button class="tool" id="a11y-btn" type="button" aria-expanded="false" aria-controls="a11y"><span aria-hidden="true">◐</span> Accessibility</button>
+      </div>
+      <p class="sr" id="live" role="status" aria-live="polite"></p>
+
+      <section class="a11y" id="a11y" hidden aria-labelledby="a11y-title">
+        <h3 class="label" id="a11y-title">Accessibility options</h3>
+        <div class="a11y-grid">
+          <fieldset>
+            <legend>View</legend>
+            <label><input type="radio" name="view" value="both"> Map and text list</label>
+            <label><input type="radio" name="view" value="map"> Map only</label>
+            <label><input type="radio" name="view" value="list"> Text list only</label>
+          </fieldset>
+          <fieldset>
+            <legend>Page text size</legend>
+            <label><input type="radio" name="text" value="md"> Default</label>
+            <label><input type="radio" name="text" value="lg"> Large</label>
+            <label><input type="radio" name="text" value="xl"> Extra large</label>
+          </fieldset>
+          <fieldset>
+            <legend>Map zoom</legend>
+            <div class="zoom">
+              <button type="button" id="z-out" aria-label="Zoom out">−</button>
+              <output id="z-val" for="z-out z-in" aria-live="polite">100%</output>
+              <button type="button" id="z-in" aria-label="Zoom in">+</button>
+              <button type="button" id="z-fit">Fit</button>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Display</legend>
+            <label><input type="checkbox" id="o-contrast"> High contrast</label>
+            <label><input type="checkbox" id="o-motion"> Reduce motion</label>
+            <label><input type="checkbox" id="o-patterns"> Tell lines apart by pattern</label>
+            <label><input type="checkbox" id="o-font"> Plain font</label>
+          </fieldset>
+        </div>
+        <div class="a11y-foot">
+          <button type="button" id="a11y-reset">Reset all</button>
+          <p>Saved on this device only. Your system contrast and motion settings are used until you change them here.</p>
+        </div>
+      </section>
+
+      <div id="map-wrap">
       <ul class="legend" aria-label="Legend">
         <li><span class="dot" style="--c: var(--fg)" aria-hidden="true"></span>Live</li>
         <li class="building"><span class="dot" aria-hidden="true"></span>Under construction</li>
         <li class="planned"><span class="dot" aria-hidden="true"></span>Planned</li>
         <li><span class="bul-i t-home" aria-hidden="true" style="margin:0">H</span>Page links to that line</li>
       </ul>
+      <ul class="linekey" aria-label="Line key">
+        <li><span class="bul-i t-home" aria-hidden="true">H</span>Home</li>
+        <li><span class="bul-i t-garden" aria-hidden="true">G</span>Garden</li>
+        <li><span class="bul-i t-portfolio" aria-hidden="true">P</span>Portfolio</li>
+        <li><span class="bul-i t-tigers" aria-hidden="true">T</span>Rising Tigers</li>
+        <li><span class="bul-i t-profiles" aria-hidden="true">S</span>Profiles and photo</li>
+      </ul>
 
-      <div class="map-scroll" tabindex="0" role="group" aria-label="System map. Scroll sideways on small screens.">
+      <p class="sr" id="map-summary">Grand Central is the hub of the map. A text version of every stop follows it.</p>
+      <div class="map-scroll" tabindex="0" role="group" aria-label="System map. Scroll sideways on small screens." aria-describedby="map-summary">
 <!-- MAP:START (generated by tools/build_map.py from tools/gcmap/stations.py; edit the data there, not here) -->
 <svg class="net" viewBox="0 30 1400 980" xmlns="http://www.w3.org/2000/svg" aria-labelledby="net-title net-desc"><title id="net-title">System map of Tahreem Karim's websites</title><desc id="net-desc">Grand Central in the center; each ring is one more click away, computed from the links on every page.</desc>
 <g class="deco" aria-hidden="true">
 <g class="rings">
-<ellipse cx="700" cy="520" rx="358.4" ry="246.4" class="ring"/>
-<ellipse cx="700" cy="520" rx="576" ry="396" class="ring"/>
+<g class="ring-grp"><ellipse cx="700" cy="520" rx="358.4" ry="246.4" class="ring-hit"/><ellipse cx="700" cy="520" rx="358.4" ry="246.4" class="ring"/>
 <text x="485.7" y="574.1" text-anchor="middle" class="ring-label">1 CLICK</text>
-<text x="914.3" y="574.1" text-anchor="middle" class="ring-label">1 CLICK</text>
+<text x="914.3" y="574.1" text-anchor="middle" class="ring-label">1 CLICK</text></g>
+<g class="ring-grp"><ellipse cx="700" cy="520" rx="576" ry="396" class="ring-hit"/><ellipse cx="700" cy="520" rx="576" ry="396" class="ring"/>
 <text x="239.8" y="578.8" text-anchor="middle" class="ring-label">2 CLICKS</text>
-<text x="1160.2" y="578.8" text-anchor="middle" class="ring-label">2 CLICKS</text>
-<text x="101.1" y="581.4" text-anchor="middle" class="ring-label">PLANNED</text>
-<text x="1298.9" y="581.4" text-anchor="middle" class="ring-label">PLANNED</text>
+<text x="1160.2" y="578.8" text-anchor="middle" class="ring-label">2 CLICKS</text></g>
+<g class="ring-grp ring-planned"><rect x="716" y="72" width="88" height="24" class="planned-hit"/><text x="724" y="88" text-anchor="start" class="ring-label">PLANNED</text></g>
 </g>
 <g class="links">
 <path class="link" d="M426.1,520 Q450.1,621.9 523.5,696.5" stroke-width="1.44" stroke-opacity="0.17"/>
@@ -937,21 +1174,36 @@
 <!-- MAP:END -->
       </div>
       <p class="trace-note" id="trace-note" aria-hidden="true">Hover a stop to trace its shortest route from Grand Central.</p>
+      <p class="map-caption">Every 'stop' or node is an outgoing link to an active project.</p>
+      <p class="kbd-hint">Keyboard: Tab steps through stops line by line. Arrow keys jump to the nearest stop in that direction. Home returns to Grand Central.</p>
       <p class="map-hint">Swipe sideways to explore the map →</p>
 
       <div class="scan" hidden>
         <button type="button" id="scan-btn">Check for new pages</button>
         <p id="scan-out" role="status" aria-live="polite"></p>
       </div>
+      </div>
 <!-- STATUS:START (generated by tools/build_map.py) -->
 <script type="application/json" id="map-known">{"aliases":{"https://tahreemk13.github.io/portfolio":"https://portfolio.tahreemkarim.xyz"},"goneOk":[],"hosts":["garden.tahreemkarim.xyz","portfolio.tahreemkarim.xyz","risingtigers.tahreemkarim.xyz","www.tahreemkarim.xyz"],"known":["https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view","https://garden.tahreemkarim.xyz","https://garden.tahreemkarim.xyz/library","https://garden.tahreemkarim.xyz/posts/comics-multimodal","https://garden.tahreemkarim.xyz/posts/on-philosophy","https://garden.tahreemkarim.xyz/posts/on_curriculum","https://garden.tahreemkarim.xyz/posts/rti_brainstorm","https://github.com/kcyl/siads593-milestone1-project","https://github.com/tahreemk13","https://github.com/tahreemk13/portfolio/blob/main/coding/shm%20simulator%20prototype_ntbk.ipynb","https://github.com/tahreemk13/portfolio/blob/main/presentations/experiencereview_biohub.pdf","https://github.com/tahreemk13/portfolio/blob/main/presentations/melanobio.pdf","https://github.com/tahreemk13/portfolio/blob/main/presentations/seanomejcplmraaa.pdf","https://github.com/tahreemk13/portfolio/blob/main/presentations/tacitintvjournclb.pdf","https://github.com/tahreemk13/portfolio/blob/main/visualizations","https://github.com/tahreemk13/portfolio/tree/main/presentations","https://github.com/tahreemk13/rising_tigers_initiative/tree/main/library","https://portfolio.tahreemkarim.xyz","https://risingtigers.tahreemkarim.xyz","https://risingtigers.tahreemkarim.xyz/activism","https://risingtigers.tahreemkarim.xyz/artifacts/congo","https://risingtigers.tahreemkarim.xyz/artifacts/palestine","https://risingtigers.tahreemkarim.xyz/artifacts/sudan","https://tahreemk13.github.io/synbiohub_parts_visualization","https://www.flickr.com/photos/tahreemkphotography","https://www.instagram.com/raja.hobbes.tigerdog","https://www.instagram.com/tahreemkphoto","https://www.instagram.com/the_rising_tigers_initiative","https://www.linkedin.com/company/rising-tigers-initiative","https://www.linkedin.com/in/tahreem-karim","https://www.tahreemkarim.xyz","https://www.tahreemkarim.xyz/art","https://www.tahreemkarim.xyz/free-resources","https://www.tahreemkarim.xyz/now","https://www.tahreemkarim.xyz/science","https://www.tahreemkarim.xyz/travel"],"look":["https://garden.tahreemkarim.xyz","https://garden.tahreemkarim.xyz/library","https://garden.tahreemkarim.xyz/posts/comics-multimodal.html","https://garden.tahreemkarim.xyz/posts/on-philosophy.html","https://garden.tahreemkarim.xyz/posts/on_curriculum.html","https://garden.tahreemkarim.xyz/posts/rti_brainstorm.html","https://portfolio.tahreemkarim.xyz","https://risingtigers.tahreemkarim.xyz","https://risingtigers.tahreemkarim.xyz/activism/","https://risingtigers.tahreemkarim.xyz/artifacts/congo/","https://risingtigers.tahreemkarim.xyz/artifacts/palestine/","https://risingtigers.tahreemkarim.xyz/artifacts/sudan/","https://www.tahreemkarim.xyz/","https://www.tahreemkarim.xyz/art","https://www.tahreemkarim.xyz/free-resources","https://www.tahreemkarim.xyz/now","https://www.tahreemkarim.xyz/science","https://www.tahreemkarim.xyz/travel"],"names":{"https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view":"CV","https://garden.tahreemkarim.xyz":"Digital garden","https://garden.tahreemkarim.xyz/library":"Library","https://garden.tahreemkarim.xyz/posts/comics-multimodal":"Marvel vs. DC","https://garden.tahreemkarim.xyz/posts/on-philosophy":"Born with it?","https://garden.tahreemkarim.xyz/posts/on_curriculum":"Online curriculum","https://garden.tahreemkarim.xyz/posts/rti_brainstorm":"Brainstorm with us?","https://github.com/kcyl/siads593-milestone1-project":"SIADS 593 Milestone I","https://github.com/tahreemk13":"GitHub","https://github.com/tahreemk13/portfolio/blob/main/coding/shm%20simulator%20prototype_ntbk.ipynb":"SHM simulator","https://github.com/tahreemk13/portfolio/blob/main/visualizations":"Aging biomarkers","https://github.com/tahreemk13/portfolio/tree/main/presentations":"Presentations","https://github.com/tahreemk13/rising_tigers_initiative/tree/main/library":"Source library","https://portfolio.tahreemkarim.xyz":"Portfolio","https://risingtigers.tahreemkarim.xyz":"Rising Tigers","https://risingtigers.tahreemkarim.xyz/activism":"Math, Murder, and Making a Difference","https://risingtigers.tahreemkarim.xyz/artifacts/congo":"Congo","https://risingtigers.tahreemkarim.xyz/artifacts/palestine":"Palestine","https://risingtigers.tahreemkarim.xyz/artifacts/sudan":"Sudan","https://tahreemk13.github.io/synbiohub_parts_visualization":"SynBioHub parts","https://www.flickr.com/photos/tahreemkphotography":"Flickr","https://www.instagram.com/raja.hobbes.tigerdog":"Raja","https://www.instagram.com/tahreemkphoto":"Instagram","https://www.instagram.com/the_rising_tigers_initiative":"RTI Instagram","https://www.linkedin.com/company/rising-tigers-initiative":"RTI LinkedIn","https://www.linkedin.com/in/tahreem-karim":"LinkedIn","https://www.tahreemkarim.xyz":"Grand Central","https://www.tahreemkarim.xyz/art":"Art","https://www.tahreemkarim.xyz/free-resources":"Free resources","https://www.tahreemkarim.xyz/now":"Now","https://www.tahreemkarim.xyz/science":"Science & CV","https://www.tahreemkarim.xyz/travel":"Travel"},"notify":""}</script>
 <!-- STATUS:END -->
 
       <aside class="how" aria-labelledby="how-title">
-        <h3 class="label" id="how-title">How the map is drawn</h3>
-        <p>The rings come from a breadth-first search out of Grand Central: the fewest clicks it takes to reach each page. The thin connectors repeat that search from every page to every other page. Each link is then drawn as thick as the share of those shortest routes that pass through it, a measure called edge betweenness. Brandes' algorithm computes it with one search per page instead of comparing every pair.</p>
-        <p><a href="https://snap.stanford.edu/class/cs224w-readings/brandes01centrality.pdf">Read Brandes, “A Faster Algorithm for Betweenness Centrality” (2001)</a></p>
+        <h3 class="label" id="how-title">The Map</h3>
+        <p>The two faint rings circling Grand Central come from a 'breadth-first search' out of the central hub. Distance is measured as the fewest clicks it takes to reach each page. The thin connectors repeat the search from every page, to every other page. Edge (or 'link') thickness is proportionate to the share of shortest routes passing through it (called 'edge betweenness'). <a href="https://snap.stanford.edu/class/cs224w-readings/brandes01centrality.pdf">Brandes' algorithm</a> computes the solution to this <a href="https://www.puppygraph.com/blog/betweenness-centrality">Betweenness Centrality</a> problem with one search per page instead of comparing every pair.</p>
       </aside>
+
+      <section class="read" aria-labelledby="read-title">
+        <h3 id="read-title">How to read it</h3>
+        <ul>
+          <li>Grand Central, in the center, is the hub. Each dotted ring is one more click away.</li>
+          <li>A colored line is one site and each dot on it is a page. Dashed orange dots are under construction; dotted grey dots are planned.</li>
+          <li>Letters beside a page show which other lines it links to. Fainter, thicker connectors carry more of the shortest routes.</li>
+        </ul>
+        <details>
+          <summary>How it is computed</summary>
+          <p>Rings come from a breadth-first search out of Grand Central: a page's distance is the fewest clicks needed to reach it. Connector thickness is edge betweenness, the share of shortest routes passing through a link, calculated with <a href="https://snap.stanford.edu/class/cs224w-readings/brandes01centrality.pdf">Brandes' algorithm</a>.</p>
+        </details>
+      </section>
 
       <details class="directory">
         <summary>Line-by-line directory</summary>
@@ -1039,9 +1291,110 @@
       <li><a href="https://garden.tahreemkarim.xyz/library">Digital Library</a></li>
       <li><a href="/now">Now</a></li>
     </ul>
-    <p class="colophon">© 2026 Tahreem Karim · Built by hand, hosted on GitHub Pages · <a href="https://github.com/TahreemK13/Grand_Central_Station">Source</a></p>
+    <p class="colophon">© 2026 Tahreem Karim · Built on Zed, hosted on GitHub Pages · <a href="https://github.com/TahreemK13/Grand_Central_Station">Source</a></p>
   </footer>
 
   <script src="hub.js"></script>
+  <script>
+    // Focus mode, accessibility controls, keyboard navigation. Runs after hub.js and only adds behavior.
+    (function () {
+      var A = window.gcA11y, s = A.s, d = document.documentElement;
+      var $ = function (id) { return document.getElementById(id); };
+      var ZOOMS = [0.75, 1, 1.25, 1.5, 2, 2.5, 3];
+      var mapEl = document.querySelector('.map-scroll'), svg = document.querySelector('svg.net'), dir = document.querySelector('details.directory');
+
+      function centerMap() {
+        if (!mapEl) return;
+        mapEl.scrollLeft = (mapEl.scrollWidth - mapEl.clientWidth) / 2;
+        mapEl.scrollTop = (mapEl.scrollHeight - mapEl.clientHeight) / 2;
+      }
+
+      // Screen-reader summary, counted from the map itself so it never goes stale
+      if (svg) {
+        var labels = Array.prototype.map.call(svg.querySelectorAll('a[aria-label]'), function (a) { return a.getAttribute('aria-label'); });
+        var n = function (re) { return labels.filter(function (t) { return re.test(t); }).length; };
+        $('map-summary').textContent = 'Map summary: Grand Central is the hub. ' + n(/, 1 click:/) + ' pages are one click away and ' +
+          n(/, 2 clicks:/) + ' are two clicks away; ' + n(/under construction/) + ' of them are under construction. ' +
+          svg.querySelectorAll('.st-planned').length + ' more stops are planned and not yet linked. A text version of every stop follows the map.';
+      }
+
+      // Focus mode lives at /#focus so it can be linked, bookmarked and left with the Back button
+      var mode = null, dirWasOpen = dir ? dir.open : false;
+      function route() {
+        var on = location.hash === '#focus';
+        if (mode === on) return;
+        var first = mode === null; mode = on;
+        d.dataset.focus = on ? 'on' : 'off';
+        if (dir) { if (on) { dirWasOpen = dir.open; dir.open = true; } else if (!first) { dir.open = dirWasOpen; } }
+        if (on) {
+          if (!first) window.scrollTo(0, 0);
+          var h = $('map-title'); h.tabIndex = -1; h.focus({ preventScroll: true });
+        }
+        if (!first) $('live').textContent = on ? 'Focused map view. Use Back to full page to return.' : 'Full page view.';
+        if (on || !first) requestAnimationFrame(function () { requestAnimationFrame(centerMap); });
+      }
+      window.addEventListener('hashchange', route);
+      window.addEventListener('load', function () { if (mode) centerMap(); });
+      route();
+
+      // Panel toggle
+      var btn = $('a11y-btn'), panel = $('a11y');
+      btn.addEventListener('click', function () {
+        var open = panel.hidden;
+        panel.hidden = !open;
+        btn.setAttribute('aria-expanded', String(open));
+        if (open) panel.querySelector('input').focus();
+      });
+
+      function sync() {
+        document.querySelectorAll('input[name=view]').forEach(function (r) { r.checked = r.value === s.view; });
+        document.querySelectorAll('input[name=text]').forEach(function (r) { r.checked = r.value === s.text; });
+        $('o-contrast').checked = s.contrast; $('o-motion').checked = s.motion;
+        $('o-patterns').checked = s.patterns; $('o-font').checked = s.font;
+        $('z-val').textContent = Math.round(s.zoom * 100) + '%';
+        $('z-out').disabled = s.zoom <= ZOOMS[0]; $('z-in').disabled = s.zoom >= ZOOMS[ZOOMS.length - 1];
+      }
+      function change() { A.apply(); A.save(); sync(); }
+      document.querySelectorAll('input[name=view]').forEach(function (r) { r.addEventListener('change', function () { s.view = r.value; change(); }); });
+      document.querySelectorAll('input[name=text]').forEach(function (r) { r.addEventListener('change', function () { s.text = r.value; change(); }); });
+      [['o-contrast', 'contrast'], ['o-motion', 'motion'], ['o-patterns', 'patterns'], ['o-font', 'font']].forEach(function (p) {
+        $(p[0]).addEventListener('change', function (e) { s[p[1]] = e.target.checked; change(); });
+      });
+      function step(dir) {
+        var i = ZOOMS.indexOf(s.zoom); if (i < 0) i = 1;
+        s.zoom = ZOOMS[Math.min(ZOOMS.length - 1, Math.max(0, i + dir))];
+        change(); centerMap();
+      }
+      $('z-out').addEventListener('click', function () { step(-1); });
+      $('z-in').addEventListener('click', function () { step(1); });
+      $('z-fit').addEventListener('click', function () { s.zoom = 1; change(); centerMap(); });
+      $('a11y-reset').addEventListener('click', function () { Object.assign(s, JSON.parse(JSON.stringify(A.def))); change(); centerMap(); });
+      sync();
+
+      // Keyboard: arrows jump to the nearest stop in that direction, Home returns to Grand Central
+      if (!svg) return;
+      var stops = Array.prototype.map.call(svg.querySelectorAll('a[data-k]'), function (a) {
+        var h = a.querySelector('.hit');
+        return { a: a, k: a.getAttribute('data-k'), x: +h.getAttribute('cx'), y: +h.getAttribute('cy') };
+      });
+      var DIRS = { ArrowRight: [1, 0], ArrowLeft: [-1, 0], ArrowDown: [0, 1], ArrowUp: [0, -1] };
+      svg.addEventListener('keydown', function (e) {
+        var cur = stops.filter(function (t) { return t.a === document.activeElement || t.a.contains(document.activeElement); })[0];
+        if (!cur) return;
+        if (e.key === 'Home') { e.preventDefault(); stops.filter(function (t) { return t.k === 'gc'; })[0].a.focus(); return; }
+        var v = DIRS[e.key]; if (!v) return;
+        var best = null, bestScore = Infinity;
+        stops.forEach(function (t) {
+          if (t === cur) return;
+          var dx = t.x - cur.x, dy = t.y - cur.y;
+          var along = dx * v[0] + dy * v[1], across = Math.abs(dx * v[1] - dy * v[0]);
+          if (along <= 0 || across > along * 2) return;
+          var score = along + across * 2;
+          if (score < bestScore) { bestScore = score; best = t; }
+        });
+        if (best) { e.preventDefault(); best.a.focus(); }
+      });
+    })();
+  </script>
 </body>
 </html>
