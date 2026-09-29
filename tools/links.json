@@ -1,0 +1,753 @@
+{
+ "crawled": "2026-09-28",
+ "pages": {
+  "https://www.tahreemkarim.xyz": {
+   "status": 200,
+   "links": {
+    "header": [
+     "https://www.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/now"
+    ],
+    "nav": [
+     "https://www.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/now",
+     "https://www.tahreemkarim.xyz/science",
+     "https://www.tahreemkarim.xyz/free-resources",
+     "https://www.tahreemkarim.xyz/art",
+     "https://www.tahreemkarim.xyz/travel",
+     "https://portfolio.tahreemkarim.xyz",
+     "https://garden.tahreemkarim.xyz",
+     "https://garden.tahreemkarim.xyz/library",
+     "https://risingtigers.tahreemkarim.xyz",
+     "https://risingtigers.tahreemkarim.xyz/activism",
+     "https://github.com/tahreemk13",
+     "https://www.linkedin.com/in/tahreem-karim",
+     "https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view",
+     "https://www.flickr.com/photos/tahreemkphotography",
+     "https://www.instagram.com/tahreemkphoto"
+    ],
+    "body": [
+     "https://www.oaklandzoo.org/programs-and-events/glowfari",
+     "https://gardensatlakemerritt.org/autumn-lights-festival-2026",
+     "https://garden.tahreemkarim.xyz",
+     "https://www.instagram.com/raja.hobbes.tigerdog",
+     "https://risingtigers.tahreemkarim.xyz",
+     "https://risingtigers.tahreemkarim.xyz/activism",
+     "https://medical.brown.edu",
+     "https://altair-viz.github.io",
+     "https://portfolio.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/science",
+     "https://github.com/tahreemk13",
+     "https://www.linkedin.com/in/tahreem-karim",
+     "https://www.cmog.org",
+     "https://www.flickr.com/photos/tahreemkphotography",
+     "https://www.instagram.com/tahreemkphoto",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/congo",
+     "https://garden.tahreemkarim.xyz/posts/rti_brainstorm",
+     "https://www.si.umich.edu/programs/master-applied-data-science",
+     "https://mcb.berkeley.edu/undergrad/imm",
+     "https://seanome.org",
+     "https://lab.moasser.com",
+     "https://chanzuckerberg.com"
+    ],
+    "footer": [
+     "https://portfolio.tahreemkarim.xyz",
+     "https://github.com/tahreemk13",
+     "https://www.linkedin.com/in/tahreem-karim",
+     "https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view",
+     "https://www.flickr.com/photos/tahreemkphotography",
+     "https://www.instagram.com/tahreemkphoto",
+     "https://risingtigers.tahreemkarim.xyz",
+     "https://garden.tahreemkarim.xyz",
+     "https://garden.tahreemkarim.xyz/library",
+     "https://www.tahreemkarim.xyz/now",
+     "https://github.com/tahreemk13/grand_central_station"
+    ]
+   }
+  },
+  "https://www.tahreemkarim.xyz/now": {
+   "status": 200,
+   "links": {
+    "nav": [
+     "https://www.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/now",
+     "https://www.tahreemkarim.xyz/science",
+     "https://www.tahreemkarim.xyz/art",
+     "https://www.tahreemkarim.xyz/travel",
+     "https://www.tahreemkarim.xyz/free-resources"
+    ],
+    "footer": [
+     "https://portfolio.tahreemkarim.xyz",
+     "https://github.com/tahreemk13",
+     "https://www.linkedin.com/in/tahreem-karim-67a86973",
+     "https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view",
+     "https://www.flickr.com/photos/tahreemkphotography",
+     "https://www.instagram.com/tahreemkphoto",
+     "https://www.linkedin.com/company/rising-tigers-initiative",
+     "https://garden.tahreemkarim.xyz",
+     "https://garden.tahreemkarim.xyz/library",
+     "https://www.tahreemkarim.xyz/now"
+    ]
+   }
+  },
+  "https://www.tahreemkarim.xyz/science": {
+   "status": 200,
+   "links": {
+    "nav": [
+     "https://www.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/now",
+     "https://www.tahreemkarim.xyz/science",
+     "https://www.tahreemkarim.xyz/art",
+     "https://www.tahreemkarim.xyz/travel",
+     "https://www.tahreemkarim.xyz/free-resources"
+    ],
+    "body": [
+     "https://portfolio.tahreemkarim.xyz",
+     "https://github.com/tahreemk13",
+     "https://www.tahreemkarim.xyz/free-resources",
+     "https://www.linkedin.com/in/tahreem-karim",
+     "https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view",
+     "https://garden.tahreemkarim.xyz"
+    ],
+    "footer": [
+     "https://portfolio.tahreemkarim.xyz",
+     "https://github.com/tahreemk13",
+     "https://www.linkedin.com/in/tahreem-karim-67a86973",
+     "https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view",
+     "https://www.flickr.com/photos/tahreemkphotography",
+     "https://www.instagram.com/tahreemkphoto",
+     "https://www.linkedin.com/company/rising-tigers-initiative",
+     "https://garden.tahreemkarim.xyz",
+     "https://garden.tahreemkarim.xyz/library",
+     "https://www.tahreemkarim.xyz/now"
+    ]
+   }
+  },
+  "https://www.tahreemkarim.xyz/free-resources": {
+   "status": 200,
+   "links": {
+    "nav": [
+     "https://www.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/now",
+     "https://www.tahreemkarim.xyz/science",
+     "https://www.tahreemkarim.xyz/art",
+     "https://www.tahreemkarim.xyz/travel",
+     "https://www.tahreemkarim.xyz/free-resources"
+    ],
+    "footer": [
+     "https://portfolio.tahreemkarim.xyz",
+     "https://github.com/tahreemk13",
+     "https://www.linkedin.com/in/tahreem-karim-67a86973",
+     "https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view",
+     "https://www.flickr.com/photos/tahreemkphotography",
+     "https://www.instagram.com/tahreemkphoto",
+     "https://www.linkedin.com/company/rising-tigers-initiative",
+     "https://garden.tahreemkarim.xyz",
+     "https://garden.tahreemkarim.xyz/library",
+     "https://www.tahreemkarim.xyz/now"
+    ]
+   }
+  },
+  "https://www.tahreemkarim.xyz/art": {
+   "status": 200,
+   "links": {
+    "nav": [
+     "https://www.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/now",
+     "https://www.tahreemkarim.xyz/science",
+     "https://www.tahreemkarim.xyz/art",
+     "https://www.tahreemkarim.xyz/travel",
+     "https://www.tahreemkarim.xyz/free-resources"
+    ],
+    "footer": [
+     "https://portfolio.tahreemkarim.xyz",
+     "https://github.com/tahreemk13",
+     "https://www.linkedin.com/in/tahreem-karim-67a86973",
+     "https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view",
+     "https://www.flickr.com/photos/tahreemkphotography",
+     "https://www.instagram.com/tahreemkphoto",
+     "https://www.linkedin.com/company/rising-tigers-initiative",
+     "https://garden.tahreemkarim.xyz",
+     "https://garden.tahreemkarim.xyz/library",
+     "https://www.tahreemkarim.xyz/now"
+    ]
+   }
+  },
+  "https://www.tahreemkarim.xyz/travel": {
+   "status": 200,
+   "links": {
+    "nav": [
+     "https://www.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/now",
+     "https://www.tahreemkarim.xyz/science",
+     "https://www.tahreemkarim.xyz/art",
+     "https://www.tahreemkarim.xyz/travel",
+     "https://www.tahreemkarim.xyz/free-resources"
+    ],
+    "footer": [
+     "https://portfolio.tahreemkarim.xyz",
+     "https://github.com/tahreemk13",
+     "https://www.linkedin.com/in/tahreem-karim-67a86973",
+     "https://drive.google.com/file/d/1RAJkQ8-j90F0jiusWNYQVpaJC3LeLOdm/view",
+     "https://www.flickr.com/photos/tahreemkphotography",
+     "https://www.instagram.com/tahreemkphoto",
+     "https://www.linkedin.com/company/rising-tigers-initiative",
+     "https://garden.tahreemkarim.xyz",
+     "https://garden.tahreemkarim.xyz/library",
+     "https://www.tahreemkarim.xyz/now"
+    ]
+   }
+  },
+  "https://portfolio.tahreemkarim.xyz": {
+   "status": 200,
+   "links": {
+    "nav": [
+     "https://www.tahreemkarim.xyz/science",
+     "https://www.tahreemkarim.xyz",
+     "https://garden.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/free-resources",
+     "https://www.tahreemkarim.xyz/now"
+    ],
+    "header": [
+     "https://github.com/tahreemk13",
+     "https://www.linkedin.com/in/tahreem-karim",
+     "https://raw.githubusercontent.com/TahreemK13/portfolio/main/2026_resume.pdf"
+    ],
+    "body": [
+     "https://github.com/tahreemk13/portfolio/blob/main/visualizations",
+     "https://garden.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/now",
+     "https://garden.tahreemkarim.xyz/library",
+     "https://instagram.com/tahreemkphoto",
+     "https://risingtigers.tahreemkarim.xyz/activism",
+     "https://github.com/tahreemk13/portfolio/blob/main/coding/shm%20simulator%20prototype_ntbk.ipynb",
+     "https://tahreemk13.github.io/synbiohub_parts_visualization",
+     "https://github.com/tahreemk13/portfolio/blob/main/presentations/melanobio.pdf",
+     "https://github.com/tahreemk13/portfolio/blob/main/presentations/tacitintvjournclb.pdf",
+     "https://github.com/kcyl/siads593-milestone1-project",
+     "https://github.com/tahreemk13/portfolio/blob/main/presentations/experiencereview_biohub.pdf",
+     "https://github.com/tahreemk13/portfolio/blob/main/presentations/seanomejcplmraaa.pdf"
+    ],
+    "footer": [
+     "https://www.tahreemkarim.xyz/science"
+    ]
+   }
+  },
+  "https://risingtigers.tahreemkarim.xyz": {
+   "status": 200,
+   "links": {
+    "body": [
+     "https://risingtigers.tahreemkarim.xyz/activism",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/congo",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/palestine",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/sudan",
+     "https://www.linkedin.com/company/rising-tigers-initiative",
+     "https://988lifeline.org",
+     "https://www.crisistextline.org",
+     "https://www.lacasa.org",
+     "https://www.sf.gov/departments--immigrant-services-and-resources",
+     "https://immigrants.sf.gov",
+     "https://www.dscs.org",
+     "https://www.advancingjustice-alc.org",
+     "https://www.lsc-sf.org",
+     "https://www.pangealegal.org",
+     "https://www.immigrationadvocates.org/legaldirectory",
+     "https://maitri.org",
+     "https://www.narika.org",
+     "https://www.sf.gov/cultural-centers",
+     "https://kearnystreet.org",
+     "https://www.moadsf.org",
+     "https://part2gallery.com",
+     "https://blog.academyart.edu/12-african-american-artists-bay-area",
+     "https://latina.com/your-december-guide-to-latinx-art-in-the-sf-bay-area",
+     "https://www.7x7.com/6-black-artists-in-oakland-to-collect-now-2646272504",
+     "https://www.thehotline.org",
+     "https://www.nypl.org/actionnyc",
+     "https://www.sakhi.org",
+     "https://www.studiomuseum.org",
+     "https://www.sawcc.org",
+     "https://rainn.org",
+     "https://humantraffickinghotline.org",
+     "https://www.211.org",
+     "https://www.thetrevorproject.org/get-help-now",
+     "https://translifeline.org/hotline",
+     "https://strongheartshelpline.org",
+     "https://988.ca",
+     "https://kidshelpphone.ca",
+     "https://crtc.gc.ca/eng/phone/988.htm",
+     "https://211.ca",
+     "https://111.nhs.uk",
+     "https://www.samaritans.org",
+     "https://giveusashout.org",
+     "https://www.nationaldahelpline.org.uk",
+     "https://rapecrisis.org.uk",
+     "https://galop.org.uk",
+     "https://www.childline.org.uk",
+     "https://www.traficom.fi/en/communications/broadband-and-telephone/pan-european-freephone-numbers",
+     "https://github.com/tahreemk13/rising_tigers_initiative/issues/new",
+     "https://panzifoundation.org/donate",
+     "https://donate.unrwa.org/int/en/gaza",
+     "https://www.mutualaidsudan.org/donate",
+     "https://www.doctorswithoutborders.org",
+     "https://www.rescue.org",
+     "https://www.nrc.no",
+     "https://www.unhcr.org/donate-unhcr",
+     "https://wck.org/donate",
+     "https://www.charitynavigator.org",
+     "https://candid.org",
+     "https://www.charitywatch.org",
+     "https://github.com/tahreemk13/rising_tigers_initiative/blob/main/library/sources.md",
+     "https://github.com/tahreemk13/rising_tigers_initiative/tree/main/library"
+    ],
+    "footer": [
+     "https://portfolio.tahreemkarim.xyz",
+     "https://github.com/tahreemk13/rising_tigers_initiative",
+     "https://garden.tahreemkarim.xyz/posts/rti_brainstorm",
+     "https://buymeacoffee.com/risingtigersinitiative",
+     "https://www.linkedin.com/company/rising-tigers-initiative",
+     "https://www.instagram.com/the_rising_tigers_initiative",
+     "https://www.threads.com/@the_rising_tigers_initiative"
+    ]
+   }
+  },
+  "https://risingtigers.tahreemkarim.xyz/activism": {
+   "status": 200,
+   "links": {
+    "header": [
+     "https://risingtigers.tahreemkarim.xyz"
+    ],
+    "nav": [
+     "https://risingtigers.tahreemkarim.xyz"
+    ],
+    "body": [
+     "https://www.linkedin.com/in/tahreem-karim",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/congo",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/palestine",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/sudan",
+     "https://panzifoundation.org/donate",
+     "https://donate.unrwa.org/int/en/gaza",
+     "https://www.mutualaidsudan.org/donate",
+     "https://www.doctorswithoutborders.org",
+     "https://www.rescue.org",
+     "https://www.nrc.no",
+     "https://www.unhcr.org/donate-unhcr",
+     "https://wck.org/donate",
+     "https://www.acaps.org/en/countries/drc",
+     "https://gisha.org/en/gaza-now-facts-and-figures",
+     "https://www.mutualaidsudan.org",
+     "https://www.hrw.org/world-report/2026/country-chapters/democratic-republic-of-congo",
+     "https://africacenter.org/spotlight/drc-congo-conflict-drivers-beyond-m23",
+     "https://www.unrwa.org/resources/reports/unrwa-situation-report-230-humanitarian-crisis-gaza-strip-and-occupied-west-bank",
+     "https://www.ohchr.org/en/press-releases/2025/09/israel-has-committed-genocide-gaza-strip-un-commission-finds",
+     "https://news.un.org/en/story/2026/01/1166738",
+     "https://www.hrw.org/breaking-news/2025/01/08/us-state-department-determines-genocide-sudan",
+     "https://www.fao.org/newsroom/detail/risk-of-famine-persists-as-nearly-19.5-million-people-face-acute-food-insecurity-in-sudan/en",
+     "https://panzifoundation.org",
+     "https://www.unicef.org/press-releases/rebuilding-hope-unicef-expands-back-learning-hundreds-thousands-children-gaza",
+     "https://www.usa.gov/elected-officials",
+     "https://india.mongabay.com/2025/02/the-rise-fall-and-return-of-indias-tigers",
+     "https://news.mongabay.com/2026/07/indias-tiger-numbers-are-rising-protecting-their-pathways-is-next",
+     "https://www.wri.org/news/release-tropical-rainforest-loss-drops-36-2025-fires-threaten-global-progress",
+     "https://gfr.wri.org/latest-analysis-deforestation-trends",
+     "https://ourworldindata.org/data-review-air-pollution-deaths",
+     "https://ourworldindata.org/plastic-pollution",
+     "https://www.lung.org/research/sota",
+     "https://www.globalforestwatch.org",
+     "https://www.inaturalist.org",
+     "https://olgabotvinnik.com/blog/i-dont-belong-in-science",
+     "https://sisterstem.org/2021/03/23/what-my-asexuality-and-imposter-syndrome-are-teaching-me-about-belonging",
+     "https://aeon.co/essays/how-useful-is-impostor-syndrome-in-academia",
+     "https://unpaywall.org",
+     "https://www.ncbi.nlm.nih.gov/pmc",
+     "https://doaj.org",
+     "https://news.mongabay.com",
+     "https://www.propublica.org",
+     "https://ourworldindata.org",
+     "https://www.zooniverse.org",
+     "https://earthobservatory.nasa.gov",
+     "https://ebird.org",
+     "https://openlibrary.org",
+     "https://comscicon.org",
+     "https://www.storycollider.org/education",
+     "https://www.sciartinitiative.org/the-bridge",
+     "https://leonardo.info/programs",
+     "https://artistcommunities.org/directory/open-calls/2026-artsci-awarded-residency",
+     "https://www.astc.org/resources-and-learning/job-bank",
+     "https://scicom.ucsc.edu",
+     "https://www.tahreemkarim.xyz",
+     "https://garden.tahreemkarim.xyz",
+     "https://github.com/tahreemk13/rising_tigers_initiative"
+    ],
+    "footer": [
+     "https://dartcenter.org/topic/self-care",
+     "https://github.com/tahreemk13/rising_tigers_initiative/blob/main/library/sources.md",
+     "https://www.hrw.org/world-report/2026/country-chapters/democratic-republic-of-congo",
+     "https://africacenter.org/spotlight/drc-congo-conflict-drivers-beyond-m23",
+     "https://www.acaps.org/en/countries/drc",
+     "https://panzifoundation.org",
+     "https://www.nobelwomensinitiative.org/meet-the-inspiring-women-activists-of-the-drc",
+     "https://www.unrwa.org/resources/reports/unrwa-situation-report-230-humanitarian-crisis-gaza-strip-and-occupied-west-bank",
+     "https://www.ohchr.org/en/press-releases/2025/09/israel-has-committed-genocide-gaza-strip-un-commission-finds",
+     "https://gisha.org/en/gaza-now-facts-and-figures",
+     "https://www.unicef.org/press-releases/rebuilding-hope-unicef-expands-back-learning-hundreds-thousands-children-gaza",
+     "https://news.un.org/en/story/2026/01/1166738",
+     "https://www.fao.org/newsroom/detail/risk-of-famine-persists-as-nearly-19.5-million-people-face-acute-food-insecurity-in-sudan/en",
+     "https://www.hrw.org/breaking-news/2025/01/08/us-state-department-determines-genocide-sudan",
+     "https://www.mutualaidsudan.org",
+     "https://www.chathamhouse.org/publications/the-world-today/2026-06/emergency-response-rooms-work-sudan-we-could-change-aid-models",
+     "https://india.mongabay.com/2025/02/the-rise-fall-and-return-of-indias-tigers",
+     "https://news.mongabay.com/2026/07/indias-tiger-numbers-are-rising-protecting-their-pathways-is-next",
+     "https://www.wri.org/news/release-tropical-rainforest-loss-drops-36-2025-fires-threaten-global-progress",
+     "https://gfr.wri.org/latest-analysis-deforestation-trends",
+     "https://ourworldindata.org/data-review-air-pollution-deaths",
+     "https://ourworldindata.org/plastic-pollution",
+     "https://www.lung.org/research/sota",
+     "https://www.bcaction.org",
+     "https://survjustice.org",
+     "https://ndncollective.org",
+     "https://github.com/tahreemk13/rising_tigers_initiative",
+     "https://portfolio.tahreemkarim.xyz",
+     "https://garden.tahreemkarim.xyz",
+     "https://www.linkedin.com/in/tahreem-karim"
+    ]
+   }
+  },
+  "https://risingtigers.tahreemkarim.xyz/artifacts/congo": {
+   "status": 200,
+   "links": {
+    "header": [
+     "https://risingtigers.tahreemkarim.xyz"
+    ],
+    "nav": [
+     "https://risingtigers.tahreemkarim.xyz/artifacts/congo",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/sudan",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/palestine"
+    ],
+    "body": [
+     "https://www.aljazeera.com/news/2026/8/23/dr-congo-m23-rebels-agree-on-roadmap-for-peace-talks",
+     "https://www.doctorswithoutborders.org/latest/ebola-disease-outbreak-2026-how-msf-responding",
+     "https://www.ecdc.europa.eu/en/ebola-outbreak-democratic-republic-congo-and-uganda",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/congo/congo.pdf",
+     "https://risingtigers.tahreemkarim.xyz/activism",
+     "https://fally-ipupa.com",
+     "https://www.afropop.org/audio-programs/congolese-music-the-fifth-generation",
+     "https://en.wikipedia.org/wiki/Staff_Benda_Bilili",
+     "https://www.kokokomusic.com/about",
+     "https://en.wikipedia.org/wiki/Music_of_the_Democratic_Republic_of_the_Congo",
+     "https://fondationcartier.com/en/exhibitions/beaute-congo-1926-2015-congo-kitoko",
+     "https://cherisamba.net",
+     "https://www.magnin-a.com/en/exhibitions/233-kings-of-kin/overview",
+     "https://domusweb.it/en/news/2015/07/09/beaute_congo_1926_2015_congo_kitoko",
+     "https://www.aljazeera.com/news/2026/8/7/dr-congo-releases-15-prisoners-to-m23-rebels-as-part-of-doha-peace-process",
+     "https://www.wlrn.org/npr-breaking-news/2026-06-06/a-park-famed-for-rare-gorillas-gears-up-to-fight-ebola-and-protect-its-primates",
+     "https://panzifoundation.org",
+     "https://actualite.cd",
+     "https://www.radiookapi.net",
+     "https://www.acaps.org/en/countries/drc",
+     "https://www.hrw.org/world-report/2026/country-chapters/democratic-republic-of-congo",
+     "https://www.easterncongo.org",
+     "https://www.nobelwomensinitiative.org/meet-the-inspiring-women-activists-of-the-drc",
+     "https://virunga.org",
+     "https://frontlinedefenders.org/en/profile/lucha",
+     "https://healafrica.org",
+     "https://panzifoundation.org/donate",
+     "https://www.easterncongo.org/give",
+     "https://www.doctorswithoutborders.org",
+     "https://www.rescue.org",
+     "https://www.unhcr.org/donate-unhcr",
+     "https://www.charitynavigator.org",
+     "https://www.charitywatch.org",
+     "https://candid.org",
+     "https://equalexchange.coop",
+     "https://missingperspectives.com",
+     "https://businessday.ng/bd-weekender/article/tina-lobondi-from-fashion-to-philanthropy-putting-congo-on-the-map",
+     "https://ground.news/article/east-of-the-drc-denis-mukwege-condemns-recent-killings-in-the-city-of-beni-and-calls-on-kinshasa-to-emerge-from-a-hypocritical-compassion-tha",
+     "https://allafrica.com/stories/202510150475",
+     "https://www.usa.gov/elected-officials",
+     "https://enoughproject.org",
+     "https://github.com/tahreemk13/rising_tigers_initiative/blob/main/library/sources.md"
+    ],
+    "footer": [
+     "https://github.com/tahreemk13/rising_tigers_initiative/issues/new",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/sudan",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/palestine",
+     "https://risingtigers.tahreemkarim.xyz/activism",
+     "https://risingtigers.tahreemkarim.xyz",
+     "https://github.com/tahreemk13/rising_tigers_initiative"
+    ]
+   }
+  },
+  "https://risingtigers.tahreemkarim.xyz/artifacts/sudan": {
+   "status": 200,
+   "links": {
+    "header": [
+     "https://risingtigers.tahreemkarim.xyz"
+    ],
+    "nav": [
+     "https://risingtigers.tahreemkarim.xyz/artifacts/congo",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/sudan",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/palestine"
+    ],
+    "body": [
+     "https://english.aawsat.com/arab-world/5306121-rsf-launches-drone-attacks-across-sudan",
+     "https://www.ohchr.org/en/press-releases/2026/09/sudan-external-support-networks-are-fuelling-conflict-and-civilian-harm-un",
+     "https://news.un.org/en/story/2026/01/1166738",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/sudan/sudan.pdf",
+     "https://risingtigers.tahreemkarim.xyz/activism",
+     "https://music.apple.com/us/playlist/colors-sudan-curated-by-alsarah/pl.01b946df2fdc4179a4ae53e8a3dd6fcc",
+     "https://www.npr.org/transcripts/1252350810",
+     "https://www.last.fm/music/Mohammed+Wardi",
+     "https://ostinatorecords.bandcamp.com/album/two-niles-to-sing-a-melody-the-violins-synths-of-sudan",
+     "https://www.okayafrica.com/sudanese-music-new-school-artists",
+     "https://www.vigogallery.com/exhibitions/158-ibrahim-el-salahi-the-khartoum-school.-the-making-of-sharjah-art-foundation-sharjah",
+     "https://marianeibrahim.com/art-fairs/44",
+     "https://www.elsaltodiario.com/sudan/rashid-diab-pintor-enarbola-colores-del-arte-sudanes-frente-al-ruido-guerra",
+     "https://en.casaarabe.es/eventos-arabes/show/disturbance-in-the-nile-sudan%E2%80%99s-artistic-revolution",
+     "https://www.africanews.com/amp/2019/07/24/sudanese-artists-use-graffiti-to-further-the-revolution",
+     "https://www.npr.org/sections/goats-and-soda/2025/10/11/g-s1-92906/nobel-peace-prize-nominee-sudan-emergency-response-rooms",
+     "https://proof.csmonitor.com/World/Africa/2024/1023/sudan-civil-war-darfur-famine-emergency-response-room",
+     "https://www.aljazeera.com/where/sudan",
+     "https://www.dabangasudan.org",
+     "https://sudantribune.com",
+     "https://news.un.org/en/story/2026/09/1168270",
+     "https://www.securitycouncilreport.org/monthly-forecast/2026-09/sudan-41.php",
+     "https://www.cfr.org/global-conflict-tracker/conflict/power-struggle-sudan",
+     "https://www.mutualaidsudan.org",
+     "https://lccsudan.org",
+     "https://khartoumerr.org",
+     "https://www.mutualaidsudan.org/donate",
+     "https://crisisrelief.un.org/en/donate-sudan-crisis",
+     "https://disasterphilanthropy.org/funds/cdp-sudan-humanitarian-crisis-fund",
+     "https://sapa-usa.org/sudan-war-crisis-emergency-relief",
+     "https://www.globalgiving.org/projects/sudan-emergency-fund",
+     "https://www.doctorswithoutborders.org",
+     "https://www.rescue.org",
+     "https://www.unhcr.org/donate-unhcr",
+     "https://www.nrc.no",
+     "https://foodgrainsbank.ca/donate/sudan",
+     "https://www.charitynavigator.org/discover-charities/where-to-give/2023-sudan-conflict",
+     "https://www.charitywatch.org",
+     "https://www.charitynavigator.org",
+     "https://candid.org",
+     "https://cairoscene.com/Styled/Eilaf-The-Sudanese-Brand-Weaving-East-African-Art-Into-Bags",
+     "https://m7.org.qa/en/calendar/fta-threads-of-impact/el-tayeb-nation",
+     "https://muslimgirl.com",
+     "https://www.hrw.org/world-report/2026/country-chapters/sudan",
+     "https://www.ohchr.org/en/press-releases/2026/02/sudan-evidence-el-fasher-reveals-genocidal-campaign-targeting-non-arab",
+     "https://www.usa.gov/elected-officials",
+     "https://github.com/tahreemk13/rising_tigers_initiative/blob/main/library/sources.md"
+    ],
+    "footer": [
+     "https://github.com/tahreemk13/rising_tigers_initiative/issues/new",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/congo",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/palestine",
+     "https://risingtigers.tahreemkarim.xyz/activism",
+     "https://risingtigers.tahreemkarim.xyz",
+     "https://github.com/tahreemk13/rising_tigers_initiative"
+    ]
+   }
+  },
+  "https://risingtigers.tahreemkarim.xyz/artifacts/palestine": {
+   "status": 200,
+   "links": {
+    "header": [
+     "https://risingtigers.tahreemkarim.xyz"
+    ],
+    "nav": [
+     "https://risingtigers.tahreemkarim.xyz/artifacts/congo",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/sudan",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/palestine"
+    ],
+    "body": [
+     "https://www.ochaopt.org/content/humanitarian-situation-report-4-september-2026",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/palestine/palestine.pdf",
+     "https://risingtigers.tahreemkarim.xyz/activism",
+     "https://www.wxtj.fm/wxtj-writes-by-isabel-xiao-5-palestinian-artists-to-support",
+     "https://scenenoise.com/Features/Palestinian-Resistance-Music-Then-Now",
+     "https://www.visionary-mag.com/post/9-palestinian-music-artists-you-need-to-check-out-before-the-end-of-the-year",
+     "https://www.nateholdermusic.com/post/10-palestinian-musicians-to-learn-about",
+     "https://saintlevant.com",
+     "https://www.palquest.org/en/highlight/10526/palestinian-music",
+     "https://www.auktionshaus-stahl.de/en/artist/17292-sliman-mansour",
+     "https://www.bethlehemculturalfestival.com",
+     "https://www.thethirdline.com/press/73-how-artists-are-supporting-victims-of-the-israeli-palestinian",
+     "https://www.palestinemuseum.us",
+     "https://www.unicef.org/press-releases/rebuilding-hope-unicef-expands-back-learning-hundreds-thousands-children-gaza",
+     "https://www.positive.news",
+     "https://www.aljazeera.com/news/2026/4/10/neither-war-nor-peace-what-gaza-looks-like-six-months-into-ceasefire",
+     "https://jstreet.org/six-months-in-assessing-the-status-of-the-gaza-ceasefire",
+     "https://www.ochaopt.org",
+     "https://gisha.org/en/gaza-now-facts-and-figures",
+     "https://www.972mag.com",
+     "https://www.btselem.org",
+     "https://www.haaretz.com",
+     "https://www.timesofisrael.com",
+     "https://www.instagram.com/wizard_bisan1",
+     "https://www.thenationalnews.com/news/uk/2024/05/16/nakba-continues-war-photographer-motaz-azaiza-tells-london-event",
+     "https://www.thenationalnews.com/arts-culture/books/2024/09/25/plestia-alaqad-book-gaza",
+     "https://www.newarab.com/news/gazas-voice-after-motaz-and-plestia-who-bisan-owda",
+     "https://www.palestinercs.org",
+     "https://www.allmep.org",
+     "https://cfpeace.org",
+     "https://www.theparentscircle.org/en/pcff-home-page-en",
+     "https://www.standing-together.org/en",
+     "https://donate.unrwa.org/int/en/gaza",
+     "https://www.anera.org",
+     "https://www.pcrf.net",
+     "https://www.mecaforpeace.org",
+     "https://wck.org/donate",
+     "https://www.doctorswithoutborders.org",
+     "https://www.charitynavigator.org/discover-charities/where-to-give/israel-hamas-conflict",
+     "https://www.charitynavigator.org",
+     "https://www.charitywatch.org",
+     "https://candid.org",
+     "https://store.arabamericanmuseum.org/products/kaffiyeh",
+     "https://handmadepalestine.com/blogs/news/where-to-buy-a-palestinian-keffiyeh-online-in-the-usa",
+     "https://handmadepalestine.com/blogs/news/back-in-stock-your-handmade-favorites-have-returned",
+     "https://www.palestine-studies.org/ar/node/1651034",
+     "https://www.unrwa.org/resources/reports/unrwa-situation-report-231-humanitarian-crisis-gaza-strip-and-occupied-west-bank",
+     "https://www.ohchr.org/en/press-releases/2025/09/israel-has-committed-genocide-gaza-strip-un-commission-finds",
+     "https://www.un.org/unispal/document/icj-court-order-on-fixing-of-time-limits-reply-and-rejoinder-south-africa-v-israel",
+     "https://www.cfr.org/global-conflict-tracker/conflict/israeli-palestinian-conflict",
+     "https://www.pbs.org/newshour/world/israel-demolishes-unrwa-offices-for-palestinian-refugees-in-east-jerusalem",
+     "https://www.usa.gov/elected-officials",
+     "https://github.com/tahreemk13/rising_tigers_initiative/blob/main/library/sources.md"
+    ],
+    "footer": [
+     "https://github.com/tahreemk13/rising_tigers_initiative/issues/new",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/congo",
+     "https://risingtigers.tahreemkarim.xyz/artifacts/sudan",
+     "https://risingtigers.tahreemkarim.xyz/activism",
+     "https://risingtigers.tahreemkarim.xyz",
+     "https://github.com/tahreemk13/rising_tigers_initiative"
+    ]
+   }
+  },
+  "https://garden.tahreemkarim.xyz": {
+   "status": 200,
+   "links": {
+    "nav": [
+     "https://www.tahreemkarim.xyz",
+     "https://garden.tahreemkarim.xyz/library",
+     "https://www.tahreemkarim.xyz/science",
+     "https://portfolio.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/now",
+     "https://www.tahreemkarim.xyz/free-resources"
+    ],
+    "body": [
+     "https://garden.tahreemkarim.xyz/library",
+     "https://garden.tahreemkarim.xyz/posts/on_curriculum",
+     "https://garden.tahreemkarim.xyz/posts/on-philosophy",
+     "https://garden.tahreemkarim.xyz/posts/comics-multimodal",
+     "https://garden.tahreemkarim.xyz/posts/rti_brainstorm",
+     "https://portfolio.tahreemkarim.xyz",
+     "https://www.coursera.org/specializations/sustainablecities",
+     "https://www.coursera.org/specializations/html-css-javascript-for-web-developers",
+     "https://garden.tahreemkarim.xyz/www.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/free-resources"
+    ],
+    "footer": [
+     "https://www.tahreemkarim.xyz"
+    ]
+   }
+  },
+  "https://garden.tahreemkarim.xyz/library": {
+   "status": 200,
+   "links": {
+    "nav": [
+     "https://garden.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/science",
+     "https://portfolio.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/now",
+     "https://www.tahreemkarim.xyz/free-resources"
+    ],
+    "body": [
+     "https://greenapplebooks.com",
+     "https://noevalleybooks.com",
+     "https://dakotacomics.com"
+    ],
+    "footer": [
+     "https://www.tahreemkarim.xyz",
+     "https://garden.tahreemkarim.xyz"
+    ]
+   }
+  },
+  "https://garden.tahreemkarim.xyz/posts/rti_brainstorm": {
+   "status": 200,
+   "links": {
+    "nav": [
+     "https://garden.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/science",
+     "https://portfolio.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/now",
+     "https://www.tahreemkarim.xyz/free-resources"
+    ],
+    "body": [
+     "https://risingtigers.tahreemkarim.xyz",
+     "https://risingtigers.tahreemkarim.xyz/activism",
+     "https://share.google/6e7rqj11lEneTmDk1"
+    ],
+    "footer": [
+     "https://garden.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz"
+    ]
+   }
+  },
+  "https://garden.tahreemkarim.xyz/posts/on_curriculum": {
+   "status": 200,
+   "links": {
+    "nav": [
+     "https://garden.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/science",
+     "https://portfolio.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/now",
+     "https://www.tahreemkarim.xyz/free-resources"
+    ],
+    "body": [],
+    "footer": [
+     "https://www.tahreemkarim.xyz",
+     "https://garden.tahreemkarim.xyz"
+    ]
+   }
+  },
+  "https://garden.tahreemkarim.xyz/posts/on-philosophy": {
+   "status": 200,
+   "links": {
+    "nav": [
+     "https://garden.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/science",
+     "https://portfolio.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/now",
+     "https://www.tahreemkarim.xyz/free-resources"
+    ],
+    "body": [
+     "https://garden.tahreemkarim.xyz"
+    ],
+    "footer": [
+     "https://www.tahreemkarim.xyz",
+     "https://garden.tahreemkarim.xyz"
+    ]
+   }
+  },
+  "https://garden.tahreemkarim.xyz/posts/comics-multimodal": {
+   "status": 200,
+   "links": {
+    "nav": [
+     "https://garden.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/science",
+     "https://portfolio.tahreemkarim.xyz",
+     "https://www.tahreemkarim.xyz/now",
+     "https://www.tahreemkarim.xyz/free-resources"
+    ],
+    "body": [
+     "https://github.com/mserra0/cosmo-comicspss"
+    ],
+    "footer": [
+     "https://www.tahreemkarim.xyz"
+    ]
+   }
+  }
+ }
+}
