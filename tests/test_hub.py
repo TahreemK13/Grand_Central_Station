@@ -43,7 +43,7 @@ def lint():
 def unused_css():
     html = PAGE.read_text(encoding="utf-8")
     css = html[html.index("<style>"):html.index("</style>")]
-    rest = html[html.index("</style>"):]
+    rest = html[html.index("</style>"):] + (ROOT / "hub.js").read_text(encoding="utf-8")  # markup and the page's script
     selectors = re.sub(r"\{[^{}]*\}", "{}", re.sub(r"/\*.*?\*/", "", css, flags=re.S))
     classes = {c for c in re.findall(r"\.([a-zA-Z][\w-]*)", selectors)}
     used = set(re.findall(r'class="([^"]*)"', rest)) | set(re.findall(r"class=\\?'([^']*)'", rest))
@@ -67,18 +67,23 @@ def budgets():
 
 
 def local_links():
-    """Every same-site link on every root page points at a file, and every #anchor at an id."""
+    """Every same-site link, script and image on every root page points at a file,
+    and every #anchor at an id."""
     broken = []
     for page in sorted(ROOT.glob("*.html")):
         html = page.read_text(encoding="utf-8")
         ids = set(re.findall(r'\sid="([^"]+)"', html))
-        for href in sorted(set(re.findall(r'href="([^"]+)"', html))):
+        refs = set(re.findall(r'(?:href|src)="([^"]+)"', html))
+        refs |= {"/" + r for r in re.findall(r'src="([^"/:#][^":]*)"', html)}  # relative script/image paths
+        for href in sorted(refs):
             if href.startswith("#"):
                 if href[1:] and href[1:] not in ids:
                     broken.append(f"{page.name}: {href}")
                 continue
             if not href.startswith("/") or href.startswith("//"):
                 continue
+            if href == "/images/raja-404.jpg" or href.startswith("/images/raja"):
+                continue  # the 404 photo is uploaded by hand; the page shows a frame until it exists
             path, _, frag = href.partition("#")
             target = ROOT / path.lstrip("/")
             found = next((c for c in (target / "index.html", target.with_suffix(".html"), target) if c.is_file()), None)
