@@ -24,7 +24,7 @@
 (() => {
   const svg = document.querySelector('svg.net');
   if (!svg) return;
-  const sc = svg.parentElement, note = document.getElementById('trace-note'), rest = note.textContent;
+  const sc = svg.parentElement;
 
   // The frame is symmetric about the hub, so the middle of the scroll area is Grand Central.
   // Re-center on resize and whenever the map comes into view (Safari can settle its width late),
@@ -79,7 +79,6 @@
     lit = [];
     line.remove();
     svg.classList.remove('tracing');
-    note.textContent = rest;
   };
   const show = (a) => {
     clear();
@@ -89,7 +88,6 @@
     lit = route.map((k) => stop[k]);
     lit.forEach((el) => el.classList.add('on'));
     svg.classList.add('tracing');
-    note.textContent = a.dataset.tip || '';
   };
   let anchor = null;  // pointer position while a dwelled label is levelled (see the dwell section below)
   const on = (e) => {
