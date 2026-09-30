@@ -84,12 +84,21 @@ def marker(x, y, status, kind, line):
     return f'<circle {c} r="4.5" fill="var(--fg)" stroke="{BG}" stroke-width="2"/>'
 
 
+def lbl(ox, oy, deg=0):
+    """A label is one group, so its writing and its line badges move and scale as one.
+    The angle and the point it turns and grows about (the edge nearest the stop) live in
+    custom properties: CSS animates the rotation and the highlight scale from the first
+    frame. (Handing an SVG transform attribute to CSS later made every slanted label
+    swing on the first hover, because the origin changes at once and the matrix eases.)"""
+    return f'<g class="lbl" style="--o:{n(ox)}px {n(oy)}px;--a:{deg}deg">'
+
+
 def label_45(x, y, text, note, side, bullets):
     """One-line label at 45°, name nearest the stop, like a transit strip map."""
     east = side == "rot-e"
     sign, anchor = (1, "start") if east else (-1, "end")
     ax, ay = x + 7 * sign, y - 11
-    out = [f'<g transform="rotate({-45 * sign} {n(ax)} {n(ay)})">',
+    out = [lbl(ax, ay, -45 * sign),
            f'<text x="{n(ax)}" y="{n(ay)}" text-anchor="{anchor}" class="st-name">{escape(text)}</text>']
     cur = ax + sign * (len(text) * 7.4 + 8)
     for ln in bullets:
@@ -109,8 +118,9 @@ def label(x, y, k, side, bullets, note):
         ax, anchor, top = x, "middle", y + 16
     else:
         ax, anchor, top = (x + 17, "start", y - h / 2) if side == "right" else (x - 17, "end", y - h / 2)
-    out = [f'<text x="{n(ax)}" y="{n(top + 12 + i * lh)}" text-anchor="{anchor}" class="st-name">{escape(t)}</text>'
-           for i, t in enumerate(rows)]
+    out = [lbl(ax, top if side == "below" else y)]
+    out += [f'<text x="{n(ax)}" y="{n(top + 12 + i * lh)}" text-anchor="{anchor}" class="st-name">{escape(t)}</text>'
+            for i, t in enumerate(rows)]
     if note or bullets:
         ry = top + len(rows) * lh + 8
         bw, nw = len(bullets) * 16, (len(note) * 7.1 + 5 * bool(bullets)) if note else 0
@@ -118,7 +128,7 @@ def label(x, y, k, side, bullets, note):
         out += [bullet(start + 7 + i * 16, ry, ln) for i, ln in enumerate(bullets)]
         if note:
             out.append(f'<text x="{n(start + bw + 5 * bool(bullets))}" y="{n(ry + 4)}" class="st-note">{escape(note)}</text>')
-    return "".join(out)
+    return "".join(out) + "</g>"
 
 
 def curve(a, b):
