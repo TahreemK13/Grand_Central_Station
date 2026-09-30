@@ -106,6 +106,21 @@
   const STOP = 'a[data-k], .st-planned';
   const at = { x: 0, y: 0, on: false };  // the pointer, reused
 
+  // Label hit pads. Hover grows a label about its stop end, and the gaps between its words and
+  // badges let that growth slide them off a resting pointer: hover drops, the label shrinks back
+  // under the pointer, and it jiggles (worst on a ring, whose hit band then catches the pointer).
+  // One transparent rect behind each label covers its whole extent, pivot included, so growing
+  // only ever widens what is under the pointer. Sized by the browser on first entry, not at load.
+  svg.addEventListener('pointerenter', () => {
+    svg.querySelectorAll('.lbl').forEach((g) => {
+      const b = g.getBBox(), r = document.createElementNS(NS, 'rect');
+      r.setAttribute('class', 'lbl-hit');
+      r.setAttribute('x', b.x - 2); r.setAttribute('y', b.y - 2);
+      r.setAttribute('width', b.width + 4); r.setAttribute('height', b.height + 4);
+      g.prepend(r);
+    });
+  }, { once: true });
+
   // PLANNED, either the label under the Garden line or any planned stop: light them all.
   svg.querySelectorAll('.ring-planned, .st-planned').forEach((el) => {
     el.addEventListener('mouseenter', () => svg.classList.add('planned-lit'));
