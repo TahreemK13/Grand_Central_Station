@@ -446,6 +446,7 @@
     .net a:hover .lbl, .net a:focus-visible .lbl, .net a.edge-lit .lbl, .net.planned-lit .st-planned .lbl { scale: 1.07; }
     /* Dwell: after ~1.4s on a stop, the map dims, its label levels out and grows a step further. */
     .lbl.straight { transform: rotate(0deg); scale: 1.14; }
+    .lbl-hit { fill: transparent; } /* added by hub.js: a solid hover area behind each label */
     .lbl.straight .st-name, .lbl.straight .st-note { paint-order: stroke; stroke: var(--bg); stroke-width: 3px; stroke-linejoin: round; }
     .ring-label { font: 500 12px var(--mono); letter-spacing: .18em; fill: var(--muted); opacity: .85; transform-box: fill-box; transform-origin: center; transition: fill .2s, opacity .2s, scale .25s var(--ease); }
     .bul, .bul-big { font: 700 12px var(--transit); fill: var(--bg); pointer-events: none; }
