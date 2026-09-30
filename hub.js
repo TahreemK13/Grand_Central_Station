@@ -112,34 +112,22 @@
     el.addEventListener('mouseleave', () => svg.classList.remove('planned-lit'));
   });
 
-  // Dwell: rest on a stop for DWELL ms and its slanted label levels out, on the
-  // assumption you are trying to read it. Prepared on first use, not at load:
-  // CSS cannot animate the SVG transform attribute, so each slanted group's angle
-  // moves to a custom property the transition can pick up.
+  // Dwell: rest on a stop for DWELL ms and its label levels out and grows, on the assumption
+  // you are trying to read it. CSS does the animating (render.py gives each label its angle and
+  // pivot as custom properties from the start); this only flips a class.
   //
-  // Once levelled the label has moved, so it is no longer under the pointer and
-  // hover would swing it straight back. Only real pointer travel (HOLD px from
-  // where it levelled) puts it back; until then what sits under the pointer is ignored.
+  // Once levelled the label has moved, so it is no longer under the pointer and hover would
+  // swing it straight back. Only real pointer travel (HOLD px from where it levelled) puts it
+  // back; until then what sits under the pointer is ignored.
   // DWELL is deliberately long: the idea is that you have just started wishing the label
   // would turn when it does, so it reads as mind-reading rather than as a hover effect.
   const DWELL = 1400, HOLD = 60;
-  let dwellOn = null, timer = 0, prepped = false;
-  const prep = () => {
-    prepped = true;
-    svg.querySelectorAll('g[transform^="rotate("]').forEach((g) => {  // only stop labels are slanted
-      const m = g.getAttribute('transform').match(/rotate\(\s*(-?[\d.]+)[\s,]+(-?[\d.]+)[\s,]+(-?[\d.]+)/);
-      if (!m) return;
-      g.style.setProperty('--a', `${m[1]}deg`);
-      g.style.transformOrigin = `${m[2]}px ${m[3]}px`;
-      g.setAttribute('data-rot', '');
-    });
-    svg.getBoundingClientRect();  // commit the start state so the first level-out animates
-  };
+  let dwellOn = null, timer = 0;
   const level = (el, on) => {
     el.classList.toggle('dwell-lit', on);  // the pointer has left the moved label; keep it lit anyway
     // Dim the rest of the map now, not on plain hover: a routed stop is already marked .on.
     svg.classList.toggle('dwelling', on && el.matches('a[data-route]'));
-    el.querySelectorAll('g[data-rot]').forEach((g) => g.classList.toggle('straight', on));
+    el.querySelector('.lbl')?.classList.toggle('straight', on);
   };
   const undwell = () => {
     clearTimeout(timer);
@@ -156,7 +144,6 @@
     clearTimeout(timer);
     dwellOn = el;
     if (el) timer = setTimeout(() => {
-      if (!prepped) prep();
       level(el, true);
       anchor = { x: at.x, y: at.y };  // where the pointer was when it levelled
     }, DWELL);
