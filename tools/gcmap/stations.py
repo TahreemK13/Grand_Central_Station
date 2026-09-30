@@ -24,6 +24,7 @@ NOTIFY_TOPIC = ""
 # note    small caption (optional)
 # status  building | planned (default: live)
 # also    other URLs that count as this stop, e.g. files inside a folder
+# follow  True: the name tracks the page's header (its <h1>, else <title>); checked hourly
 STATIONS = {
     "gc":    dict(name="Grand Central", href=f"{H}/"),
 
@@ -38,7 +39,7 @@ STATIONS = {
     "brain": dict(name="Brainstorm with us?", href=f"{G}/posts/rti_brainstorm.html"),
     "cur":   dict(name="Online curriculum", href=f"{G}/posts/on_curriculum.html"),
     "born":  dict(name="Born with it?", href=f"{G}/posts/on-philosophy.html"),
-    "mvd":   dict(name="Marvel vs. DC", href=f"{G}/posts/comics-multimodal.html", note="ML seedling"),
+    "mvd":   dict(name="Marvel vs. DC", href=f"{G}/posts/comics-multimodal.html", note="ML seedling", follow=True),
     "scicomm": dict(name="SciComm as design", status="planned"),
 
     "pf":    dict(name="Portfolio", href="https://portfolio.tahreemkarim.xyz", note="Resume PDF"),
