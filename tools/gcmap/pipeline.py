@@ -66,6 +66,21 @@ def replace_value(name_, text):
     SOURCE.write_text(src[:a] + text + src[b:])
 
 
+def rename(k, new):
+    """Set a station's name in stations.py, keeping a two-row label two rows."""
+    src = SOURCE.read_text()
+    table = next(n.value for n in ast.parse(src).body
+                 if isinstance(n, ast.Assign) and isinstance(n.targets[0], ast.Name) and n.targets[0].id == "STATIONS")
+    call = table.values[[key.value for key in table.keys].index(k)]
+    node = next(kw.value for kw in call.keywords if kw.arg == "name")
+    if "\n" in STATIONS[k]["name"] and " " in new:  # break at the space nearest the middle
+        i = min((i for i, ch in enumerate(new) if ch == " "), key=lambda i: abs(i - len(new) / 2))
+        new = new[:i] + "\n" + new[i + 1:]
+    starts = [0, *[i + 1 for i, ch in enumerate(src) if ch == "\n"]]
+    a, b = starts[node.lineno - 1] + node.col_offset, starts[node.end_lineno - 1] + node.end_col_offset
+    SOURCE.write_text(src[:a] + json.dumps(new, ensure_ascii=False) + src[b:])
+
+
 def rerun(*args, capture=False):
     """Run this script again in a fresh process, so it sees the file as edited."""
     r = subprocess.run([sys.executable, str(CLI), *args], check=True, text=True,
@@ -98,6 +113,13 @@ def check():
     key_at = {norm(s["href"]): k for k, s in STATIONS.items() if s.get("href")}
     fresh = lambda **e: e | dict(seen=iso(t), stage="waiting", decision="pending")  # noqa: E731
     cand, notes = {}, []  # key → the entry this crawl says belongs in PROPOSED
+    renames = {k: title_for(s["href"], pages[u]) for k, s in STATIONS.items()  # follow=True: named by its page
+               if s.get("follow") and (u := norm(s["href"])) in pages and pages[u].get("title")}
+    for k, new in renames.items():
+        if new != name(k):
+            notes.append(("Renamed to match its page", f"{name(k)} → {new}"))
+            if not dry:
+                rename(k, new)
 
     if not edits_only:  # pages the map doesn't have
         line_at = {norm(STATIONS[k]["href"]): ln["id"] for ln in LINES for sp in ln["spokes"] for k in sp[1]
@@ -170,13 +192,15 @@ def check():
             keep[k] = e  # waiting with a known deploy time is recomputed next run instead
 
     print(f"## {'Live check' if dry else 'Map check'}{' (edits)' * edits_only}, {pt(t)}\n")
-    for group in ("Now under construction on the map", "Waiting to settle", "Withdrawn", "Unreachable"):
+    for group in ("Renamed to match its page", "Now under construction on the map", "Waiting to settle", "Withdrawn", "Unreachable"):
         items = [x for g, x in notes if g == group]
         if items:
             print(f"**{group}**\n" + "".join(f"- {x}\n" for x in items))
     if not notes:
         print("No changes: the map matches the live sites.")
     if dry or keep == PROPOSED:
+        if not dry and any(g == "Renamed to match its page" for g, _ in notes):
+            rerun()
         return
     replace_value("PROPOSED", render_proposed(keep))
     rerun()
