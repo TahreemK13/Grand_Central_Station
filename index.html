@@ -424,20 +424,16 @@
     .net:hover .st-planned { opacity: .85; }
     .net:hover circle[fill="var(--fg)"] { fill: #d2d2da; }
     html[data-contrast="high"] .net:hover circle[fill="var(--fg)"] { fill: var(--fg); }
-    /* Hover a ring or its "click" label: that ring and its labels light up. The halo is a
-       wide translucent stroke (cheap) rather than a blur filter over a huge ellipse. Only its
-       opacity animates: fading the colour from transparent while opacity snapped back to 1
-       flashed a bright band each time the pointer left. */
-    .ring-grp .ring-hit { fill: none; stroke: var(--hl); stroke-opacity: 0; stroke-width: 24; pointer-events: stroke; transition: stroke-opacity .2s; }
+    /* Hover a ring or its "click" label: that ring and its labels light up. The ring itself is a
+       1px dotted line, so an invisible 24px stroke gives it a comfortable hit area. */
+    .ring-grp .ring-hit { fill: none; stroke: transparent; stroke-width: 24; pointer-events: stroke; }
     .ring-grp .ring-label { pointer-events: all; cursor: default; }
     .ring-planned .planned-hit { fill: transparent; pointer-events: all; }
     .ring-grp:hover .ring { stroke: var(--hl); stroke-opacity: 1; stroke-width: 1.5; }
-    .ring-grp:hover .ring-hit { stroke-opacity: .1; }
-    .ring-grp:hover .ring-label { fill: var(--hl); opacity: 1; }
+    .ring-grp:hover .ring-label, .net.planned-lit .ring-planned .ring-label { fill: var(--hl); opacity: 1; scale: 1.08; }
     /* Hover PLANNED (under the Garden line) or any planned stop: all planned stops and the label take the ring highlight. Class set by hub.js. */
     .st-planned circle { transition: stroke .2s; }
     .net.planned-lit .st-planned { opacity: 1; }
-    .net.planned-lit .ring-planned .ring-label { fill: var(--hl); opacity: 1; }
     /* Hover a connecting edge: it glows and the two stops it joins take the ring highlight */
     .net .link.lit { stroke: var(--hl); stroke-opacity: .9; stroke-width: 2.2; filter: drop-shadow(0 0 3px var(--hl)); }
     .net a.edge-lit .st-name, .net a.edge-lit .st-note, .net.planned-lit .st-planned .st-name { fill: var(--hl); }
@@ -448,12 +444,10 @@
        separate property from the rotation, so each eases at its own pace. */
     .lbl { transform-origin: var(--o); transform: rotate(var(--a)); transition: transform .7s var(--ease), scale .25s var(--ease); }
     .net a:hover .lbl, .net a:focus-visible .lbl, .net a.edge-lit .lbl, .net.planned-lit .st-planned .lbl { scale: 1.07; }
-    .ring-label { transform-box: fill-box; transform-origin: center; }
-    .ring-grp:hover .ring-label, .net.planned-lit .ring-planned .ring-label { scale: 1.08; }
     /* Dwell: after ~1.4s on a stop, the map dims, its label levels out and grows a step further. */
     .lbl.straight { transform: rotate(0deg); scale: 1.14; }
     .lbl.straight .st-name, .lbl.straight .st-note { paint-order: stroke; stroke: var(--bg); stroke-width: 3px; stroke-linejoin: round; }
-    .ring-label { font: 500 12px var(--mono); letter-spacing: .18em; fill: var(--muted); opacity: .85; transition: fill .2s, opacity .2s, scale .25s var(--ease); }
+    .ring-label { font: 500 12px var(--mono); letter-spacing: .18em; fill: var(--muted); opacity: .85; transform-box: fill-box; transform-origin: center; transition: fill .2s, opacity .2s, scale .25s var(--ease); }
     .bul, .bul-big { font: 700 12px var(--transit); fill: var(--bg); pointer-events: none; }
     .bul-big { font-size: 18px; }
     .bul-i {
