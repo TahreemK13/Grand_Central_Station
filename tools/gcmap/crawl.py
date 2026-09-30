@@ -42,14 +42,17 @@ class Anchors(HTMLParser):
 
     def __init__(self):
         super().__init__()
-        self.stack, self.found, self.title, self.in_title = [], [], "", False
+        self.stack, self.found, self.title, self.in_title, self.h1, self.in_h1 = [], [], "", False, "", False
 
     def handle_data(self, data):
         if self.in_title:
             self.title += data
+        if self.in_h1:
+            self.h1 += data
 
     def handle_starttag(self, tag, attrs):
         self.in_title = tag == "title" and not self.title
+        self.in_h1 = self.in_h1 or (tag == "h1" and not self.h1)
         if tag in self.SECTIONS:
             self.stack.append(tag)
         href = dict(attrs).get("href") if tag == "a" else None
@@ -58,6 +61,7 @@ class Anchors(HTMLParser):
 
     def handle_endtag(self, tag):
         self.in_title = False
+        self.in_h1 = self.in_h1 and tag != "h1"
         if tag in self.stack:
             while self.stack.pop() != tag:
                 pass
@@ -67,7 +71,7 @@ GENERATED = re.compile(r"<!-- (MAP|DIR|STATUS):START.*?<!-- \1:END -->", re.S)  
 
 
 def extract(html, page_url):
-    """(links by section, page title)."""
+    """(links by section, the page's header: its first <h1>, else its <title>)."""
     html = GENERATED.sub("", html)
     parser = Anchors()
     parser.feed(html)
@@ -76,7 +80,7 @@ def extract(html, page_url):
         url = norm(href, page_url)
         if url and url not in links.setdefault(section, []):
             links[section].append(url)
-    return links, " ".join(parser.title.split())
+    return links, " ".join((parser.h1 if parser.h1.strip() else parser.title).split())
 
 
 def fetch(url, headers=None):
