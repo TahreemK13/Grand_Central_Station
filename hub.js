@@ -89,8 +89,9 @@
     lit = route.map((k) => stop[k]);
     lit.forEach((el) => el.classList.add('on'));
     svg.classList.add('tracing');
-    note.textContent = a.querySelector('title').textContent;
+    note.textContent = a.dataset.tip || '';
   };
+  let anchor = null;  // pointer position while a dwelled label is levelled (see the dwell section below)
   const on = (e) => {
     if (anchor) return;  // a levelled label has moved: what is under the pointer means nothing
     const a = e.target.closest('[data-route]');
@@ -102,6 +103,10 @@
   svg.addEventListener('focusout', clear);
 
   // ---- Hover highlights (pointer only; CSS does the drawing, this only sets classes).
+  // pointermove can fire at 1000 Hz, so its handler only records the pointer and asks for
+  // one frame of work; nothing here allocates per move or runs at page load.
+  const STOP = 'a[data-k], .st-planned';
+  const at = { x: 0, y: 0, on: false };  // the pointer, reused
 
   // PLANNED, either the label under the Garden line or any planned stop: light them all.
   svg.querySelectorAll('.ring-planned, .st-planned').forEach((el) => {
@@ -123,7 +128,7 @@
   let dwellOn = null, timer = 0, prepped = false;
   const prep = () => {
     prepped = true;
-    svg.querySelectorAll('a[data-k] g[transform^="rotate("], .st-planned g[transform^="rotate("]').forEach((g) => {
+    svg.querySelectorAll('g[transform^="rotate("]').forEach((g) => {  // only stop labels are slanted
       const m = g.getAttribute('transform').match(/rotate\(\s*(-?[\d.]+)[\s,]+(-?[\d.]+)[\s,]+(-?[\d.]+)/);
       if (!m) return;
       g.style.setProperty('--a', `${m[1]}deg`);
@@ -144,19 +149,18 @@
     dwellOn = anchor = null;
   };
   // Returns true while a label is levelled and the pointer has not travelled away.
-  const dwell = (e) => {
+  const dwell = (el) => {
     if (anchor) {
-      if (Math.hypot(e.clientX - anchor.x, e.clientY - anchor.y) < HOLD) return true;
+      if (Math.hypot(at.x - anchor.x, at.y - anchor.y) < HOLD) return true;
       undwell();
     }
-    const el = e.target.closest('a[data-k], .st-planned');
     if (el === dwellOn) return false;
     clearTimeout(timer);
     dwellOn = el;
     if (el) timer = setTimeout(() => {
       if (!prepped) prep();
       level(el, true);
-      anchor = at;  // where the pointer was when it levelled
+      anchor = { x: at.x, y: at.y };  // where the pointer was when it levelled
     }, DWELL);
     return false;
   };
@@ -164,7 +168,7 @@
   // Edges: light the one nearest the pointer, and the two stops it joins. Picking by
   // distance rather than stacked hit areas keeps the dense overlapping bundles usable.
   const REACH = 10;  // screen pixels
-  let edges = null, hot = null, frame = 0, at = null, anchor = null;
+  let edges = null, hot = null, frame = 0;
   const build = () => {  // deferred to first hover, so page load pays nothing
     const nodes = [];
     svg.querySelectorAll('a[data-k]').forEach((a) => {
@@ -176,10 +180,17 @@
     svg.querySelectorAll('.links .link').forEach((p) => {
       const n = (p.getAttribute('d').match(/-?\d*\.?\d+/g) || []).map(Number);
       if (n.length < 4) return;
-      const len = p.getTotalLength(), steps = Math.max(8, Math.ceil(len / 6)), pts = [];
+      // Edges are single quadratic curves (M x,y Q cx,cy x,y), so sample them with the formula:
+      // getPointAtLength does the same job ~100x slower, a visible hitch on the first hover.
+      // Anything else falls back to measuring the path.
+      const quad = n.length === 6;
+      const len = quad ? Math.hypot(n[2] - n[0], n[3] - n[1]) + Math.hypot(n[4] - n[2], n[5] - n[3]) : p.getTotalLength();
+      const steps = Math.max(8, Math.ceil(len / 6)), pts = [];
       let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
       for (let i = 0; i <= steps; i++) {
-        const q = p.getPointAtLength(len * i / steps);
+        const t = i / steps, u = 1 - t;
+        const q = quad ? { x: u * u * n[0] + 2 * u * t * n[2] + t * t * n[4], y: u * u * n[1] + 2 * u * t * n[3] + t * t * n[5] }
+                       : p.getPointAtLength(len * t);
         pts.push(q.x, q.y);
         x0 = Math.min(x0, q.x); x1 = Math.max(x1, q.x); y0 = Math.min(y0, q.y); y1 = Math.max(y1, q.y);
       }
@@ -187,7 +198,7 @@
       edges.push({ p, pts, box: [x0, y0, x1, y1], ends });
     });
   };
-  const gap = (px, py, pts) => {  // distance from the pointer to a sampled curve
+  const gap2 = (px, py, pts) => {  // squared distance from a point to a sampled curve (no sqrt in the loop)
     let best = Infinity;
     for (let i = 0; i < pts.length - 2; i += 2) {
       const ax = pts[i], ay = pts[i + 1], dx = pts[i + 2] - ax, dy = pts[i + 3] - ay, len2 = dx * dx + dy * dy;
@@ -195,7 +206,7 @@
       const ex = ax + t * dx - px, ey = ay + t * dy - py, d = ex * ex + ey * ey;
       if (d < best) best = d;
     }
-    return Math.sqrt(best);
+    return best;
   };
   const light = (e) => {
     if (e === hot) return;
@@ -206,28 +217,28 @@
   const pick = () => {
     frame = 0;
     const m = svg.getScreenCTM();
-    if (!m || !at) return;
-    let pt = svg.createSVGPoint();
-    pt.x = at.x; pt.y = at.y;
-    pt = pt.matrixTransform(m.inverse());
-    let best = null, bd = REACH / m.a;
+    if (!m || !at.on) return;
+    const x = (at.x - m.e) / m.a, y = (at.y - m.f) / m.d;  // screen to map units (the map is only scaled and shifted)
+    const reach = REACH / m.a;
+    let best = null, bd2 = reach * reach;
     for (const e of edges) {
       const [x0, y0, x1, y1] = e.box;
-      if (pt.x < x0 - bd || pt.x > x1 + bd || pt.y < y0 - bd || pt.y > y1 + bd) continue;  // cheap reject
-      const d = gap(pt.x, pt.y, e.pts);
-      if (d < bd) { bd = d; best = e; }
+      if (x < x0 - reach || x > x1 + reach || y < y0 - reach || y > y1 + reach) continue;  // cheap reject
+      const d2 = gap2(x, y, e.pts);
+      if (d2 < bd2) { bd2 = d2; best = e; }
     }
     light(best);
   };
   svg.addEventListener('pointermove', (e) => {
     if (e.pointerType === 'touch') return;
-    at = { x: e.clientX, y: e.clientY };
-    if (dwell(e)) return;  // levelled and holding: leave the edge highlight as it is
-    if (e.target.closest('a[data-k], .st-planned')) { light(null); return; }  // stops win
+    at.x = e.clientX; at.y = e.clientY; at.on = true;
+    const el = e.target.closest(STOP);
+    if (dwell(el)) return;  // levelled and holding: leave the edge highlight as it is
+    if (el) { light(null); return; }  // stops win
     if (!edges) build();
     if (!frame) frame = requestAnimationFrame(pick);
   });
-  svg.addEventListener('pointerleave', () => { at = null; undwell(); light(null); });
+  svg.addEventListener('pointerleave', () => { at.on = false; undwell(); light(null); });
 })();
 
 // Check for new pages: read every mapped page on the four sites, one hop out,
