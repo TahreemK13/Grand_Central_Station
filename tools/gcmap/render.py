@@ -133,8 +133,11 @@ def draw(net):
     t = layout(net)
     pos = {k: at(d, t[k]) for _, d, keys, _ in spokes() for k in keys} | {"gc": (CX, CY)}
     ordered = {d: sorted(keys, key=t.get) for _, d, keys, _ in spokes()}
-    svg = [f'<svg class="net" viewBox="{VIEW}" xmlns="http://www.w3.org/2000/svg" aria-labelledby="net-title net-desc">'
-           '<title id="net-title">System map of Tahreem Karim\'s websites</title>'
+    # The accessible name is an attribute, not a <title>: a <title> child makes the browser
+    # pop up a native tooltip over the map, which covers the labels and fights the dwell.
+    # Stops carry their route text in data-tip for the same reason; hub.js reads it.
+    svg = [f'<svg class="net" viewBox="{VIEW}" xmlns="http://www.w3.org/2000/svg" '
+           'aria-label="System map of Tahreem Karim\'s websites" aria-describedby="net-desc">'
            '<desc id="net-desc">Grand Central in the center; each ring is one more click away, '
            'computed from the links on every page.</desc>',
            '<g class="deco" aria-hidden="true">']
@@ -211,11 +214,11 @@ def draw(net):
             data = f'data-k="{k}" style="--d:{min(net.dist.get(k, 3), 3)}"' + (f' data-route="{" ".join(net.route(k))}"' if k in net.dist else "")
             hint = net.hint(k)
             aria = escape(f"{name(k)}, {hint}")
-            tip = f"<title>{escape(name(k))} — {escape(hint)}</title>"
-            svg.append(f'<a href="{escape(s["href"])}" {data} aria-label="{aria}">{tip}{body}</a>' if s.get("href") and status != "planned"
-                       else f'<g class="st-planned" {data} role="img" aria-label="{aria}">{tip}{body}</g>')
-    svg.append('<a href="/" data-k="gc" data-route="gc" style="--d:0" aria-label="Grand Central, you are here">'
-               '<title>Grand Central — you are here</title>'
+            tip = escape(f"{name(k)} — {hint}")
+            svg.append(f'<a href="{escape(s["href"])}" {data} aria-label="{aria}" data-tip="{tip}">{body}</a>' if s.get("href") and status != "planned"
+                       else f'<g class="st-planned" {data} role="img" aria-label="{aria}" data-tip="{tip}">{body}</g>')
+    svg.append('<a href="/" data-k="gc" data-route="gc" style="--d:0" aria-label="Grand Central, you are here" '
+               'data-tip="Grand Central — you are here">'
                f'<circle class="hit" cx="{CX}" cy="{CY}" r="34" fill="transparent" stroke="var(--{"orange" if STATIONS["gc"].get("edited") else "link"})" stroke-opacity=".25" stroke-width="2"/>'
                f'<circle cx="{CX}" cy="{CY}" r="22" fill="var(--fg)" stroke="{BG}" stroke-width="5"/>'
                f'<text x="{CX + 30}" y="{CY - 44}" class="st-gc">Grand Central</text>'
